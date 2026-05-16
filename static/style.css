@@ -172,3 +172,39 @@ body.light .secure-medical{background:rgba(22,163,74,.10)}
 .feature-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .feature-list span{padding:12px;border-radius:16px;background:rgba(255,255,255,.06);font-weight:800}
 @media(max-width:950px){.pricing-grid{grid-template-columns:1fr}.price-card.featured{transform:none}.feature-list{grid-template-columns:1fr}}
+
+
+/* V17 Backup */
+.backup-strategy{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
+.backup-strategy div{padding:16px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
+.backup-strategy p{color:var(--muted);margin:6px 0 0;line-height:1.5}
+@media(max-width:950px){.backup-strategy{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.backup-strategy{grid-template-columns:1fr}}
+
+
+/* V18 universal redesign */
+:root{--radius-xl:30px;--focus:0 0 0 4px rgba(56,189,248,.22)}
+body{letter-spacing:.01em}
+input:focus,select:focus,textarea:focus,button:focus,a:focus{outline:none;box-shadow:var(--focus)}
+.content{max-width:1480px;margin:0 auto}
+.hero{background:linear-gradient(135deg,rgba(15,23,42,.78),rgba(30,41,59,.58));}
+body.light .hero{background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(239,246,255,.76))}
+.guide-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.guide-card{border-radius:26px;padding:22px}
+.guide-card h2{margin-top:0;color:var(--blue)}
+.guide-card p{color:var(--muted);line-height:1.7}
+.footer-legal{display:flex;gap:18px;align-items:center;justify-content:center;color:var(--muted);padding:26px 0;flex-wrap:wrap}
+.footer-legal a{color:var(--muted);text-decoration:none;font-weight:700}
+.footer-legal a:hover{color:var(--blue)}
+.hero-public-copy{line-height:1.7}
+.btn-link{display:inline-block;text-decoration:none}
+.security-note{color:#bbf7d0;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.22);padding:12px;border-radius:16px}
+@media(max-width:1100px){.guide-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){.guide-grid{grid-template-columns:1fr}.hero{padding:18px}.login-card{padding:22px}}
+
+
+/* V19 Owner + Trial */
+.trial-info{padding:16px 20px;border-radius:22px;margin-bottom:18px;border:1px solid rgba(56,189,248,.22)}
+.trial-info b{color:var(--blue)}
+.trial-badge{display:inline-block;margin:8px 0;padding:8px 12px;border-radius:999px;background:rgba(34,197,94,.14);color:#bbf7d0;font-weight:900}
+body.light .trial-badge{color:#166534;background:rgba(34,197,94,.16)}

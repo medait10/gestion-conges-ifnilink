@@ -1,5 +1,5 @@
 
-import os, base64, json, calendar, secrets, hashlib
+import os, base64, json, calendar, shutil, glob, secrets, hashlib
 from datetime import date, datetime, timedelta
 from email.mime.text import MIMEText
 from functools import wraps
@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, url_for, flash, session, send_file, abort
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.utils import secure_filename
 from google_auth_oauthlib.flow import Flow
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import build
@@ -29,9 +30,12 @@ app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["SESSION_COOKIE_SECURE"] = os.getenv("FLASK_ENV") == "production"
 os.makedirs(app.instance_path, exist_ok=True)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(app.instance_path, "conges_ifnilink.db")
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(app.instance_path, "conges_medait_boqal.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
+BACKUP_DIR = os.path.join(app.instance_path, "backups")
+os.makedirs(BACKUP_DIR, exist_ok=True)
+app.config["MAX_CONTENT_LENGTH"] = 20 * 1024 * 1024
 
 SCOPES = [
     "openid",
@@ -351,6 +355,15 @@ def add_security_headers(response):
     response.headers["Referrer-Policy"] = "no-referrer"
     response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
     response.headers["Cache-Control"] = "no-store"
+    response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+    response.headers["Content-Security-Policy"] = (
+        "default-src 'self'; "
+        "img-src 'self' data: https:; "
+        "style-src 'self' 'unsafe-inline' https:; "
+        "script-src 'self' 'unsafe-inline' https://js.stripe.com https://accounts.google.com; "
+        "frame-src https://js.stripe.com https://accounts.google.com; "
+        "connect-src 'self' https://www.googleapis.com https://oauth2.googleapis.com;"
+    )
     return response
 
 @app.context_processor
@@ -522,6 +535,16 @@ def oauth2callback():
         flash("Erreur OAuth Google : " + str(exc), "danger")
         return redirect(url_for("login"))
 
+
+@app.route("/disconnect_google", methods=["POST"])
+@login_required
+def disconnect_google():
+    u = current_user()
+    u.google_token = None
+    db.session.commit()
+    flash("Compte Google déconnecté.", "success")
+    return redirect(url_for("profile"))
+
 @app.route("/profile", methods=["GET","POST"])
 @login_required
 @subscription_required
@@ -577,7 +600,7 @@ def send_gmail(lr):
         raise Exception("Aucun destinataire email renseigné.")
     creds=get_google_creds()
     if not creds:
-        raise Exception("Connecte-toi avec Google pour envoyer via Gmail API.")
+        raise Exception("Connecte-toi avec Google pour envoyer via ton adresse Gmail.")
     try:
         service=build("gmail","v1",credentials=creds)
         u=current_user()
@@ -587,6 +610,8 @@ def send_gmail(lr):
         msg["subject"]=f"Demande de congé - {LEAVE_TYPES[lr.leave_type]['label']} - {u.full_name}"
         raw=base64.urlsafe_b64encode(msg.as_bytes()).decode()
         service.users().messages().send(userId="me", body={"raw":raw}).execute()
+    except Exception as exc:
+        raise Exception(f"Erreur d'envoi Gmail API avec le compte utilisateur : {exc}")
     except Exception as exc:
         raise Exception(f"Erreur d'envoi Gmail API : {exc}")
 
@@ -988,6 +1013,20 @@ def admin_change_password():
     return render_template("admin_change_password.html")
 
 
+
+@app.route("/guide")
+@login_required
+def guide():
+    return render_template("guide.html")
+
+@app.route("/privacy")
+def privacy():
+    return render_template("privacy.html")
+
+@app.route("/terms")
+def terms():
+    return render_template("terms.html")
+
 @app.route("/pricing")
 @login_required
 def pricing():
@@ -1072,6 +1111,100 @@ def stripe_webhook():
             db.session.commit()
 
     return "ok", 200
+
+
+
+# -------------------------
+# Backup / Restore SQLite
+# -------------------------
+def db_file_path():
+    return os.path.join(app.instance_path, "conges_medait_boqal.db")
+
+def create_db_backup(reason="manual"):
+    src = db_file_path()
+    if not os.path.exists(src):
+        raise Exception("Base SQLite introuvable.")
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    safe_reason = "".join(ch for ch in reason if ch.isalnum() or ch in ["_", "-"])[:30] or "backup"
+    dst = os.path.join(BACKUP_DIR, f"medait_boqal_{safe_reason}_{stamp}.db")
+    shutil.copy2(src, dst)
+    cleanup_old_backups()
+    return dst
+
+def cleanup_old_backups(keep=20):
+    files = sorted(glob.glob(os.path.join(BACKUP_DIR, "*.db")), key=os.path.getmtime, reverse=True)
+    for old in files[keep:]:
+        try:
+            os.remove(old)
+        except Exception:
+            pass
+
+def auto_backup_once_per_day():
+    try:
+        today = datetime.now().strftime("%Y%m%d")
+        marker = os.path.join(BACKUP_DIR, f".auto_{today}")
+        if os.path.exists(db_file_path()) and not os.path.exists(marker):
+            create_db_backup("auto")
+            with open(marker, "w", encoding="utf-8") as f:
+                f.write(datetime.now().isoformat())
+    except Exception:
+        pass
+
+@app.route("/admin/backups")
+@login_required
+@admin_required
+def admin_backups():
+    files = []
+    for p in sorted(glob.glob(os.path.join(BACKUP_DIR, "*.db")), key=os.path.getmtime, reverse=True):
+        files.append({
+            "name": os.path.basename(p),
+            "size": round(os.path.getsize(p) / 1024, 2),
+            "date": datetime.fromtimestamp(os.path.getmtime(p)).strftime("%d/%m/%Y %H:%M:%S")
+        })
+    return render_template("admin_backups.html", files=files)
+
+@app.route("/admin/backups/create", methods=["POST"])
+@login_required
+@admin_required
+def admin_backup_create():
+    try:
+        create_db_backup("manual")
+        flash("Backup créé avec succès.", "success")
+    except Exception as e:
+        flash("Erreur backup : " + str(e), "danger")
+    return redirect(url_for("admin_backups"))
+
+@app.route("/admin/backups/download/<filename>")
+@login_required
+@admin_required
+def admin_backup_download(filename):
+    filename = secure_filename(filename)
+    path = os.path.join(BACKUP_DIR, filename)
+    if not os.path.exists(path):
+        abort(404)
+    return send_file(path, as_attachment=True)
+
+@app.route("/admin/backups/restore", methods=["POST"])
+@login_required
+@admin_required
+def admin_backup_restore():
+    filename = secure_filename(request.form.get("filename", ""))
+    confirm = request.form.get("confirm", "")
+    if confirm != "RESTORE":
+        flash("Restauration annulée : écris RESTORE pour confirmer.", "danger")
+        return redirect(url_for("admin_backups"))
+    backup_path = os.path.join(BACKUP_DIR, filename)
+    if not os.path.exists(backup_path):
+        flash("Backup introuvable.", "danger")
+        return redirect(url_for("admin_backups"))
+    try:
+        create_db_backup("before_restore")
+        db.session.remove()
+        shutil.copy2(backup_path, db_file_path())
+        flash("Base restaurée avec succès. Redémarre le service Render si nécessaire.", "success")
+    except Exception as e:
+        flash("Erreur restauration : " + str(e), "danger")
+    return redirect(url_for("admin_backups"))
 
 
 # Mini panneau Admin SQLite
@@ -1165,6 +1298,7 @@ def handle_error(e):
 
 with app.app_context():
     seed_db()
+    auto_backup_once_per_day()
 
 if __name__ == "__main__":
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"]="1"

@@ -1,0 +1,56 @@
+{% extends "base.html" %}{% block content %}
+<div class="hero glass">
+  <div>
+    <span class="eyebrow">Protection des données</span>
+    <h1>Backups base de données</h1>
+    <p>Crée, télécharge et restaure des sauvegardes SQLite. Accès réservé admin.</p>
+  </div>
+</div>
+
+<div class="panel glass">
+  <div class="panel-head">
+    <h2>Stratégie recommandée</h2>
+    <span class="chip">Render Free</span>
+  </div>
+  <div class="backup-strategy">
+    <div><b>1. Backup manuel</b><p>Avant chaque mise à jour importante.</p></div>
+    <div><b>2. Téléchargement local</b><p>Télécharge le fichier .db sur ton PC.</p></div>
+    <div><b>3. Backup auto quotidien</b><p>Créé au démarrage si aucun backup du jour.</p></div>
+    <div><b>4. Migration future</b><p>PostgreSQL recommandé pour production.</p></div>
+  </div>
+  <form method="post" action="{{ url_for('admin_backup_create') }}">
+    <button>💾 Créer un backup maintenant</button>
+  </form>
+</div>
+
+<div class="panel glass">
+  <div class="panel-head">
+    <h2>Fichiers backup</h2>
+    <span class="chip">{{ files|length }} fichier(s)</span>
+  </div>
+  <div class="table-scroll">
+    <table class="pro-table responsive-table">
+      <tr><th>Nom</th><th>Taille KB</th><th>Date</th><th>Actions</th></tr>
+      {% for f in files %}
+      <tr>
+        <td data-label="Nom"><b>{{ f.name }}</b></td>
+        <td data-label="Taille">{{ f.size }}</td>
+        <td data-label="Date">{{ f.date }}</td>
+        <td data-label="Actions">
+          <div class="db-actions">
+            <a class="btn-link mini" href="{{ url_for('admin_backup_download', filename=f.name) }}">Télécharger</a>
+            <form method="post" action="{{ url_for('admin_backup_restore') }}" onsubmit="return confirm('Restaurer ce backup ? La base actuelle sera remplacée.')">
+              <input type="hidden" name="filename" value="{{ f.name }}">
+              <input name="confirm" placeholder="Écris RESTORE">
+              <button class="danger-btn mini">Restaurer</button>
+            </form>
+          </div>
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="4">Aucun backup disponible.</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

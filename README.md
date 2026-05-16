@@ -179,3 +179,34 @@ FLASK_ENV=production
   STRIPE_PRICE_ID
   STRIPE_WEBHOOK_SECRET
   APP_BASE_URL
+
+
+## V17 Backup Strategy
+- Menu admin `Backups`.
+- Backup manuel SQLite.
+- Téléchargement du fichier .db.
+- Restauration contrôlée avec confirmation `RESTORE`.
+- Backup automatique quotidien au démarrage de l’application.
+- Conservation des 20 derniers backups.
+- Important Render Free : télécharger régulièrement les backups, car le disque peut être éphémère.
+- Pour production : migrer vers PostgreSQL avec backups automatiques.
+
+
+## V18 User Email + Guide + Redesign
+- Chaque utilisateur connecté Google envoie les emails depuis son propre compte Gmail autorisé.
+- Profil affiche l’état Google et permet de déconnecter Google.
+- Menu Guide utilisateur ajouté.
+- Pages confidentialité et conditions ajoutées.
+- Design plus universel et accessible.
+- CSP et headers sécurité renforcés.
+
+
+## V19 Owner + Trial + Multi-user clean data
+- Owner/admin unique : Mohamed AIT ELMALEM / aitelmalemmohamed@gmail.com.
+- Les interfaces admin sont réservées uniquement à ADMIN_EMAIL.
+- Les données historiques préchargées concernent uniquement le owner.
+- Chaque nouvel utilisateur démarre à zéro.
+- Chaque nouvel utilisateur peut créer son compte par Google Gmail ou inscription manuelle.
+- Nouveaux utilisateurs : période d’essai gratuite de 7 jours.
+- Après expiration, abonnement requis.
+- Dashboard et exports filtrés par utilisateur.

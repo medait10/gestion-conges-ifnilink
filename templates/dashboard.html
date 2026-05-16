@@ -13,6 +13,16 @@
   </form>
 </div>
 
+{% if not is_admin_user(user) %}
+<div class="trial-info glass">
+  {% if has_active_subscription(user) %}
+    <b>Accès actif</b> — {% if user.subscription_status=="trial" %}Essai restant : {{ trial_days_left(user) }} jour(s).{% else %}Abonnement actif.{% endif %}
+  {% else %}
+    <b>Essai expiré</b> — merci de choisir un abonnement pour continuer.
+    <a class="btn-link mini" href="{{ url_for('pricing') }}">Voir abonnement</a>
+  {% endif %}
+</div>
+{% endif %}
 <div class="kpi-grid">
   <div class="kpi glass"><span>Solde fin {{year}}</span><b>{{ end_balance }}</b><small>jours</small></div>
   <div class="kpi glass"><span>Congés pris {{year}}</span><b>{{ total_taken }}</b><small>jours ouvrables</small></div>
