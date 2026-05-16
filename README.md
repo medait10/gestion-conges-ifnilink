@@ -333,3 +333,9 @@ Version SaaS commercialisable basée sur V31 :
 - Liste dernières requêtes.
 - Traduction renforcée des textes FR restants côté serveur et navigateur.
 - Ajout helper `tr_text()`.
+
+
+## MEDFLOW V34
+- Correction `tr_text is undefined`.
+- Ajout global Jinja sécurisé.
+- Page error.html indépendante.

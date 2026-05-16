@@ -777,6 +777,16 @@ def subscription_required(fn):
         return fn(*args, **kwargs)
     return wrapper
 
+
+@app.before_request
+def medflow_register_template_globals():
+    try:
+        app.jinja_env.globals["tr_text"] = tr_text
+        app.jinja_env.globals["tt"] = tt if "tt" in globals() else tr_text
+    except Exception:
+        pass
+
+
 @app.before_request
 def enforce_admin_email_role():
     u = current_user()
@@ -2010,6 +2020,15 @@ try:
     app.jinja_env.globals["leave_label_i18n"] = leave_label_i18n
 except Exception:
     pass
+
+
+# V34: Jinja globals safety
+try:
+    app.jinja_env.globals["tr_text"] = tr_text
+    app.jinja_env.globals["tt"] = tt if "tt" in globals() else tr_text
+except Exception:
+    pass
+
 
 with app.app_context():
     seed_db()
