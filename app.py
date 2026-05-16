@@ -22,6 +22,9 @@ os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 os.environ["OAUTHLIB_RELAX_TOKEN_SCOPE"] = "1"
 app = Flask(__name__, instance_relative_config=True)
 app.secret_key = os.getenv("SECRET_KEY", "dev-secret-change-me")
+app.config["SESSION_COOKIE_HTTPONLY"] = True
+app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+app.config["SESSION_COOKIE_SECURE"] = os.getenv("FLASK_ENV") == "production"
 os.makedirs(app.instance_path, exist_ok=True)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(app.instance_path, "conges_ifnilink.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -66,7 +69,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(255))
     full_name = db.Column(db.String(150), default="Mohamed AIT ELMALEM")
-    company = db.Column(db.String(100), default="IFNILINK")
+    company = db.Column(db.String(100), default="MEDAIT-BOQAL")
     job_title = db.Column(db.String(120), default="Consultant technique SAP Senior")
     hire_date = db.Column(db.Date, default=date(2023,8,1))
     role = db.Column(db.String(20), default="admin")
@@ -221,7 +224,7 @@ def seed_holidays_to(year_to=2100):
 def seed_db():
     db.create_all()
     if not User.query.first():
-        u=User(username="admin", email="aitelmalemmohamed@gmail.com", password_hash=generate_password_hash("admin123"))
+        u=User(username="admin", email="aitelmalemmohamed@gmail.com", password_hash=generate_password_hash(os.getenv("ADMIN_PASSWORD", "Adm-IFNI-2026!Qx7#M9v2")))
         db.session.add(u)
 
     db.session.flush()
@@ -306,6 +309,16 @@ def gregorian_to_hijri_approx(gdate):
     return f"{hd} {months[hm-1]} {hy}H"
 
 
+
+@app.after_request
+def add_security_headers(response):
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["Referrer-Policy"] = "no-referrer"
+    response.headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()"
+    response.headers["Cache-Control"] = "no-store"
+    return response
+
 @app.context_processor
 def inject():
     return {"user": current_user(), "months_fr": MONTHS_FR, "leave_types": LEAVE_TYPES, "hijri_date": gregorian_to_hijri_approx, "theme": (current_user().theme if current_user() else "dark")}
@@ -317,13 +330,62 @@ def dashboard():
     year=int(request.args.get("year", date.today().year))
     recalc_from_seed(u, 2028, max(year, date.today().year+2))
     rows=MonthlyBalance.query.filter_by(year=year).order_by(MonthlyBalance.month).all()
-    pending=LeaveRequest.query.filter_by(status="pending").order_by(LeaveRequest.created_at.desc()).all()
-    approved=LeaveRequest.query.filter_by(status="approved").order_by(LeaveRequest.created_at.desc()).limit(8).all()
-    refused=LeaveRequest.query.filter_by(status="refused").count()
+    pending_q=LeaveRequest.query.filter_by(status="pending")
+    approved_q=LeaveRequest.query.filter_by(status="approved")
+    refused_q=LeaveRequest.query.filter_by(status="refused")
+    if u.role != "admin":
+        pending_q = pending_q.filter_by(user_id=u.id)
+        approved_q = approved_q.filter_by(user_id=u.id)
+        refused_q = refused_q.filter_by(user_id=u.id)
+    pending=pending_q.order_by(LeaveRequest.created_at.desc()).all()
+    approved=approved_q.order_by(LeaveRequest.created_at.desc()).limit(8).all()
+    refused=refused_q.count()
     total_taken=sum([r.taken for r in rows]) if rows else 0
     end_balance=rows[-1].balance if rows else 0
     years=list(range(2023, date.today().year + 2))
     return render_template("dashboard.html", rows=rows, year=year, years=years, pending=pending, approved=approved, refused=refused, total_taken=total_taken, end_balance=end_balance)
+
+
+@app.route("/register", methods=["GET","POST"])
+def register():
+    if request.method == "POST":
+        try:
+            full_name = request.form.get("full_name","").strip()
+            email = request.form.get("email","").strip().lower()
+            username = request.form.get("username","").strip()
+            password = request.form.get("password","")
+            confirm = request.form.get("confirm_password","")
+            hire_date_raw = request.form.get("hire_date","")
+
+            if not full_name or not email or not username or not password:
+                raise ValueError("Tous les champs obligatoires doivent être remplis.")
+            if password != confirm:
+                raise ValueError("La confirmation du mot de passe est différente.")
+            if len(password) < 10:
+                raise ValueError("Le mot de passe doit contenir au moins 10 caractères.")
+            if User.query.filter((User.email == email) | (User.username == username)).first():
+                raise ValueError("Email ou utilisateur déjà utilisé.")
+
+            hire_dt = datetime.strptime(hire_date_raw, "%Y-%m-%d").date() if hire_date_raw else date.today()
+            u = User(
+                email=email,
+                username=username,
+                password_hash=generate_password_hash(password),
+                full_name=full_name,
+                company=request.form.get("company") or "MEDAIT-BOQAL",
+                job_title=request.form.get("job_title") or "Utilisateur",
+                hire_date=hire_dt,
+                role="user"
+            )
+            db.session.add(u)
+            db.session.commit()
+            flash("Compte créé avec succès. Tu peux te connecter.", "success")
+            return redirect(url_for("login"))
+        except Exception as e:
+            db.session.rollback()
+            flash(str(e), "danger")
+    return render_template("register.html")
+
 
 @app.route("/login", methods=["GET","POST"])
 def login():
@@ -467,7 +529,10 @@ def request_leave():
             return redirect(url_for("history"))
         except Exception as e:
             db.session.rollback(); flash(str(e), "danger")
-    recent_requests = LeaveRequest.query.order_by(LeaveRequest.created_at.desc()).limit(12).all()
+    recent_q = LeaveRequest.query
+    if current_user().role != "admin":
+        recent_q = recent_q.filter_by(user_id=current_user().id)
+    recent_requests = recent_q.order_by(LeaveRequest.created_at.desc()).limit(12).all()
     return render_template("request_leave.html", recent_requests=recent_requests)
 
 def send_gmail(lr):
@@ -536,6 +601,8 @@ def delete_google_calendar_event(event_id):
 def requests_list():
     year = request.args.get("year", "all")
     q = LeaveRequest.query
+    if current_user().role != "admin":
+        q = q.filter(LeaveRequest.user_id == current_user().id)
     if year != "all":
         q = q.filter(db.extract("year", LeaveRequest.start_date) == int(year))
     rows = q.order_by(LeaveRequest.created_at.desc()).all()
@@ -624,6 +691,8 @@ def import_leave_events_from_google_calendar(y1, y2):
 def history():
     year = request.args.get("year", "all")
     q = LeaveRequest.query
+    if current_user().role != "admin":
+        q = q.filter(LeaveRequest.user_id == current_user().id)
     if year != "all":
         q = q.filter(db.extract("year", LeaveRequest.start_date) == int(year))
     rows=q.order_by(LeaveRequest.created_at.desc()).all()
@@ -679,7 +748,10 @@ def create_google_calendar_event(lr):
 @login_required
 def calendar_view():
     year=int(request.args.get("year", date.today().year))
-    approved=LeaveRequest.query.filter_by(status="approved").all()
+    approved_q=LeaveRequest.query.filter_by(status="approved")
+    if current_user().role != "admin":
+        approved_q = approved_q.filter_by(user_id=current_user().id)
+    approved=approved_q.all()
     xdays=set()
     for lr in approved:
         for d in dates_in_range(lr.start_date,lr.end_date):
@@ -768,11 +840,11 @@ def export_excel():
 
     wb = Workbook()
     ws = wb.active
-    ws.title = "Bilan congés"
+    ws.title = "MEDAIT-BOQAL Bilan"
 
     u = current_user()
     ws.merge_cells("A1:G1")
-    ws["A1"] = "Bilan des congés - IFNILINK"
+    ws["A1"] = "Bilan des congés - MEDAIT-BOQAL"
     ws["A1"].font = Font(size=20, bold=True, color="FFFFFF")
     ws["A1"].fill = PatternFill("solid", fgColor="1E293B")
     ws["A1"].alignment = Alignment(horizontal="center")
@@ -812,20 +884,21 @@ def export_excel():
     for col in range(1, 8):
         ws.column_dimensions[get_column_letter(col)].width = [12,16,16,20,14,30,16][col-1]
     ws.freeze_panes = "A5"
+    ws.sheet_properties.tabColor = "38BDF8"
 
-    path=os.path.join(app.instance_path,"bilan_conges_ifnilink.xlsx")
+    path=os.path.join(app.instance_path,"bilan_conges_medait_boqal.xlsx")
     wb.save(path)
     return send_file(path, as_attachment=True)
 
 @app.route("/export_pdf")
 @login_required
 def export_pdf():
-    path=os.path.join(app.instance_path,"bilan_conges_ifnilink.pdf")
+    path=os.path.join(app.instance_path,"bilan_conges_medait_boqal.pdf")
     doc=SimpleDocTemplate(path,pagesize=landscape(A4), rightMargin=24, leftMargin=24, topMargin=24, bottomMargin=24)
     styles=getSampleStyleSheet()
     u = current_user()
 
-    title = Paragraph("<b>Bilan des congés - IFNILINK</b>", styles["Title"])
+    title = Paragraph("<b>Bilan des congés - MEDAIT-BOQAL</b>", styles["Title"])
     subtitle = Paragraph(f"{u.full_name} | {u.job_title} | Date d'embauche : {u.hire_date.strftime('%d/%m/%Y')}", styles["Normal"])
 
     data=[["Année","Mois","Crédit","Extra","Pris","Période","Solde"]]
@@ -848,6 +921,29 @@ def export_pdf():
     return send_file(path, as_attachment=True)
 
 
+
+@app.route("/admin/change_password", methods=["GET", "POST"])
+@login_required
+@admin_required
+def admin_change_password():
+    u = current_user()
+    if request.method == "POST":
+        current = request.form.get("current_password", "")
+        new = request.form.get("new_password", "")
+        confirm = request.form.get("confirm_password", "")
+        if not u.password_hash or not check_password_hash(u.password_hash, current):
+            flash("Mot de passe actuel incorrect.", "danger")
+        elif len(new) < 14:
+            flash("Le nouveau mot de passe doit contenir au moins 14 caractères.", "danger")
+        elif new != confirm:
+            flash("Confirmation différente.", "danger")
+        else:
+            u.password_hash = generate_password_hash(new)
+            db.session.commit()
+            flash("Mot de passe admin modifié.", "success")
+            return redirect(url_for("dashboard"))
+    return render_template("admin_change_password.html")
+
 # Mini panneau Admin SQLite
 ADMIN_DB_MODELS = {
     "users": User,
@@ -866,7 +962,7 @@ def admin_db():
         table = "leave_requests"
     model = ADMIN_DB_MODELS[table]
     rows = model.query.order_by(model.id.desc()).limit(300).all()
-    columns = [c.name for c in model.__table__.columns]
+    columns = [c.name for c in model.__table__.columns if c.name not in ["password_hash", "google_token"]]
     return render_template("admin_db.html", tables=tables, table=table, rows=rows, columns=columns)
 
 @app.route("/admin/db/edit/<table>/<int:rid>", methods=["GET", "POST"])
@@ -877,7 +973,7 @@ def admin_db_edit(table, rid):
         abort(404)
     model = ADMIN_DB_MODELS[table]
     row = db.session.get(model, rid) or abort(404)
-    columns = [c for c in model.__table__.columns if c.name != "id"]
+    columns = [c for c in model.__table__.columns if c.name not in ["id", "password_hash", "google_token"]]
     if request.method == "POST":
         try:
             for col in columns:

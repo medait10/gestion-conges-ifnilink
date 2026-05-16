@@ -1,4 +1,4 @@
-# IFNILINK Congés Maroc Pro
+# MEDAIT-BOQAL Congés Maroc Pro
 
 Application Flask compatible Python 3.13.
 
@@ -140,3 +140,27 @@ python app.py
 ## V13 Admin DB
 - Menu Admin DB pour voir/modifier/supprimer users, leave_requests, monthly_balances, holidays depuis Render.
 - Accès réservé admin.
+
+
+## V14 Sécurité
+- Champs sensibles masqués dans Admin DB : password_hash, google_token.
+- Suppression de l’affichage du compte par défaut sur la page login.
+- Sidebar rendue générique : pas d’informations personnelles de connexion.
+- Headers sécurité ajoutés : X-Frame-Options, nosniff, no-referrer, no-store.
+- Route `/admin/change_password` pour changer le mot de passe admin.
+- Mot de passe admin initial configurable par Render Environment : `ADMIN_PASSWORD`.
+
+Mot de passe admin fort proposé :
+Adm-IFNI-2026!Qx7#M9v2
+
+Sur Render, ajoute :
+ADMIN_PASSWORD=Adm-IFNI-2026!Qx7#M9v2
+FLASK_ENV=production
+
+
+## V15 MEDAIT-BOQAL
+- Nom du site remplacé par MEDAIT-BOQAL.
+- Logo SVG sophistiqué ajouté.
+- Page inscription utilisateur.
+- Les utilisateurs créent leurs comptes et accèdent à leurs propres demandes.
+- Exports Excel/PDF rebrandés MEDAIT-BOQAL.

@@ -1,5 +1,5 @@
 {% extends "base.html" %}{% block content %}
-<div class="hero glass"><div><span class="eyebrow">Administration sécurisée</span><h1>Mini panneau Admin DB</h1><p>Voir, modifier ou supprimer les données SQLite depuis Render. Accès réservé admin.</p></div></div>
+<div class="hero glass"><div><span class="eyebrow">Administration sécurisée</span><h1>Mini panneau Admin DB</h1><p>Voir, modifier ou supprimer les données SQLite depuis Render. Accès réservé admin. Champs sensibles masqués.</p></div></div>
 <div class="panel glass">
   <div class="db-tabs">{% for t in tables %}<a class="db-tab {% if t==table %}active{% endif %}" href="{{ url_for('admin_db', table=t) }}">{{ t }}</a>{% endfor %}</div>
   <div class="table-scroll">

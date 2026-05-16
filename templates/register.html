@@ -1,0 +1,21 @@
+{% extends "base.html" %}{% block content %}
+<div class="login-shell">
+  <div class="login-card glass">
+    <img class="login-logo-img" src="{{ url_for('static', filename='logo.svg') }}" alt="MEDAIT-BOQAL">
+    <h1>Créer un compte</h1>
+    <p>Rejoins le portail MEDAIT-BOQAL.</p>
+    <form method="post" class="register-form">
+      <input name="full_name" placeholder="Nom complet" required>
+      <input name="email" type="email" placeholder="Email" required>
+      <input name="username" placeholder="Nom utilisateur" required>
+      <input name="company" placeholder="Entreprise" value="MEDAIT-BOQAL">
+      <input name="job_title" placeholder="Poste">
+      <label class="simple-label">Date d'embauche <input name="hire_date" type="date"></label>
+      <input name="password" type="password" placeholder="Mot de passe" minlength="10" required>
+      <input name="confirm_password" type="password" placeholder="Confirmer mot de passe" minlength="10" required>
+      <button>Créer mon compte</button>
+    </form>
+    <a class="register-link" href="{{ url_for('login') }}">Déjà inscrit ? Se connecter</a>
+  </div>
+</div>
+{% endblock %}

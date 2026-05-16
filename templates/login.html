@@ -1,16 +1,17 @@
 {% extends "base.html" %}{% block content %}
 <div class="login-shell">
   <div class="login-card glass">
-    <div class="login-logo">IF</div>
-    <h1>IFNILINK Leave OS</h1>
-    <p>Gestion professionnelle des congés — Maroc secteur privé</p>
+    <img class="login-logo-img" src="{{ url_for('static', filename='logo.svg') }}" alt="MEDAIT-BOQAL">
+    <h1>MEDAIT-BOQAL</h1>
+    <p>Portail dynamique de gestion des congés</p>
     <form method="post">
       <input name="username" placeholder="admin ou email">
       <input name="password" type="password" placeholder="Mot de passe">
       <button>Se connecter</button>
     </form>
+    <a class="register-link" href="{{ url_for('register') }}">Créer un compte</a>
     <a class="google" href="{{url_for('google_login')}}">Connexion Google OAuth</a>
-    <p class="muted">Compte initial : admin / admin123</p>
+    <p class="muted">Accès réservé aux utilisateurs autorisés.</p>
   </div>
 </div>
 {% endblock %}
