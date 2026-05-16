@@ -1,28 +1,38 @@
 {% extends "base.html" %}{% block content %}
-<div class="social-shell">
-  <section class="social-hero glass">
-    <div class="hero-copy">
-      <span class="eyebrow">MEDAIT-BOQAL SaaS</span>
-      <h1>Gère les congés comme une vraie plateforme moderne.</h1>
-      <p>Un espace simple, sécurisé et fluide pour demandes, validations, calendrier, paiements et exports RH.</p>
-      <div class="hero-actions">
-        <a class="btn-link" href="{{ url_for('register') }}">Créer un compte</a>
-        <a class="btn-link secondary" href="{{ url_for('login') }}">Se connecter</a>
+<section class="mf-hero">
+  <div class="mf-hero-card">
+    <div class="mf-badge">MEDFLOW V26 • Modern HR SaaS</div>
+    <h1>Professional leave management, beautifully simple.</h1>
+    <p>MEDFLOW centralizes leave requests, approvals, calendars, exports, subscriptions and Google integrations in one premium workspace.</p>
+    <div class="mf-actions">
+      <a class="mf-primary" href="{{ url_for('register') }}">Start 7-day trial</a>
+      <a class="mf-secondary" href="{{ url_for('login') }}">Sign in</a>
+    </div>
+    <div class="mf-trust">
+      <span>🔐 Secure workspace</span>
+      <span>💳 Stripe Checkout</span>
+      <span>🌍 Multi-language</span>
+    </div>
+  </div>
+  <div class="mf-showcase">
+    <div class="mf-window">
+      <div class="mf-window-bar"><span></span><span></span><span></span></div>
+      <div class="mf-stat-row">
+        <div><small>Leave balance</small><b>18.5</b></div>
+        <div><small>Approved</small><b>12</b></div>
       </div>
+      <div class="mf-list-item active">📅 Annual leave approved</div>
+      <div class="mf-list-item">🌙 Morocco Hijri calendar</div>
+      <div class="mf-list-item">📤 PDF / Excel export</div>
+      <div class="mf-list-item">☁️ Google Calendar Sync</div>
     </div>
-    <div class="phone-preview">
-      <div class="phone-card top">👤 Profil collaborateur</div>
-      <div class="phone-card">📅 Congé approuvé</div>
-      <div class="phone-card">💳 Abonnement sécurisé</div>
-      <div class="phone-card">📊 Export RH</div>
-    </div>
-  </section>
+  </div>
+</section>
 
-  <section class="social-feed">
-    <div class="feed-card glass"><b>🔐 Paiement sécurisé</b><p>Checkout Stripe hébergé, aucune carte bancaire stockée dans MEDAIT-BOQAL.</p></div>
-    <div class="feed-card glass"><b>☁️ Google connecté</b><p>Chaque utilisateur peut envoyer ses emails via son propre compte Gmail autorisé.</p></div>
-    <div class="feed-card glass"><b>🌙 Maroc & Hijri</b><p>Calendrier standard et Hijri pour gérer les jours non calculables.</p></div>
-    <div class="feed-card glass"><b>📱 Responsive</b><p>Expérience propre sur PC, tablette et smartphone.</p></div>
-  </section>
-</div>
+<section class="mf-feature-grid">
+  <div class="mf-feature"><b>Smart leave workflow</b><p>Requests, approvals, refusals, cancellation and balance recalculation.</p></div>
+  <div class="mf-feature"><b>Morocco-ready</b><p>Standard and Hijri calendars, weekends and public holidays excluded.</p></div>
+  <div class="mf-feature"><b>User subscriptions</b><p>7-day trial, monthly or annual plans through Stripe Checkout.</p></div>
+  <div class="mf-feature"><b>Owner control</b><p>Admin area, backups, database panel and secure owner-only tools.</p></div>
+</section>
 {% endblock %}

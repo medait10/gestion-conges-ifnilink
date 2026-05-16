@@ -1,69 +1,53 @@
 {% extends "base.html" %}{% block content %}
-<div class="social-hero glass">
-  <div class="hero-copy">
-    <span class="eyebrow">{{ t("secure_payment") }}</span>
-    <h1>Abonnement MEDAIT-BOQAL</h1>
-    <p data-i18n-auto>Choisissez un abonnement raisonnable. Les paiements sont traités par Stripe Checkout sécurisé.</p>
-  </div>
-  <div class="phone-preview">
-    <div class="phone-card top">🔒 Stripe Checkout</div>
-    <div class="phone-card">💳 Monthly / Annual</div>
-    <div class="phone-card">🧾 Billing Portal</div>
-  </div>
+<div class="mf-page-head">
+  <span class="mf-badge">Secure payment</span>
+  <h1>Simple plans for MEDFLOW</h1>
+  <p>Reasonable pricing for individual users. Payment is processed securely by Stripe Checkout.</p>
 </div>
 
-<div class="trust-row">
-  <div class="trust-item glass">🔒 Stripe Checkout</div>
-  <div class="trust-item glass">💳 No card stored</div>
-  <div class="trust-item glass">🧾 Billing portal</div>
-  <div class="trust-item glass">✅ Secure subscription</div>
-</div>
-
-<div class="pricing-grid">
-  <div class="price-card glass">
-    <span class="eyebrow">{{ t("trial_7") }}</span>
-    <h2>Trial</h2>
-    <div class="price">0 MAD</div>
-    <p data-i18n-auto>New users start with 7 days trial. No payment data is required during trial.</p>
-    <a class="btn-link secondary" href="{{ url_for('dashboard') }}">Start</a>
+<div class="mf-pricing">
+  <div class="mf-price-card">
+    <span>Trial</span>
+    <h2>7 days</h2>
+    <div class="mf-price">0 MAD</div>
+    <p>Try MEDFLOW with a clean workspace and your own data.</p>
+    <a class="mf-secondary full" href="{{ url_for('dashboard') }}">Use trial</a>
   </div>
 
-  <div class="price-card glass featured">
-    <span class="eyebrow">Monthly</span>
+  <div class="mf-price-card featured">
+    <span>Monthly</span>
     <h2>Pro Monthly</h2>
-    <div class="price">29 MAD / month</div>
-    <p data-i18n-auto>Small monthly plan for individual users and freelancers.</p>
+    <div class="mf-price">29 MAD</div>
+    <p>Small monthly subscription for regular users.</p>
     {% if has_active_subscription(user) %}
-      <a class="btn-link" href="{{ url_for('dashboard') }}">Active</a>
+      <a class="mf-primary full" href="{{ url_for('dashboard') }}">Active</a>
     {% else %}
       <form method="post" action="{{ url_for('create_checkout_session') }}">
         <input type="hidden" name="plan" value="monthly">
-        <button>💳 Subscribe monthly</button>
+        <button class="mf-primary full">Subscribe monthly</button>
       </form>
     {% endif %}
   </div>
 
-  <div class="price-card glass">
-    <span class="eyebrow">Annual</span>
+  <div class="mf-price-card">
+    <span>Annual</span>
     <h2>Pro Annual</h2>
-    <div class="price">299 MAD / year</div>
-    <p data-i18n-auto>Lower yearly price for long-term usage.</p>
-    {% if has_active_subscription(user) %}
-      {% if user.stripe_customer_id %}
-      <form method="post" action="{{ url_for('billing_portal') }}"><button>Manage billing</button></form>
-      {% endif %}
+    <div class="mf-price">299 MAD</div>
+    <p>Best value for long-term usage.</p>
+    {% if has_active_subscription(user) and user.stripe_customer_id %}
+      <form method="post" action="{{ url_for('billing_portal') }}"><button class="mf-secondary full">Manage billing</button></form>
     {% else %}
       <form method="post" action="{{ url_for('create_checkout_session') }}">
         <input type="hidden" name="plan" value="annual">
-        <button>💳 Subscribe annually</button>
+        <button class="mf-secondary full">Subscribe annually</button>
       </form>
     {% endif %}
   </div>
 </div>
 
 <div class="panel glass">
-  <h2 data-i18n-auto>How to receive payments in your Stripe account</h2>
-  <p data-i18n-auto>Create a Stripe account, create two subscription prices, then put the price IDs in Render Environment.</p>
+  <h2>Payment setup for owner</h2>
+  <p>To receive money in your account, create Stripe monthly and annual prices, then add these variables in Render.</p>
   <pre class="codebox">STRIPE_SECRET_KEY=sk_live_or_test...
 STRIPE_MONTHLY_PRICE_ID=price_monthly...
 STRIPE_ANNUAL_PRICE_ID=price_annual...

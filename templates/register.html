@@ -1,14 +1,14 @@
 {% extends "base.html" %}{% block content %}
 <div class="login-shell">
   <div class="login-card glass">
-    <img class="login-logo-img" src="{{ url_for('static', filename='logo.svg') }}" alt="MEDAIT-BOQAL">
+    <img class="login-logo-img" src="{{ url_for('static', filename='logo.svg') }}" alt="MEDFLOW">
     <h1>Créer un compte</h1>
     <p>Crée ton compte avec 7 jours d’essai gratuits. Tes données démarrent à zéro.</p>
     <form method="post" class="register-form">
       <input name="full_name" placeholder="Nom complet" required>
       <input name="email" type="email" placeholder="Email" required>
       <input name="username" placeholder="Nom utilisateur" required>
-      <input name="company" placeholder="Entreprise" value="MEDAIT-BOQAL">
+      <input name="company" placeholder="Entreprise" value="MEDFLOW">
       <input name="job_title" placeholder="Poste">
       <label class="simple-label">Date d'embauche <input name="hire_date" type="date"></label>
       <input name="password" type="password" placeholder="Mot de passe" minlength="10" required>

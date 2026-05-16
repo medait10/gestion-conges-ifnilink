@@ -30,7 +30,7 @@ app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["SESSION_COOKIE_SECURE"] = os.getenv("FLASK_ENV") == "production"
 os.makedirs(app.instance_path, exist_ok=True)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(app.instance_path, "conges_medait_boqal.db")
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(app.instance_path, "conges_medflow.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 BACKUP_DIR = os.path.join(app.instance_path, "backups")
@@ -76,7 +76,7 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     password_hash = db.Column(db.String(255))
     full_name = db.Column(db.String(150), default="Mohamed AIT ELMALEM")
-    company = db.Column(db.String(100), default="MEDAIT-BOQAL")
+    company = db.Column(db.String(100), default="MEDFLOW")
     job_title = db.Column(db.String(120), default="Consultant technique SAP Senior")
     hire_date = db.Column(db.Date, default=date(2023,8,1))
     role = db.Column(db.String(20), default="admin")
@@ -177,7 +177,7 @@ TRANSLATIONS = {
         "subscription": "Abonnement", "guide": "Guide utilisateur", "admin_db": "Admin DB",
         "backups": "Backups", "logout": "Déconnexion", "login": "Connexion",
         "register": "Créer un compte", "language": "Langue", "mode": "Mode",
-        "public_home": "Accueil public", "pricing_title": "Abonnement MEDAIT-BOQAL",
+        "public_home": "Accueil public", "pricing_title": "Abonnement MEDFLOW",
         "secure_payment": "Paiement sécurisé", "trial_7": "7 jours d’essai",
         "welcome": "Bienvenue", "create_request": "Nouvelle demande de congé",
         "year": "Année", "status": "Statut", "actions": "Actions",
@@ -190,7 +190,7 @@ TRANSLATIONS = {
         "subscription": "Subscription", "guide": "User guide", "admin_db": "Admin DB",
         "backups": "Backups", "logout": "Logout", "login": "Login",
         "register": "Create account", "language": "Language", "mode": "Mode",
-        "public_home": "Public home", "pricing_title": "MEDAIT-BOQAL Subscription",
+        "public_home": "Public home", "pricing_title": "MEDFLOW Subscription",
         "secure_payment": "Secure payment", "trial_7": "7-day trial",
         "welcome": "Welcome", "create_request": "New leave request",
         "year": "Year", "status": "Status", "actions": "Actions",
@@ -203,7 +203,7 @@ TRANSLATIONS = {
         "subscription": "Abonnement", "guide": "Benutzerhandbuch", "admin_db": "Admin DB",
         "backups": "Backups", "logout": "Abmelden", "login": "Anmelden",
         "register": "Konto erstellen", "language": "Sprache", "mode": "Modus",
-        "public_home": "Startseite", "pricing_title": "MEDAIT-BOQAL Abonnement",
+        "public_home": "Startseite", "pricing_title": "MEDFLOW Abonnement",
         "secure_payment": "Sichere Zahlung", "trial_7": "7 Tage Testphase",
         "welcome": "Willkommen", "create_request": "Neuer Urlaubsantrag",
         "year": "Jahr", "status": "Status", "actions": "Aktionen",
@@ -216,7 +216,7 @@ TRANSLATIONS = {
         "subscription": "Suscripción", "guide": "Guía de usuario", "admin_db": "Admin DB",
         "backups": "Copias", "logout": "Cerrar sesión", "login": "Iniciar sesión",
         "register": "Crear cuenta", "language": "Idioma", "mode": "Modo",
-        "public_home": "Inicio público", "pricing_title": "Suscripción MEDAIT-BOQAL",
+        "public_home": "Inicio público", "pricing_title": "Suscripción MEDFLOW",
         "secure_payment": "Pago seguro", "trial_7": "Prueba de 7 días",
         "welcome": "Bienvenido", "create_request": "Nueva solicitud de permiso",
         "year": "Año", "status": "Estado", "actions": "Acciones",
@@ -229,7 +229,7 @@ TRANSLATIONS = {
         "subscription": "الاشتراك", "guide": "دليل المستخدم", "admin_db": "إدارة قاعدة البيانات",
         "backups": "النسخ الاحتياطي", "logout": "تسجيل الخروج", "login": "تسجيل الدخول",
         "register": "إنشاء حساب", "language": "اللغة", "mode": "الوضع",
-        "public_home": "الصفحة الرئيسية", "pricing_title": "اشتراك MEDAIT-BOQAL",
+        "public_home": "الصفحة الرئيسية", "pricing_title": "اشتراك MEDFLOW",
         "secure_payment": "دفع آمن", "trial_7": "تجربة 7 أيام",
         "welcome": "مرحبا", "create_request": "طلب عطلة جديد",
         "year": "السنة", "status": "الحالة", "actions": "الإجراءات",
@@ -551,7 +551,7 @@ def register():
                 username=username,
                 password_hash=generate_password_hash(password),
                 full_name=full_name,
-                company=request.form.get("company") or "MEDAIT-BOQAL",
+                company=request.form.get("company") or "MEDFLOW",
                 job_title=request.form.get("job_title") or "Utilisateur",
                 hire_date=hire_dt,
                 role="user", subscription_status="inactive"
@@ -1038,11 +1038,11 @@ def export_excel():
 
     wb = Workbook()
     ws = wb.active
-    ws.title = "MEDAIT-BOQAL Bilan"
+    ws.title = "MEDFLOW Bilan"
 
     u = current_user()
     ws.merge_cells("A1:G1")
-    ws["A1"] = "Bilan des congés - MEDAIT-BOQAL"
+    ws["A1"] = "Bilan des congés - MEDFLOW"
     ws["A1"].font = Font(size=20, bold=True, color="FFFFFF")
     ws["A1"].fill = PatternFill("solid", fgColor="1E293B")
     ws["A1"].alignment = Alignment(horizontal="center")
@@ -1084,7 +1084,7 @@ def export_excel():
     ws.freeze_panes = "A5"
     ws.sheet_properties.tabColor = "38BDF8"
 
-    path=os.path.join(app.instance_path,"bilan_conges_medait_boqal.xlsx")
+    path=os.path.join(app.instance_path,"bilan_conges_medflow.xlsx")
     wb.save(path)
     return send_file(path, as_attachment=True)
 
@@ -1092,12 +1092,12 @@ def export_excel():
 @login_required
 @subscription_required
 def export_pdf():
-    path=os.path.join(app.instance_path,"bilan_conges_medait_boqal.pdf")
+    path=os.path.join(app.instance_path,"bilan_conges_medflow.pdf")
     doc=SimpleDocTemplate(path,pagesize=landscape(A4), rightMargin=24, leftMargin=24, topMargin=24, bottomMargin=24)
     styles=getSampleStyleSheet()
     u = current_user()
 
-    title = Paragraph("<b>Bilan des congés - MEDAIT-BOQAL</b>", styles["Title"])
+    title = Paragraph("<b>Bilan des congés - MEDFLOW</b>", styles["Title"])
     subtitle = Paragraph(f"{u.full_name} | {u.job_title} | Date d'embauche : {u.hire_date.strftime('%d/%m/%Y')}", styles["Normal"])
 
     data=[["Année","Mois","Crédit","Extra","Pris","Période","Solde"]]
@@ -1183,8 +1183,8 @@ def create_checkout_session():
             client_reference_id=str(u.id),
             billing_address_collection="auto",
             allow_promotion_codes=True,
-            metadata={"user_id": str(u.id), "app": "MEDAIT-BOQAL"},
-            subscription_data={"metadata": {"user_id": str(u.id), "app": "MEDAIT-BOQAL"}},
+            metadata={"user_id": str(u.id), "app": "MEDFLOW"},
+            subscription_data={"metadata": {"user_id": str(u.id), "app": "MEDFLOW"}},
             success_url=domain + url_for("payment_success") + "?session_id={CHECKOUT_SESSION_ID}",
             cancel_url=domain + url_for("payment_cancel"),
         )
@@ -1292,7 +1292,7 @@ def stripe_webhook():
 # Backup / Restore SQLite
 # -------------------------
 def db_file_path():
-    return os.path.join(app.instance_path, "conges_medait_boqal.db")
+    return os.path.join(app.instance_path, "conges_medflow.db")
 
 def create_db_backup(reason="manual"):
     src = db_file_path()
@@ -1300,7 +1300,7 @@ def create_db_backup(reason="manual"):
         raise Exception("Base SQLite introuvable.")
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     safe_reason = "".join(ch for ch in reason if ch.isalnum() or ch in ["_", "-"])[:30] or "backup"
-    dst = os.path.join(BACKUP_DIR, f"medait_boqal_{safe_reason}_{stamp}.db")
+    dst = os.path.join(BACKUP_DIR, f"medflow_{safe_reason}_{stamp}.db")
     shutil.copy2(src, dst)
     cleanup_old_backups()
     return dst
@@ -1456,6 +1456,16 @@ def admin_db_delete(table, rid):
         db.session.rollback()
         flash("Erreur suppression : " + str(e), "danger")
     return redirect(url_for("admin_db", table=table))
+
+
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
+@app.route("/copyright")
+def copyright_page():
+    return render_template("copyright.html")
+
 
 @app.errorhandler(403)
 def forbidden(e):

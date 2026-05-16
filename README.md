@@ -1,4 +1,4 @@
-# MEDAIT-BOQAL Congés Maroc Pro
+# MEDFLOW Congés Maroc Pro
 
 Application Flask compatible Python 3.13.
 
@@ -158,12 +158,12 @@ ADMIN_PASSWORD=Adm-IFNI-2026!Qx7#M9v2
 FLASK_ENV=production
 
 
-## V15 MEDAIT-BOQAL
-- Nom du site remplacé par MEDAIT-BOQAL.
+## V15 MEDFLOW
+- Nom du site remplacé par MEDFLOW.
 - Logo SVG sophistiqué ajouté.
 - Page inscription utilisateur.
 - Les utilisateurs créent leurs comptes et accèdent à leurs propres demandes.
-- Exports Excel/PDF rebrandés MEDAIT-BOQAL.
+- Exports Excel/PDF rebrandés MEDFLOW.
 
 
 ## V16 Subscription Platform
@@ -260,3 +260,29 @@ FLASK_ENV=production
 - Pages ajoutées :
   /about
   /copyright
+
+
+## V24 Route fix
+- Correction endpoint Flask `about`.
+- Correction endpoint Flask `copyright_page`.
+- Évite l’erreur `Could not build url for endpoint 'about'`.
+
+
+## V25 Responsive
+- Sidebar mobile hamburger
+- Responsive smartphone/tablette/desktop
+- Tables scrollables
+- KPI adaptatifs
+- Cards fluides
+- Topbar compacte
+- Optimisation écrans < 860px / < 640px / < 420px
+
+
+## MEDFLOW V26 Ultra UI
+- Rebranding complet vers MEDFLOW.
+- Logo premium M gradient bleu/indigo/cyan.
+- Nouvelle landing page SaaS premium.
+- Nouvelle page pricing premium.
+- Palette couleurs moderne : Blue / Indigo / Cyan.
+- UI inspirée des standards SaaS premium : Stripe, Linear, Notion.
+- Responsive optimisé conservé.
