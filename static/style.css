@@ -852,3 +852,119 @@ button:hover,a:hover{transform:translateY(-2px)}
   .mf-hero h1{font-size:28px}
   .mf-actions{display:grid}
 }
+
+
+/* V27 UI FIX */
+.social-layout{
+  align-items:start!important;
+}
+
+.left-rail,
+.right-rail{
+  overflow-y:auto!important;
+  scrollbar-width:thin;
+}
+
+.social-content{
+  width:100%!important;
+  min-width:0!important;
+  overflow:hidden!important;
+}
+
+.mf-pricing{
+  align-items:stretch!important;
+}
+
+.mf-price-card{
+  min-height:580px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.mf-price{
+  line-height:1!important;
+  word-break:break-word;
+}
+
+.mf-feature-grid{
+  margin-bottom:30px;
+}
+
+.panel,
+.glass,
+.mf-price-card,
+.mf-feature{
+  overflow:hidden!important;
+}
+
+.top-actions{
+  flex-wrap:nowrap!important;
+}
+
+.language-switch,
+.theme-switch{
+  min-width:160px;
+}
+
+body{
+  overflow-x:hidden!important;
+}
+
+@media(max-width:1200px){
+  .right-rail{
+    display:none!important;
+  }
+
+  .social-layout{
+    grid-template-columns:260px 1fr!important;
+  }
+}
+
+@media(max-width:860px){
+  .social-layout{
+    grid-template-columns:1fr!important;
+  }
+
+  .left-rail{
+    width:280px!important;
+  }
+
+  .top-actions{
+    flex-wrap:wrap!important;
+  }
+
+  .mf-price{
+    font-size:52px!important;
+  }
+
+  .mf-pricing{
+    grid-template-columns:1fr!important;
+  }
+
+  .mf-feature-grid{
+    grid-template-columns:1fr!important;
+  }
+}
+
+@media(max-width:480px){
+  .social-topbar{
+    gap:6px!important;
+  }
+
+  .top-brand span{
+    font-size:13px!important;
+  }
+
+  .mf-hero-card{
+    padding:16px!important;
+  }
+
+  .mf-price{
+    font-size:44px!important;
+  }
+
+  .mf-hero h1{
+    font-size:24px!important;
+  }
+}

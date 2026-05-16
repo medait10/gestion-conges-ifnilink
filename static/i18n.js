@@ -1,94 +1,64 @@
-const MB_TRANSLATIONS = {
-  en: {
-    "Gestion intelligente des congés et absences": "Smart leave and absence management",
-    "Connecte-toi à ton espace sécurisé MEDFLOW.": "Sign in to your secure MEDFLOW workspace.",
-    "Créer un compte": "Create account",
-    "Se connecter": "Sign in",
-    "Mot de passe": "Password",
-    "Nom utilisateur": "Username",
-    "Nouvelle demande de congé": "New leave request",
-    "Choisis le type, la période et le destinataire. Les week-ends et jours fériés ne sont pas comptés.": "Choose the type, period and recipient. Weekends and holidays are not counted.",
-    "Paiement sécurisé": "Secure payment",
-    "Abonnement MEDFLOW": "MEDFLOW subscription",
-    "7 jours d’essai": "7-day trial",
-    "À propos de nous": "About us",
-    "Droits d’auteur": "Copyright",
-    "Secure leave management platform for teams and individuals.": "Secure leave management platform for teams and individuals.",
-    "Payments are processed by Stripe Checkout. Card data is not stored here.": "Payments are processed by Stripe Checkout. Card data is not stored here."
-  },
+
+const UI_TRANSLATIONS = {
   de: {
-    "Gestion intelligente des congés et absences": "Intelligente Verwaltung von Urlaub und Abwesenheiten",
-    "Connecte-toi à ton espace sécurisé MEDFLOW.": "Melde dich in deinem sicheren MEDFLOW-Bereich an.",
-    "Créer un compte": "Konto erstellen",
-    "Se connecter": "Anmelden",
-    "Mot de passe": "Passwort",
-    "Nom utilisateur": "Benutzername",
-    "Nouvelle demande de congé": "Neuer Urlaubsantrag",
-    "Paiement sécurisé": "Sichere Zahlung",
-    "Abonnement MEDFLOW": "MEDFLOW Abonnement",
-    "7 jours d’essai": "7 Tage Testphase",
-    "À propos de nous": "Über uns",
-    "Droits d’auteur": "Urheberrecht",
-    "Secure leave management platform for teams and individuals.": "Sichere Urlaubsplattform für Teams und Einzelpersonen.",
-    "Payments are processed by Stripe Checkout. Card data is not stored here.": "Zahlungen werden über Stripe Checkout verarbeitet. Kartendaten werden hier nicht gespeichert."
+    "Dashboard":"Dashboard",
+    "Guide":"Benutzerhandbuch",
+    "Subscription":"Abonnement",
+    "Leave Request":"Urlaubsantrag",
+    "History":"Verlauf",
+    "Calendar":"Kalender",
+    "Profile":"Profil",
+    "About":"Über uns",
+    "Copyright":"Urheberrecht",
+    "Professional leave management, beautifully simple.":"Professionelles Urlaubsmanagement – einfach und modern.",
+    "Start 7-day trial":"7 Tage testen",
+    "Sign in":"Anmelden",
+    "Secure workspace":"Sicherer Arbeitsbereich",
+    "Monthly":"Monatlich",
+    "Annual":"Jährlich",
+    "Trial":"Testversion",
+    "Use trial":"Testversion nutzen",
+    "Subscribe monthly":"Monatlich abonnieren",
+    "Subscribe annually":"Jährlich abonnieren",
+    "Payment setup for owner":"Zahlungseinrichtung für den Besitzer"
   },
+  fr: {},
   es: {
-    "Gestion intelligente des congés et absences": "Gestión inteligente de permisos y ausencias",
-    "Connecte-toi à ton espace sécurisé MEDFLOW.": "Inicia sesión en tu espacio seguro MEDFLOW.",
-    "Créer un compte": "Crear cuenta",
-    "Se connecter": "Iniciar sesión",
-    "Mot de passe": "Contraseña",
-    "Nom utilisateur": "Usuario",
-    "Nouvelle demande de congé": "Nueva solicitud de permiso",
-    "Paiement sécurisé": "Pago seguro",
-    "Abonnement MEDFLOW": "Suscripción MEDFLOW",
-    "7 jours d’essai": "Prueba de 7 días",
-    "À propos de nous": "Sobre nosotros",
-    "Droits d’auteur": "Derechos de autor",
-    "Secure leave management platform for teams and individuals.": "Plataforma segura de permisos para equipos y usuarios.",
-    "Payments are processed by Stripe Checkout. Card data is not stored here.": "Los pagos se procesan con Stripe Checkout. Los datos de tarjeta no se almacenan aquí."
+    "Dashboard":"Panel",
+    "Guide":"Guía",
+    "Subscription":"Suscripción",
+    "Leave Request":"Solicitud",
+    "History":"Historial",
+    "Calendar":"Calendario",
+    "Profile":"Perfil"
   },
   ar: {
-    "Gestion intelligente des congés et absences": "منصة ذكية لتدبير العطل والغيابات",
-    "Connecte-toi à ton espace sécurisé MEDFLOW.": "سجّل الدخول إلى فضائك الآمن في MEDFLOW.",
-    "Créer un compte": "إنشاء حساب",
-    "Se connecter": "تسجيل الدخول",
-    "Mot de passe": "كلمة المرور",
-    "Nom utilisateur": "اسم المستخدم",
-    "Nouvelle demande de congé": "طلب عطلة جديد",
-    "Paiement sécurisé": "دفع آمن",
-    "Abonnement MEDFLOW": "اشتراك MEDFLOW",
-    "7 jours d’essai": "تجربة لمدة 7 أيام",
-    "À propos de nous": "من نحن",
-    "Droits d’auteur": "حقوق النشر",
-    "Secure leave management platform for teams and individuals.": "منصة آمنة لتدبير العطل للفرق والأفراد.",
-    "Payments are processed by Stripe Checkout. Card data is not stored here.": "تتم معالجة المدفوعات عبر Stripe Checkout ولا يتم تخزين بيانات البطاقة هنا."
+    "Dashboard":"لوحة التحكم",
+    "Guide":"الدليل",
+    "Subscription":"الاشتراك",
+    "Leave Request":"طلب عطلة",
+    "History":"السجل",
+    "Calendar":"التقويم",
+    "Profile":"الملف الشخصي"
   }
 };
 
-function translateTextNode(node, lang){
+function deepTranslate(lang){
   if(lang === "fr") return;
-  const dict = MB_TRANSLATIONS[lang] || {};
-  const original = node.nodeValue.trim();
-  if(!original) return;
-  if(dict[original]){
-    node.nodeValue = node.nodeValue.replace(original, dict[original]);
-  }
-}
-
-function applyAutoTranslations(lang){
-  if(lang === "fr") return;
-  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
-    acceptNode(node){
-      const parent = node.parentElement;
-      if(!parent) return NodeFilter.FILTER_REJECT;
-      if(["SCRIPT","STYLE","TEXTAREA","INPUT","SELECT"].includes(parent.tagName)) return NodeFilter.FILTER_REJECT;
-      const text = node.nodeValue.trim();
-      return text.length > 1 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+  const dict = UI_TRANSLATIONS[lang] || {};
+  document.querySelectorAll("*").forEach(el=>{
+    if(el.children.length === 0){
+      let txt = el.textContent.trim();
+      if(dict[txt]){
+        el.textContent = dict[txt];
+      }
+    }
+    if(el.placeholder && dict[el.placeholder]){
+      el.placeholder = dict[el.placeholder];
     }
   });
-  let node;
-  while(node = walker.nextNode()){
-    translateTextNode(node, lang);
-  }
 }
+
+window.addEventListener("DOMContentLoaded", ()=>{
+  deepTranslate(window.MB_LANG || "fr");
+});
