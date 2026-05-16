@@ -1,0 +1,52 @@
+{% extends 'base.html' %}{% block body %}
+<div class="card">
+  <h2>Nouvelle demande de congé</h2>
+  <p class="muted">Sélectionne la période avec le calendrier. L'application refuse automatiquement début &gt; fin, weekends/jours fériés uniquement et chevauchements.</p>
+  <form method="post" action="{{url_for('make_request')}}">
+    <div class="grid">
+      <label>Date début<br><input type="date" name="start_date" required></label>
+      <label>Date fin<br><input type="date" name="end_date" required></label>
+      <label>Email destinataire<br><input name="email_to" type="email" placeholder="directeur@ifnilink.ma"></label>
+      <label class="check"><input type="checkbox" name="send_email"> Envoyer email via Gmail API OAuth</label>
+    </div>
+    <br>
+    <textarea name="message" style="width:100%;height:100px" placeholder="Message email personnalisé"></textarea>
+    <br><br>
+    <button>Créer la demande</button>
+  </form>
+</div>
+
+<div class="card">
+  <h2>Demandes</h2>
+  <table>
+    <tr><th>Période</th><th>Jours ouvrables</th><th>Statut</th><th>Action directeur</th></tr>
+    {% for r in requests %}
+    <tr>
+      <td>{{r.period}}</td>
+      <td>{{r.days}}</td>
+      <td><span class="status {{r.status|lower|replace(' ', '-')|replace('é','e')}}">{{r.status}}</span></td>
+      <td>
+        {% if r.status=='En attente' %}
+          <a class="btn" href="{{url_for('approve',req_id=r.id)}}">Approuver</a>
+          <a class="btn danger" href="{{url_for('reject',req_id=r.id)}}" onclick="return confirm('Confirmer le refus de cette période ?')">Refuser</a>
+        {% elif r.status=='Approuvé' %}
+          X ajouté / solde mis à jour
+        {% else %}
+          Refusée / non comptabilisée
+        {% endif %}
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="card">
+  <h2>Bilan</h2>
+  <table>
+    <tr><th>Année</th><th>Mois</th><th>Crédit</th><th>Suppl.</th><th>Pris</th><th>Période</th><th>Solde</th></tr>
+    {% for r in rows %}
+    <tr><td>{{r.year}}</td><td>{{months[r.month-1]}}</td><td>{{r.credit}}</td><td>{{r.extra_days}}</td><td>{{r.taken}}</td><td>{{r.period}}</td><td>{{r.balance}}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

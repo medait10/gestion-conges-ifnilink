@@ -1,17 +1,1 @@
-{% extends "base.html" %}{% block content %}
-<div class="login-shell">
-  <div class="login-card glass">
-    <img class="login-logo-img" src="{{ url_for('static', filename='logo.svg') }}" alt="MEDFLOW">
-    <h1>{{ t35("login_title") }}</h1>
-    <p>{{ t35("login_subtitle") }}</p>
-    <form method="post">
-      <input name="username" placeholder="{{ t35('username') }}" required>
-      <input name="password" type="password" placeholder="{{ t35('password') }}" required>
-      <button>{{ t35("sign_in") }}</button>
-    </form>
-    <a class="register-link" href="{{ url_for('public_home') }}">{{ t35("discover_platform") }}</a>
-    <a class="register-link" href="{{ url_for('register') }}">{{ t35("create_account") }}</a>
-    <a class="google" href="{{ url_for('google_login') }}">{{ t35("google_login") }}</a>
-  </div>
-</div>
-{% endblock %}
+{% extends 'base.html' %}{% block body %}<div class="card" style="max-width:460px;margin:auto"><h1>Connexion</h1><form method="post"><div class="grid"><input name="username" placeholder="Utilisateur" required><input name="password" type="password" placeholder="Mot de passe" required></div><br><button>Se connecter</button> <a class="btn" href="{{url_for('login_google')}}">Connexion Google</a></form><p>Compte local initial : <b>admin / admin123</b></p></div>{% endblock %}
