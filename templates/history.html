@@ -19,7 +19,7 @@
 {% for r in rows %}
 <tr>
   <td>{{r.created_at.strftime('%d/%m/%Y')}}</td>
-  <td><b>{{leave_types[r.leave_type].label}}</b></td>
+  <td><b>{{ leave_label_i18n(r.leave_type) }}</b></td>
   <td>{{r.start_date.strftime('%d/%m/%Y')}} → {{r.end_date.strftime('%d/%m/%Y')}}</td>
   <td><span class="balance">{{r.working_days}}</span></td>
   <td>{{r.exceptional_paid_days}}</td>

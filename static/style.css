@@ -1137,3 +1137,102 @@ body.light .pro-table th{
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important}
 }
+
+
+/* MEDFLOW V31 Instagram-inspired Premium */
+:root{
+  --ig-purple:#833ab4;
+  --ig-pink:#e1306c;
+  --ig-orange:#fd1d1d;
+  --ig-yellow:#fcb045;
+  --ig-blue:#405de6;
+  --ig-grad:linear-gradient(135deg,#405de6 0%,#833ab4 28%,#e1306c 58%,#fd1d1d 78%,#fcb045 100%);
+  --ig-grad-soft:linear-gradient(135deg,rgba(64,93,230,.18),rgba(131,58,180,.16),rgba(225,48,108,.14),rgba(252,176,69,.12));
+}
+body{
+  background:
+    radial-gradient(circle at 8% 8%, rgba(225,48,108,.18), transparent 28%),
+    radial-gradient(circle at 92% 12%, rgba(64,93,230,.20), transparent 30%),
+    radial-gradient(circle at 50% 105%, rgba(252,176,69,.12), transparent 35%),
+    #f8fafc!important;
+}
+body.dark{
+  background:
+    radial-gradient(circle at 8% 8%, rgba(225,48,108,.22), transparent 28%),
+    radial-gradient(circle at 92% 12%, rgba(64,93,230,.22), transparent 30%),
+    radial-gradient(circle at 50% 105%, rgba(252,176,69,.10), transparent 35%),
+    #070b18!important;
+}
+.top-brand img,.logo-img,.login-logo-img{
+  background:var(--ig-grad)!important;
+  box-shadow:0 16px 44px rgba(225,48,108,.28)!important;
+}
+.mf-icon,.mf-icon.top,.anonymous-avatar,.mobile-menu-btn{
+  background:var(--ig-grad)!important;
+  box-shadow:0 12px 30px rgba(225,48,108,.24)!important;
+}
+.mf-primary,button:not(.mobile-menu-btn),.btn-link{
+  background:var(--ig-grad)!important;
+  color:white!important;
+  box-shadow:0 14px 36px rgba(131,58,180,.22)!important;
+}
+.mf-badge,.sub-status.active{
+  background:var(--ig-grad-soft)!important;
+  color:#fdf2f8!important;
+  border:1px solid rgba(225,48,108,.26)!important;
+}
+body.light .mf-badge,body.light .sub-status.active{
+  color:#9d174d!important;
+}
+.mf-hero h1,.mf-page-head h1,.hero h1,.login-card h1{
+  background:var(--ig-grad)!important;
+  -webkit-background-clip:text!important;
+  color:transparent!important;
+}
+.rail-menu a:hover,.top-tabs a:hover{
+  background:var(--ig-grad-soft)!important;
+}
+.glass,.panel,.hero,.mf-price-card,.mf-feature,.kpi,.card,.login-card{
+  border:1px solid rgba(225,48,108,.12)!important;
+}
+body.dark .glass,body.dark .panel,body.dark .hero,body.dark .mf-price-card,body.dark .mf-feature,body.dark .kpi,body.dark .card,body.dark .login-card{
+  background:rgba(12,18,34,.78)!important;
+  border-color:rgba(225,48,108,.16)!important;
+}
+*::-webkit-scrollbar-thumb{
+  background:linear-gradient(180deg,#405de6,#833ab4,#e1306c,#fcb045)!important;
+}
+*{
+  scrollbar-color:#e1306c rgba(148,163,184,.14)!important;
+}
+select option{
+  background:#111827!important;
+  color:#fff!important;
+}
+body.light select option{
+  background:#fff!important;
+  color:#111827!important;
+}
+select{
+  text-align:inherit;
+}
+.instagram-hero .mf-window{
+  background:var(--ig-grad-soft)!important;
+}
+@keyframes igFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+.top-brand img,.anonymous-avatar{
+  animation:igFloat 4s ease-in-out infinite;
+}
+@keyframes igGlow{
+  0%,100%{box-shadow:0 0 0 rgba(225,48,108,0)}
+  50%{box-shadow:0 0 0 8px rgba(225,48,108,.10)}
+}
+.mf-icon.top{
+  animation:igGlow 3.8s ease-in-out infinite;
+}
+@media(prefers-reduced-motion:reduce){
+  .top-brand img,.anonymous-avatar,.mf-icon.top{animation:none!important}
+}

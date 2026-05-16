@@ -301,3 +301,11 @@ FLASK_ENV=production
 - Scrollbars stylées.
 - Animations premium avec respect prefers-reduced-motion.
 - UI plus moderne et responsive.
+
+## MEDFLOW V31 Instagram-inspired + Translation Fix
+- Traduction renforcée des options de congé et textes visibles restants.
+- `leave_label_i18n()` côté serveur pour traduire les types de congé.
+- Traduction client des options select et placeholders restants.
+- Style inspiré Instagram : gradient violet/rose/orange/bleu.
+- Icônes et animations premium.
+- Sélecteurs et scrollbars améliorés.

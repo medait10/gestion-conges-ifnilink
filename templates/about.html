@@ -1,18 +1,20 @@
 {% extends "base.html" %}{% block content %}
-<div class="social-hero glass">
-  <div class="hero-copy">
-    <span class="eyebrow">MEDFLOW</span>
+<section class="mf-hero instagram-hero">
+  <div class="mf-hero-card">
+    <div class="mf-badge">MEDFLOW</div>
     <h1>{{ tt("about_title") }}</h1>
-    <p data-i18n-auto>MEDFLOW est une plateforme moderne pour gérer les congés, absences, calendriers et abonnements de manière simple et sécurisée.</p>
+    <p>{{ tt("about_desc") }}</p>
   </div>
-  <div class="phone-preview">
-    <div class="phone-card top">📅 Leave Management</div>
-    <div class="phone-card">🔐 Privacy First</div>
-    <div class="phone-card">🌍 Multi-language</div>
+  <div class="mf-showcase">
+    <div class="mf-window ig-window">
+      <div class="mf-list-item active">{{ tt("leave_management") }}</div>
+      <div class="mf-list-item">{{ tt("privacy_first") }}</div>
+      <div class="mf-list-item">{{ tt("multi_language") }}</div>
+    </div>
   </div>
-</div>
+</section>
 <div class="panel glass">
-  <h2 data-i18n-auto>Notre mission</h2>
-  <p data-i18n-auto>Offrir un outil clair, accessible et sécurisé pour les utilisateurs individuels, freelances et petites équipes.</p>
+  <h2>{{ tt("our_mission") }}</h2>
+  <p>{{ tt("mission_desc") }}</p>
 </div>
 {% endblock %}

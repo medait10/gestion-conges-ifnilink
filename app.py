@@ -440,6 +440,85 @@ def safe_t(key):
         return fallback.get(key, key)
 
 
+
+LEAVE_TYPE_I18N = {
+    "annual": {"fr":"Congé annuel payé","en":"Paid annual leave","de":"Bezahlter Jahresurlaub","es":"Vacaciones anuales pagadas","ar":"عطلة سنوية مدفوعة"},
+    "birth": {"fr":"Naissance fils/fille","en":"Birth of child","de":"Geburt eines Kindes","es":"Nacimiento de hijo/a","ar":"ازدياد ابن/ابنة"},
+    "death_parent": {"fr":"Décès parent / ascendant","en":"Death of parent / ascendant","de":"Tod Elternteil / Vorfahr","es":"Fallecimiento padre/madre/ascendiente","ar":"وفاة أحد الوالدين / الأصول"},
+    "death_spouse_child": {"fr":"Décès conjoint / enfant","en":"Death of spouse / child","de":"Tod Ehepartner / Kind","es":"Fallecimiento cónyuge / hijo","ar":"وفاة الزوج/الزوجة أو الابن"},
+    "death_sibling_parent_inlaw": {"fr":"Décès frère/sœur/beau-parent","en":"Death of sibling / parent-in-law","de":"Tod Geschwister / Schwiegereltern","es":"Fallecimiento hermano/a / suegro/a","ar":"وفاة أخ/أخت أو أحد الأصهار"},
+    "marriage_self": {"fr":"Mariage du salarié","en":"Employee marriage","de":"Heirat des Mitarbeiters","es":"Matrimonio del empleado","ar":"زواج الموظف"},
+    "marriage_child": {"fr":"Mariage d'un enfant","en":"Child marriage","de":"Heirat eines Kindes","es":"Matrimonio de un hijo","ar":"زواج ابن/ابنة"},
+    "circumcision": {"fr":"Circoncision","en":"Circumcision","de":"Beschneidung","es":"Circuncisión","ar":"الختان"},
+    "operation_family": {"fr":"Opération conjoint/enfant à charge","en":"Spouse/dependent child operation","de":"Operation Ehepartner/unterhaltsberechtigtes Kind","es":"Operación cónyuge/hijo a cargo","ar":"عملية للزوج/الطفل المكفول"},
+    "sick": {"fr":"Repos maladie","en":"Sick leave","de":"Krankschreibung","es":"Baja médica","ar":"راحة مرضية"},
+}
+
+def leave_label_i18n(key):
+    try:
+        lang = get_lang()
+    except Exception:
+        lang = "fr"
+    return LEAVE_TYPE_I18N.get(key, {}).get(lang, LEAVE_TYPES.get(key, {}).get("label", key))
+
+
+def patch_v31_i18n():
+    extra = {
+        "fr": {
+            "leave_management":"Gestion des congés","privacy_first":"Confidentialité d’abord","multi_language":"Multilingue",
+            "about_desc":"MEDFLOW est une plateforme moderne pour gérer les congés, absences, calendriers et abonnements de manière simple et sécurisée.",
+            "our_mission":"Notre mission","mission_desc":"Offrir un outil clair, accessible et sécurisé pour les utilisateurs individuels, freelances et petites équipes.",
+            "request_intro":"Créez une demande claire, calculez les jours ouvrables et envoyez-la depuis votre compte Google.",
+            "email_message_custom":"Message email personnalisé","latest_requests":"Dernières demandes","direct_tracking":"Suivi direct",
+            "deduct_from_balance":"À déduire du solde","estimated_working_days":"Jours ouvrables estimés","authorized_days":"Jours autorisés occasion / loi",
+            "recipient_email":"Email destinataire","leave_type":"Type de congé","period_start":"Date début","period_end":"Date fin"
+        },
+        "en": {
+            "leave_management":"Leave Management","privacy_first":"Privacy First","multi_language":"Multi-language",
+            "about_desc":"MEDFLOW is a modern platform for managing leave, absences, calendars and subscriptions simply and securely.",
+            "our_mission":"Our mission","mission_desc":"Provide a clear, accessible and secure tool for individuals, freelancers and small teams.",
+            "request_intro":"Create a clear request, calculate working days and send it from your Google account.",
+            "email_message_custom":"Custom email message","latest_requests":"Latest requests","direct_tracking":"Direct tracking",
+            "deduct_from_balance":"To deduct from balance","estimated_working_days":"Estimated working days","authorized_days":"Authorized occasion / legal days",
+            "recipient_email":"Recipient email","leave_type":"Leave type","period_start":"Start date","period_end":"End date"
+        },
+        "de": {
+            "leave_management":"Urlaubsverwaltung","privacy_first":"Datenschutz zuerst","multi_language":"Mehrsprachig",
+            "about_desc":"MEDFLOW ist eine moderne Plattform zur einfachen und sicheren Verwaltung von Urlaub, Abwesenheiten, Kalendern und Abonnements.",
+            "our_mission":"Unsere Mission","mission_desc":"Ein klares, zugängliches und sicheres Tool für Einzelpersonen, Freelancer und kleine Teams bereitstellen.",
+            "request_intro":"Erstellen Sie einen klaren Antrag, berechnen Sie Arbeitstage und senden Sie ihn über Ihr Google-Konto.",
+            "email_message_custom":"Individuelle E-Mail-Nachricht","latest_requests":"Letzte Anträge","direct_tracking":"Direkte Verfolgung",
+            "deduct_from_balance":"Vom Saldo abzuziehen","estimated_working_days":"Geschätzte Arbeitstage","authorized_days":"Genehmigte Anlass-/Gesetzestage",
+            "recipient_email":"Empfänger-E-Mail","leave_type":"Urlaubsart","period_start":"Startdatum","period_end":"Enddatum"
+        },
+        "es": {
+            "leave_management":"Gestión de permisos","privacy_first":"Privacidad primero","multi_language":"Multilingüe",
+            "about_desc":"MEDFLOW es una plataforma moderna para gestionar permisos, ausencias, calendarios y suscripciones de forma simple y segura.",
+            "our_mission":"Nuestra misión","mission_desc":"Ofrecer una herramienta clara, accesible y segura para usuarios individuales, freelancers y equipos pequeños.",
+            "request_intro":"Crea una solicitud clara, calcula los días laborables y envíala desde tu cuenta Google.",
+            "email_message_custom":"Mensaje email personalizado","latest_requests":"Últimas solicitudes","direct_tracking":"Seguimiento directo",
+            "deduct_from_balance":"A deducir del saldo","estimated_working_days":"Días laborables estimados","authorized_days":"Días autorizados / legales",
+            "recipient_email":"Email destinatario","leave_type":"Tipo de permiso","period_start":"Fecha inicio","period_end":"Fecha fin"
+        },
+        "ar": {
+            "leave_management":"تدبير العطل","privacy_first":"الخصوصية أولاً","multi_language":"متعدد اللغات",
+            "about_desc":"MEDFLOW منصة حديثة لتدبير العطل والغيابات والتقويمات والاشتراكات بطريقة بسيطة وآمنة.",
+            "our_mission":"مهمتنا","mission_desc":"تقديم أداة واضحة وآمنة وسهلة الاستخدام للأفراد والمستقلين والفرق الصغيرة.",
+            "request_intro":"أنشئ طلباً واضحاً، احسب أيام العمل وأرسله من حساب Google الخاص بك.",
+            "email_message_custom":"رسالة بريد مخصصة","latest_requests":"آخر الطلبات","direct_tracking":"تتبع مباشر",
+            "deduct_from_balance":"سيتم خصمها من الرصيد","estimated_working_days":"أيام العمل المقدرة","authorized_days":"الأيام المرخصة / القانونية",
+            "recipient_email":"بريد المستلم","leave_type":"نوع العطلة","period_start":"تاريخ البداية","period_end":"تاريخ النهاية"
+        }
+    }
+    try:
+        for lang, values in extra.items():
+            FULL_I18N.setdefault(lang, {})
+            FULL_I18N[lang].update(values)
+    except Exception:
+        pass
+
+patch_v31_i18n()
+
 def current_user():
     uid = session.get("uid")
     return db.session.get(User, uid) if uid else None
@@ -1653,6 +1732,7 @@ try:
     app.jinja_env.globals["tt"] = tt
     app.jinja_env.globals["month_name_i18n"] = month_name_i18n
     app.jinja_env.globals["status_i18n"] = status_i18n
+    app.jinja_env.globals["leave_label_i18n"] = leave_label_i18n
 except Exception:
     pass
 

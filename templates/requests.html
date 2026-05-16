@@ -44,7 +44,7 @@
       {% for r in rows %}
       <tr>
         <td data-label="Créée le">{{ r.created_at.strftime('%d/%m/%Y') }}</td>
-        <td data-label="Type"><b>{{ leave_types[r.leave_type].label }}</b></td>
+        <td data-label="Type"><b>{{ leave_label_i18n(r.leave_type) }}</b></td>
         <td data-label="Période">{{ r.start_date.strftime('%d/%m/%Y') }} → {{ r.end_date.strftime('%d/%m/%Y') }}</td>
         <td data-label="Jours">{{ r.working_days }}</td>
         <td data-label="Non déduits">{{ r.exceptional_paid_days }}</td>

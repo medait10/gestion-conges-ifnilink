@@ -47,7 +47,7 @@
     <div class="panel-head"><h2>Demandes à approuver</h2><span class="chip amber">{{pending|length}} attente</span></div>
     {% for r in pending %}
     <div class="request-card">
-      <div><b>{{leave_types[r.leave_type].label}}</b><p>{{r.start_date.strftime('%d/%m/%Y')}} → {{r.end_date.strftime('%d/%m/%Y')}} | {{r.working_days}} j période | {{r.deductible_days}} j déduits</p></div>
+      <div><b>{{ leave_label_i18n(r.leave_type) }}</b><p>{{r.start_date.strftime('%d/%m/%Y')}} → {{r.end_date.strftime('%d/%m/%Y')}} | {{r.working_days}} j période | {{r.deductible_days}} j déduits</p></div>
       <form method="post" action="{{url_for('approve',rid=r.id)}}" class="inline-actions">
         <input name="comment" placeholder="Commentaire approbation">
         <label class="check"><input type="checkbox" name="calendar" checked> Google Calendar</label>
@@ -70,7 +70,7 @@
     {% for r in approved %}
     <div class="timeline">
       <div class="dot"></div>
-      <div><b>{{leave_types[r.leave_type].label}}</b><p>{{r.start_date.strftime('%d/%m/%Y')}} → {{r.end_date.strftime('%d/%m/%Y')}} — {{r.working_days}} j période / {{r.deductible_days}} j déduits</p>
+      <div><b>{{ leave_label_i18n(r.leave_type) }}</b><p>{{r.start_date.strftime('%d/%m/%Y')}} → {{r.end_date.strftime('%d/%m/%Y')}} — {{r.working_days}} j période / {{r.deductible_days}} j déduits</p>
       <form method="post" action="{{url_for('cancel_leave',rid=r.id)}}" class="mini-cancel"><input name="comment" placeholder="Motif annulation"><button class="danger-btn">Annuler</button></form>
       </div>
     </div>

@@ -4,10 +4,10 @@
 </div>
 <div class="panel glass">
 <form method="post" class="form-grid">
-<label>Type de congé
+<label>{{ tt("leave_type") }}
 <select name="leave_type" id="leave_type">
   {% for k,v in leave_types.items() %}
-  <option value="{{k}}" data-default="{{v.default}}" data-deduct="{{1 if v.deduct else 0}}">{{v.label}}</option>
+  <option value="{{k}}" data-default="{{v.default}}" data-deduct="{{1 if v.deduct else 0}}">{{ leave_label_i18n(k) }}</option>
   {% endfor %}
 </select>
 </label>
@@ -16,7 +16,7 @@
 
 <div class="wide smart-box" id="exception_box">
   <div>
-    <b>Jours autorisés occasion / CNSS / loi</b>
+    <b>{{ tt("authorized_days") }}</b>
     <p>Exemple : naissance fille 5 jours avec 3 jours offerts → 2 jours déduits. Mariage salarié : 2 jours offerts, le reste déduit.</p>
   </div>
   <label>Jours non déduits
@@ -25,12 +25,12 @@
 </div>
 
 <div class="wide calc-preview">
-  <div><span>Jours ouvrables estimés</span><b id="preview_workdays">-</b></div>
+  <div><span>{{ tt("estimated_working_days") }}</span><b id="preview_workdays">-</b></div>
   <div><span>Jours non déduits</span><b id="preview_exceptional">0</b></div>
-  <div><span>À déduire du solde</span><b id="preview_deductible">-</b></div>
+  <div><span>{{ tt("deduct_from_balance") }}</span><b id="preview_deductible">-</b></div>
 </div>
 <label>{{ tt("recipient_email") }}<input name="recipient" type="email" placeholder="directeur@ifnilink.ma"></label>
-<label id="medical_note_box" class="secure-medical">Certificat médical sécurisé
+<label id="medical_note_box" class="secure-medical">{{ tt("medical_certificate") }}
   <input name="medical_note" id="medical_note" placeholder="Référence certificat / médecin / observation">
   <small>Visible uniquement pour Repos maladie. Ne mets pas d'information médicale sensible inutile.</small>
 </label>
@@ -43,8 +43,8 @@
 
 <div class="panel glass">
   <div class="panel-head">
-    <h2>Liste des dernières demandes</h2>
-    <span class="chip">Suivi direct</span>
+    <h2>{{ tt("latest_requests") }}</h2>
+    <span class="chip">{{ tt("direct_tracking") }}</span>
   </div>
   <form method="post" action="{{ url_for('sync_calendar_leaves') }}" class="sync-mini">
     <input name="from_year" value="{{ user.hire_date.year if user else 2023 }}">
@@ -55,7 +55,7 @@
     {% for r in recent_requests %}
     <div class="request-row">
       <div>
-        <b>{{ leave_types[r.leave_type].label }}</b>
+        <b>{{ leave_label_i18n(r.leave_type) }}</b>
         <p>{{ r.start_date.strftime('%d/%m/%Y') }} → {{ r.end_date.strftime('%d/%m/%Y') }} | {{ r.working_days }} j période | {{ r.deductible_days }} j déduits</p>
       </div>
       <span class="badge {{ r.status }}">{{ r.status }}</span>
