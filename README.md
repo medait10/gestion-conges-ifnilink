@@ -233,3 +233,10 @@ FLASK_ENV=production
 - Langue sauvegardée en session.
 - Support RTL pour arabe.
 - Dictionnaire simple dans app.py avec fonction `t(key)`.
+
+
+## V22 Error i18n fix
+- Correction `jinja2.exceptions.UndefinedError: 't' is undefined`.
+- Ajout d'une fonction `safe_t`.
+- Ajout de globals Jinja pour t/languages/current_lang/is_rtl.
+- Page error.html rendue indépendante de base.html pour éviter les erreurs en cascade.

@@ -253,6 +253,32 @@ def set_language(lang):
     return redirect(request.referrer or url_for("dashboard"))
 
 
+
+def safe_t(key):
+    try:
+        return t(key)
+    except Exception:
+        fallback = {
+            "public_home": "Accueil public",
+            "dashboard": "Dashboard",
+            "guide": "Guide utilisateur",
+            "subscription": "Abonnement",
+            "leave_request": "Demande congé",
+            "history": "Historique",
+            "calendar": "Calendrier",
+            "holidays": "Jours fériés",
+            "profile": "Profil",
+            "admin_db": "Admin DB",
+            "backups": "Backups",
+            "export_excel": "Export Excel",
+            "export_pdf": "Export PDF",
+            "logout": "Déconnexion",
+            "language": "Langue",
+            "mode": "Mode",
+        }
+        return fallback.get(key, key)
+
+
 def current_user():
     uid = session.get("uid")
     return db.session.get(User, uid) if uid else None
@@ -457,6 +483,14 @@ def add_security_headers(response):
         "connect-src 'self' https://www.googleapis.com https://oauth2.googleapis.com;"
     )
     return response
+
+
+@app.before_request
+def ensure_i18n_globals():
+    app.jinja_env.globals["t"] = safe_t
+    app.jinja_env.globals["languages"] = LANGUAGES if "LANGUAGES" in globals() else {"fr": "Français"}
+    app.jinja_env.globals["current_lang"] = get_lang() if "get_lang" in globals() else "fr"
+    app.jinja_env.globals["is_rtl"] = (get_lang() == "ar") if "get_lang" in globals() else False
 
 @app.context_processor
 def inject():
@@ -1435,6 +1469,13 @@ def not_found(e):
 def handle_error(e):
     db.session.rollback()
     return render_template("error.html", message=str(e)), 500
+
+
+# Initialisation globale Jinja pour éviter UndefinedError sur pages d'erreur
+try:
+    app.jinja_env.globals["t"] = safe_t
+except Exception:
+    pass
 
 with app.app_context():
     seed_db()
