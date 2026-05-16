@@ -240,3 +240,23 @@ FLASK_ENV=production
 - Ajout d'une fonction `safe_t`.
 - Ajout de globals Jinja pour t/languages/current_lang/is_rtl.
 - Page error.html rendue indépendante de base.html pour éviter les erreurs en cascade.
+
+
+## V23 Social Design + Payment Setup + Better i18n
+- Interface réorganisée façon grande plateforme sociale : topbar, left rail, content feed, right rail.
+- Aucun nom/email affiché dans l’interface principale.
+- Admin DB masque aussi email/full_name/tokens/password/Stripe IDs.
+- Traduction automatique partielle du contenu via static/i18n.js selon langue choisie.
+- Pricing mensuel et annuel :
+  - 29 MAD/mois
+  - 299 MAD/an
+- Paiement via Stripe Checkout hébergé.
+- Variables Render :
+  STRIPE_MONTHLY_PRICE_ID
+  STRIPE_ANNUAL_PRICE_ID
+  STRIPE_SECRET_KEY
+  STRIPE_WEBHOOK_SECRET
+  APP_BASE_URL
+- Pages ajoutées :
+  /about
+  /copyright

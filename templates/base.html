@@ -3,73 +3,121 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>MEDAIT-BOQAL Congés Pro</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<title>MEDAIT-BOQAL</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body class="{{ theme }}">
-<div class="bg-orb orb-a"></div><div class="bg-orb orb-b"></div><div class="bg-grid"></div>
-<div class="layout">
-{% if user %}
-<aside class="sidebar glass">
-  <div class="brand">
-    <img class="logo-img" src="{{ url_for('static', filename='logo.svg') }}" alt="MEDAIT-BOQAL">
-    <div><h2>MEDAIT-BOQAL</h2><span>Leave OS Morocco</span></div>
-  </div>
-  <div class="profile-mini">
-    <img class="avatar logo-small" src="{{ url_for('static', filename='logo.svg') }}" alt="MB">
-    <div><b>Espace sécurisé</b><small>Session active</small></div>
-  </div>
-  <nav>
-    <a href="{{url_for('public_home')}}">🌐 {{ t("public_home") }}</a>
-    <a href="{{url_for('dashboard')}}">🏠 {{ t("dashboard") }}</a>
-    <a href="{{url_for('guide')}}">📘 {{ t("guide") }}</a>
-    <a href="{{url_for('pricing')}}">💳 {{ t("subscription") }}</a>
-    <a href="{{url_for('request_leave')}}">➕ {{ t("leave_request") }}</a>
-    <a href="{{url_for('history')}}">🕘 {{ t("history") }}</a>
-    <a href="{{url_for('requests_list')}}">📋 {{ t("leave_request") }}</a>
-    <a href="{{url_for('calendar_view')}}">📅 {{ t("calendar") }}</a>
-    <a href="{{url_for('holidays')}}">🌙 {{ t("holidays") }}</a>
-    <a href="{{url_for('profile')}}">👤 {{ t("profile") }}</a>\n    {% if is_admin_user(user) %}<a href="{{url_for('admin_db')}}">🗄️ {{ t("admin_db") }}</a><a href="{{url_for('admin_backups')}}">💾 {{ t("backups") }}</a>{% endif %}
-    {% if is_admin_user(user) %}<a href="{{url_for('admin_change_password')}}">🔐 Changer mot de passe</a>{% endif %}
-    <a href="{{url_for('export_excel')}}">📗 {{ t("export_excel") }}</a>
-    <a href="{{url_for('export_pdf')}}">📄 {{ t("export_pdf") }}</a>
-    <a href="{{url_for('logout')}}" class="logout">🚪 {{ t("logout") }}</a>
-  </nav>
-</aside>
-{% endif %}
-<main class="content">
-  {% if user %}
-  <div class="topbar">
-    <div></div>
-    <div class="sub-status {% if has_active_subscription(user) %}active{% else %}inactive{% endif %}">{% if is_admin_user(user) %}Admin{% elif user.subscription_status=="trial" and has_active_subscription(user) %}Essai {{ trial_days_left(user) }}j{% elif has_active_subscription(user) %}Abonné{% else %}Non abonné{% endif %}</div>
-    <div class="language-switch">
-      <span>{{ t("language") }}</span>
-      <select onchange="if(this.value) window.location.href=this.value">
-        {% for code, label in languages.items() %}
-        <option value="{{ url_for('set_language', lang=code) }}" {% if current_lang==code %}selected{% endif %}>{{ code.upper() }}</option>
-        {% endfor %}
-      </select>
+<div class="app-shell">
+  <header class="social-topbar">
+    <a class="top-brand" href="{{ url_for('public_home') }}">
+      <img src="{{ url_for('static', filename='logo.svg') }}" alt="MEDAIT-BOQAL">
+      <span>MEDAIT-BOQAL</span>
+    </a>
+
+    <nav class="top-tabs">
+      {% if user %}
+      <a href="{{url_for('dashboard')}}" title="{{ t('dashboard') }}">🏠</a>
+      <a href="{{url_for('request_leave')}}" title="{{ t('leave_request') }}">➕</a>
+      <a href="{{url_for('calendar_view')}}" title="{{ t('calendar') }}">📅</a>
+      <a href="{{url_for('pricing')}}" title="{{ t('subscription') }}">💳</a>
+      {% else %}
+      <a href="{{url_for('public_home')}}">🌐</a>
+      <a href="{{url_for('login')}}">🔐</a>
+      {% endif %}
+    </nav>
+
+    <div class="top-actions">
+      <div class="language-switch">
+        <span>{{ t("language") }}</span>
+        <select onchange="if(this.value) window.location.href=this.value">
+          {% for code, label in languages.items() %}
+          <option value="{{ url_for('set_language', lang=code) }}" {% if current_lang==code %}selected{% endif %}>{{ code.upper() }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      {% if user %}
+      <div class="sub-status {% if has_active_subscription(user) %}active{% else %}inactive{% endif %}">
+        {% if is_admin_user(user) %}Owner{% elif user.subscription_status=="trial" and has_active_subscription(user) %}Trial {{ trial_days_left(user) }}d{% elif has_active_subscription(user) %}Active{% else %}Inactive{% endif %}
+      </div>
+      <form action="{{ url_for('toggle_theme') }}" method="get" class="theme-switch">
+        <span>{{ t("mode") }}</span>
+        <select onchange="this.form.submit()">
+          <option value="dark" {% if theme=="dark" %}selected{% endif %}>Dark</option>
+          <option value="light" {% if theme=="light" %}selected{% endif %}>Light</option>
+        </select>
+      </form>
+      {% endif %}
     </div>
-    <form action="{{ url_for('toggle_theme') }}" method="get" class="theme-switch">
-      <span>{{ t("mode") }}</span>
-      <select onchange="this.form.submit()">
-        <option value="dark" {% if theme=="dark" %}selected{% endif %}>Dark</option>
-        <option value="light" {% if theme=="light" %}selected{% endif %}>Light</option>
-      </select>
-    </form>
+  </header>
+
+  <div class="social-layout">
+    {% if user %}
+    <aside class="left-rail">
+      <div class="rail-card">
+        <div class="anonymous-avatar">MB</div>
+        <div>
+          <b>Workspace</b>
+          <small>{{ APP_VERSION }}</small>
+        </div>
+      </div>
+      <nav class="rail-menu">
+        <a href="{{url_for('public_home')}}">🌐 <span>{{ t("public_home") }}</span></a>
+        <a href="{{url_for('dashboard')}}">🏠 <span>{{ t("dashboard") }}</span></a>
+        <a href="{{url_for('guide')}}">📘 <span>{{ t("guide") }}</span></a>
+        <a href="{{url_for('pricing')}}">💳 <span>{{ t("subscription") }}</span></a>
+        <a href="{{url_for('request_leave')}}">➕ <span>{{ t("leave_request") }}</span></a>
+        <a href="{{url_for('history')}}">🕘 <span>{{ t("history") }}</span></a>
+        <a href="{{url_for('requests_list')}}">📋 <span>{{ t("leave_request") }}</span></a>
+        <a href="{{url_for('calendar_view')}}">📅 <span>{{ t("calendar") }}</span></a>
+        <a href="{{url_for('holidays')}}">🌙 <span>{{ t("holidays") }}</span></a>
+        <a href="{{url_for('profile')}}">👤 <span>{{ t("profile") }}</span></a>
+        {% if is_admin_user(user) %}
+        <a href="{{url_for('admin_db')}}">🗄️ <span>{{ t("admin_db") }}</span></a>
+        <a href="{{url_for('admin_backups')}}">💾 <span>{{ t("backups") }}</span></a>
+        <a href="{{url_for('admin_change_password')}}">🔐 <span>Security</span></a>
+        {% endif %}
+        <a href="{{url_for('export_excel')}}">📗 <span>{{ t("export_excel") }}</span></a>
+        <a href="{{url_for('export_pdf')}}">📄 <span>{{ t("export_pdf") }}</span></a>
+        <a href="{{url_for('about')}}">ℹ️ <span>About</span></a>
+        <a href="{{url_for('copyright_page')}}">© <span>Copyright</span></a>
+        <a href="{{url_for('logout')}}" class="logout">🚪 <span>{{ t("logout") }}</span></a>
+      </nav>
+    </aside>
+    {% endif %}
+
+    <main class="content social-content">
+      {% with messages=get_flashed_messages(with_categories=true) %}
+        {% for cat,msg in messages %}<div class="alert {{cat}}">{{msg}}</div>{% endfor %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+      <footer class="footer-legal">
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('privacy') }}">Privacy</a>
+        <a href="{{ url_for('terms') }}">Terms</a>
+        <a href="{{ url_for('copyright_page') }}">Copyright</a>
+        <span>© MEDAIT-BOQAL {{ APP_VERSION }}</span>
+      </footer>
+    </main>
+
+    {% if user %}
+    <aside class="right-rail">
+      <div class="mini-widget glass">
+        <b>MEDAIT-BOQAL</b>
+        <p data-i18n-auto>Secure leave management platform for teams and individuals.</p>
+      </div>
+      <div class="mini-widget glass">
+        <b>{{ t("secure_payment") }}</b>
+        <p data-i18n-auto>Payments are processed by Stripe Checkout. Card data is not stored here.</p>
+      </div>
+    </aside>
+    {% endif %}
   </div>
-  {% endif %}
-  {% with messages=get_flashed_messages(with_categories=true) %}
-    {% for cat,msg in messages %}<div class="alert {{cat}}">{{msg}}</div>{% endfor %}
-  {% endwith %}
-  {% block content %}{% endblock %}
-<footer class="footer-legal">
-    <a href="{{ url_for('privacy') }}">Confidentialité</a>
-    <a href="{{ url_for('terms') }}">Conditions</a>
-    <span>© MEDAIT-BOQAL</span>
-  </footer>
-</main>
 </div>
+
+<script src="{{ url_for('static', filename='i18n.js') }}"></script>
+<script>
+window.MB_LANG = "{{ current_lang }}";
+window.addEventListener("DOMContentLoaded", () => { if(window.applyAutoTranslations){ applyAutoTranslations(window.MB_LANG); } });
+</script>
 </body>
 </html>

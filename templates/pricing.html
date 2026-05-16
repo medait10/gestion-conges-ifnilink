@@ -1,51 +1,73 @@
 {% extends "base.html" %}{% block content %}
-<div class="hero glass">
-  <div>
+<div class="social-hero glass">
+  <div class="hero-copy">
     <span class="eyebrow">{{ t("secure_payment") }}</span>
-    <h1>{{ t("pricing_title") }}</h1>
-    <p>{{ t("trial_7") }} pour les nouveaux utilisateurs, puis abonnement via Stripe Checkout sécurisé.</p>
+    <h1>Abonnement MEDAIT-BOQAL</h1>
+    <p data-i18n-auto>Choisissez un abonnement raisonnable. Les paiements sont traités par Stripe Checkout sécurisé.</p>
+  </div>
+  <div class="phone-preview">
+    <div class="phone-card top">🔒 Stripe Checkout</div>
+    <div class="phone-card">💳 Monthly / Annual</div>
+    <div class="phone-card">🧾 Billing Portal</div>
   </div>
 </div>
 
 <div class="trust-row">
-  <div class="trust-item glass">🔒 Checkout hébergé Stripe</div>
-  <div class="trust-item glass">💳 Carte non stockée sur notre serveur</div>
-  <div class="trust-item glass">🧾 Facturation via Stripe Billing</div>
-  <div class="trust-item glass">⚙️ Portail client sécurisé</div>
+  <div class="trust-item glass">🔒 Stripe Checkout</div>
+  <div class="trust-item glass">💳 No card stored</div>
+  <div class="trust-item glass">🧾 Billing portal</div>
+  <div class="trust-item glass">✅ Secure subscription</div>
 </div>
 
 <div class="pricing-grid">
   <div class="price-card glass">
-    <span class="eyebrow">Essai</span>
-    <h2>7 jours gratuits</h2>
+    <span class="eyebrow">{{ t("trial_7") }}</span>
+    <h2>Trial</h2>
     <div class="price">0 MAD</div>
-    <p>Découvre l’application : demandes, calendrier, historique et exports.</p>
-    <a class="btn-link secondary" href="{{ url_for('dashboard') }}">Utiliser l’essai</a>
+    <p data-i18n-auto>New users start with 7 days trial. No payment data is required during trial.</p>
+    <a class="btn-link secondary" href="{{ url_for('dashboard') }}">Start</a>
   </div>
 
   <div class="price-card glass featured">
-    <span class="eyebrow">Pro</span>
-    <h2>Abonnement utilisateur</h2>
-    <div class="price">Stripe Checkout</div>
-    <p>Accès complet après la période d’essai. {{ t("secure_payment") }} via page hébergée Stripe.</p>
+    <span class="eyebrow">Monthly</span>
+    <h2>Pro Monthly</h2>
+    <div class="price">29 MAD / month</div>
+    <p data-i18n-auto>Small monthly plan for individual users and freelancers.</p>
     {% if has_active_subscription(user) %}
-      <a class="btn-link" href="{{ url_for('dashboard') }}">Accès actif</a>
-      {% if user.stripe_customer_id %}
-      <form method="post" action="{{ url_for('billing_portal') }}"><button>Gérer facturation</button></form>
-      {% endif %}
+      <a class="btn-link" href="{{ url_for('dashboard') }}">Active</a>
     {% else %}
       <form method="post" action="{{ url_for('create_checkout_session') }}">
-        <button>💳 Payer avec Stripe</button>
+        <input type="hidden" name="plan" value="monthly">
+        <button>💳 Subscribe monthly</button>
       </form>
     {% endif %}
   </div>
 
   <div class="price-card glass">
-    <span class="eyebrow">Owner</span>
-    <h2>Administration</h2>
-    <div class="price">Privé</div>
-    <p>L’interface admin est réservée uniquement à l’owner.</p>
-    {% if is_admin_user(user) %}<a class="btn-link" href="{{ url_for('admin_db') }}">Admin DB</a>{% endif %}
+    <span class="eyebrow">Annual</span>
+    <h2>Pro Annual</h2>
+    <div class="price">299 MAD / year</div>
+    <p data-i18n-auto>Lower yearly price for long-term usage.</p>
+    {% if has_active_subscription(user) %}
+      {% if user.stripe_customer_id %}
+      <form method="post" action="{{ url_for('billing_portal') }}"><button>Manage billing</button></form>
+      {% endif %}
+    {% else %}
+      <form method="post" action="{{ url_for('create_checkout_session') }}">
+        <input type="hidden" name="plan" value="annual">
+        <button>💳 Subscribe annually</button>
+      </form>
+    {% endif %}
   </div>
+</div>
+
+<div class="panel glass">
+  <h2 data-i18n-auto>How to receive payments in your Stripe account</h2>
+  <p data-i18n-auto>Create a Stripe account, create two subscription prices, then put the price IDs in Render Environment.</p>
+  <pre class="codebox">STRIPE_SECRET_KEY=sk_live_or_test...
+STRIPE_MONTHLY_PRICE_ID=price_monthly...
+STRIPE_ANNUAL_PRICE_ID=price_annual...
+STRIPE_WEBHOOK_SECRET=whsec_...
+APP_BASE_URL=https://your-domain.com</pre>
 </div>
 {% endblock %}
