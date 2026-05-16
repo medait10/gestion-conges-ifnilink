@@ -967,30 +967,31 @@ def seed_holidays_to(year_to=2100):
     db.session.commit()
 
 def seed_db():
+    """V36: démarrage propre.
+    - Aucun congé historique préchargé.
+    - Aucun bilan Mohamed préchargé.
+    - Création uniquement du compte owner/admin si absent.
+    """
     db.create_all()
-    if not User.query.first():
-        u=User(username="admin", email=ADMIN_EMAIL, password_hash=generate_password_hash(os.getenv("ADMIN_PASSWORD", "Adm-IFNI-2026!Qx7#M9v2")), role="admin", subscription_status="active")
-        db.session.add(u)
-
-    db.session.flush()
-    admin = User.query.filter_by(username="admin").first()
-    if admin and not LeaveRequest.query.filter_by(message="Congé historique approuvé - 08-12/01/2024").first():
-        for leave_type, start_s, end_s, wd, msg in SEED_APPROVED_REQUESTS:
-            db.session.add(LeaveRequest(
-                user_id=admin.id,
-                leave_type=leave_type,
-                start_date=datetime.strptime(start_s, "%Y-%m-%d").date(),
-                end_date=datetime.strptime(end_s, "%Y-%m-%d").date(),
-                working_days=wd,
-                status="approved",
-                message=msg,
-                decision_comment="Synchronisé depuis le bilan fourni",
-                decided_at=datetime.utcnow()
-            ))
-    for y,m,cr,ex,tk,per,bal in SEED_BALANCES:
-        add_or_update_month(y,m,cr,ex,tk,per,bal,True)
-    seed_holidays_to(2100)
-    db.session.commit()
+    owner_email = os.getenv("ADMIN_EMAIL", "aitelmalemmohamed@gmail.com").lower()
+    admin = User.query.filter_by(email=owner_email).first()
+    if not admin:
+        admin = User(
+            username="admin",
+            email=owner_email,
+            password_hash=generate_password_hash(os.getenv("ADMIN_PASSWORD", "ChangeMe-Admin-2026!")),
+            full_name="Owner",
+            company="MEDFLOW",
+            job_title="Owner",
+            hire_date=date.today(),
+            role="admin",
+            subscription_status="active",
+            trial_ends_at=datetime.utcnow()+timedelta(days=36500),
+            initial_balance=0,
+            initial_balance_date=date.today()
+        )
+        db.session.add(admin)
+        db.session.commit()
 
 def recalc_from_seed(user, from_year=2028, to_year=None):
     if to_year is None: to_year = max(date.today().year+5, 2030)
@@ -1091,7 +1092,7 @@ def inject():
 def dashboard():
     u=current_user()
     year=int(request.args.get("year", date.today().year))
-    recalc_from_seed(u, 2028, max(year, date.today().year+2))
+    # V36: no historical recalc on startup.year+2))
     rows=MonthlyBalance.query.filter_by(year=year).order_by(MonthlyBalance.month).all()
     pending_q=LeaveRequest.query.filter_by(status="pending")
     approved_q=LeaveRequest.query.filter_by(status="approved")
@@ -1364,7 +1365,7 @@ def cancel_leave(rid):
 
     # Si le congé était approuvé et impactait le solde, on recalcule.
     if old_status == "approved" and (lr.deductible_days or 0) > 0:
-        recalc_from_seed(current_user(), 2028, max(lr.end_date.year, date.today().year+2))
+    # V36: no historical recalc on startup, 2028, max(lr.end_date.year, date.today().year+2))
 
     db.session.commit()
     return redirect(request.referrer or url_for("history"))
@@ -1465,7 +1466,7 @@ def import_leave_events_from_google_calendar(y1, y2):
 
     db.session.commit()
     if imported:
-        recalc_from_seed(u, 2028, max(y2, date.today().year + 2))
+    # V36: no historical recalc on startup.year + 2))
     return imported
 
 
@@ -1513,7 +1514,7 @@ def refuse(rid):
 def apply_leave_to_balances(lr):
     u=db.session.get(User, lr.user_id)
     y0=min(lr.start_date.year, 2028)
-    recalc_from_seed(u, 2028, max(lr.end_date.year, date.today().year+2))
+    # V36: no historical recalc on startup.year+2))
 
 def create_google_calendar_event(lr):
     creds=get_google_creds()
@@ -2143,6 +2144,68 @@ except Exception:
 
 
 
+
+def patch_v36_i18n():
+    extra = {
+        "fr": {
+            "initial_setup":"Configuration initiale",
+            "initial_setup_desc":"Renseigne ta date d’embauche et le solde de congé que tu possèdes actuellement. MEDFLOW démarre ensuite à partir de ces valeurs.",
+            "initial_balance":"Solde initial",
+            "initial_balance_date":"Date du solde initial",
+            "start_from_zero":"Le site démarre à zéro",
+            "no_seed_data":"Aucune donnée utilisateur n’est préchargée.",
+            "setup_now":"Configurer maintenant",
+            "clean_start":"Démarrage propre"
+        },
+        "en": {
+            "initial_setup":"Initial setup",
+            "initial_setup_desc":"Enter your hire date and the leave balance you currently have. MEDFLOW will start from these values.",
+            "initial_balance":"Initial balance",
+            "initial_balance_date":"Initial balance date",
+            "start_from_zero":"The site starts from zero",
+            "no_seed_data":"No user data is preloaded.",
+            "setup_now":"Set up now",
+            "clean_start":"Clean start"
+        },
+        "de": {
+            "initial_setup":"Ersteinrichtung",
+            "initial_setup_desc":"Geben Sie Ihr Einstellungsdatum und den aktuellen Urlaubssaldo ein. MEDFLOW startet mit diesen Werten.",
+            "initial_balance":"Anfangssaldo",
+            "initial_balance_date":"Datum des Anfangssaldos",
+            "start_from_zero":"Die Website startet bei null",
+            "no_seed_data":"Es sind keine Benutzerdaten vorgeladen.",
+            "setup_now":"Jetzt einrichten",
+            "clean_start":"Sauberer Start"
+        },
+        "es": {
+            "initial_setup":"Configuración inicial",
+            "initial_setup_desc":"Introduce tu fecha de contratación y el saldo de permisos actual. MEDFLOW empezará desde esos valores.",
+            "initial_balance":"Saldo inicial",
+            "initial_balance_date":"Fecha del saldo inicial",
+            "start_from_zero":"El sitio empieza desde cero",
+            "no_seed_data":"No hay datos de usuario precargados.",
+            "setup_now":"Configurar ahora",
+            "clean_start":"Inicio limpio"
+        },
+        "ar": {
+            "initial_setup":"الإعداد الأولي",
+            "initial_setup_desc":"أدخل تاريخ التوظيف ورصيد العطل الحالي. سيبدأ MEDFLOW انطلاقاً من هذه القيم.",
+            "initial_balance":"الرصيد الأولي",
+            "initial_balance_date":"تاريخ الرصيد الأولي",
+            "start_from_zero":"الموقع يبدأ من الصفر",
+            "no_seed_data":"لا توجد بيانات مستخدمين محملة مسبقاً.",
+            "setup_now":"الإعداد الآن",
+            "clean_start":"بداية نظيفة"
+        }
+    }
+    try:
+        for lang, vals in extra.items():
+            V35_I18N.setdefault(lang, {})
+            V35_I18N[lang].update(vals)
+    except Exception:
+        pass
+patch_v36_i18n()
+
 # V35 template globals
 try:
     app.jinja_env.globals["t35"] = t35
@@ -2161,3 +2224,23 @@ with app.app_context():
 if __name__ == "__main__":
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"]="1"
     app.run(debug=False)
+
+
+@app.route("/setup_initial_balance", methods=["GET", "POST"])
+@login_required
+@subscription_required
+def setup_initial_balance():
+    u = current_user()
+    if request.method == "POST":
+        try:
+            u.hire_date = datetime.strptime(request.form.get("hire_date"), "%Y-%m-%d").date()
+            u.initial_balance = float(request.form.get("initial_balance") or 0)
+            raw_date = request.form.get("initial_balance_date")
+            u.initial_balance_date = datetime.strptime(raw_date, "%Y-%m-%d").date() if raw_date else date.today()
+            db.session.commit()
+            flash(t35("save") if "t35" in globals() else "Saved", "success")
+            return redirect(url_for("dashboard"))
+        except Exception as e:
+            db.session.rollback()
+            flash(str(e), "danger")
+    return render_template("setup_initial_balance.html")

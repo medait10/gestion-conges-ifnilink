@@ -20,3 +20,18 @@ function v35Translate(lang){
   if(lang==="ar") document.documentElement.dir="rtl";
 }
 window.addEventListener("DOMContentLoaded",()=>v35Translate(window.MB_LANG || "fr"));
+
+
+// V36 initial setup fallback
+window.addEventListener("DOMContentLoaded",()=>{
+  const lang = window.MB_LANG || "fr";
+  const dict = {
+    en: {"Configuration initiale":"Initial setup","Solde initial":"Initial balance","Date du solde initial":"Initial balance date","Démarrage propre":"Clean start"},
+    de: {"Configuration initiale":"Ersteinrichtung","Solde initial":"Anfangssaldo","Date du solde initial":"Datum des Anfangssaldos","Démarrage propre":"Sauberer Start"},
+    es: {"Configuration initiale":"Configuración inicial","Solde initial":"Saldo inicial","Date du solde initial":"Fecha del saldo inicial","Démarrage propre":"Inicio limpio"},
+    ar: {"Configuration initiale":"الإعداد الأولي","Solde initial":"الرصيد الأولي","Date du solde initial":"تاريخ الرصيد الأولي","Démarrage propre":"بداية نظيفة"}
+  }[lang] || {};
+  const keys=Object.keys(dict).sort((a,b)=>b.length-a.length);
+  const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+  let n; while(n=walker.nextNode()){let s=n.nodeValue; keys.forEach(k=>s=s.split(k).join(dict[k])); n.nodeValue=s;}
+});

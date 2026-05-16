@@ -346,3 +346,12 @@ Version SaaS commercialisable basée sur V31 :
 - Dictionnaire FR/EN/DE/ES/AR renforcé.
 - Fallback navigateur pour textes anciens restants.
 - Login/Register/About/Privacy/Terms/Copyright/Pricing/Home refaits en i18n.
+
+## MEDFLOW V36 Clean Start + Initial Balance
+- Suppression des données utilisateurs préchargées.
+- Le site démarre à zéro.
+- Chaque utilisateur renseigne sa date d'embauche et son solde initial.
+- Nouveau menu : Configuration initiale.
+- Le calcul du solde démarre depuis `initial_balance`.
+- Owner/admin créé seulement si absent, sans bilan historique.
+- Langues renforcées pour la nouvelle page.

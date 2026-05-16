@@ -23,6 +23,12 @@
   {% endif %}
 </div>
 {% endif %}
+{% if not is_admin_user(user) and (user.initial_balance is none or user.initial_balance == 0) %}
+<div class="panel glass">
+  <h2>{{ t35("start_from_zero") }}</h2>
+  <p>{{ t35("no_seed_data") }} <a class="btn-link" href="{{ url_for('setup_initial_balance') }}">{{ t35("setup_now") }}</a></p>
+</div>
+{% endif %}
 <div class="kpi-grid">
   <div class="kpi glass"><span>Solde fin {{year}}</span><b>{{ end_balance }}</b><small>jours</small></div>
   <div class="kpi glass"><span>Congés pris {{year}}</span><b>{{ total_taken }}</b><small>jours ouvrables</small></div>

@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% block content %}
+<div class="mf-page-head">
+  <span class="mf-badge">{{ t35("clean_start") }}</span>
+  <h1>{{ t35("initial_setup") }}</h1>
+  <p>{{ t35("initial_setup_desc") }}</p>
+</div>
+
+<div class="panel glass">
+  <form method="post" class="form-grid">
+    <label>{{ t35("hire_date") }}
+      <input type="date" name="hire_date" value="{{ user.hire_date }}" required>
+    </label>
+    <label>{{ t35("initial_balance") }}
+      <input type="number" step="0.5" name="initial_balance" value="{{ user.initial_balance or 0 }}" required>
+    </label>
+    <label>{{ t35("initial_balance_date") }}
+      <input type="date" name="initial_balance_date" value="{{ user.initial_balance_date or '' }}">
+    </label>
+    <button>{{ t35("save") }}</button>
+  </form>
+</div>
+{% endblock %}

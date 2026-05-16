@@ -71,6 +71,7 @@
         <a href="{{url_for('requests_list')}}"><span class="mf-icon">▤</span><span>{{ t35("leave_request") }}</span></a>
         <a href="{{url_for('calendar_view')}}"><span class="mf-icon">□</span><span>{{ t35("calendar") }}</span></a>
         <a href="{{url_for('holidays')}}"><span class="mf-icon">◐</span><span>{{ t35("holidays") }}</span></a>
+        <a href="{{url_for('setup_initial_balance')}}"><span class="mf-icon">◌</span><span>{{ t35("initial_setup") }}</span></a>
         <a href="{{url_for('profile')}}"><span class="mf-icon">◎</span><span>{{ t35("profile") }}</span></a>
         {% if is_admin_user(user) %}
         <a href="{{url_for('admin_db')}}"><span class="mf-icon">▦</span><span>{{ t35("admin_db") }}</span></a>
