@@ -2238,7 +2238,7 @@ def setup_initial_balance():
             raw_date = request.form.get("initial_balance_date")
             u.initial_balance_date = datetime.strptime(raw_date, "%Y-%m-%d").date() if raw_date else date.today()
             db.session.commit()
-            flash(t35("save") if "t35" in globals() else "Saved", "success")
+            flash((t35("save") if "t35" in globals() else "Saved"), "success")
             return redirect(url_for("dashboard"))
         except Exception as e:
             db.session.rollback()
