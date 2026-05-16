@@ -22,13 +22,14 @@
   </div>
   <nav>
     <a href="{{url_for('dashboard')}}">🏠 Dashboard</a>
+    <a href="{{url_for('pricing')}}">💳 Abonnement</a>
     <a href="{{url_for('request_leave')}}">➕ Demande congé</a>
     <a href="{{url_for('history')}}">🕘 Historique</a>
     <a href="{{url_for('requests_list')}}">📋 Liste des demandes</a>
     <a href="{{url_for('calendar_view')}}">📅 Calendrier</a>
     <a href="{{url_for('holidays')}}">🌙 Jours fériés & Hijri</a>
-    <a href="{{url_for('profile')}}">👤 Profil</a>\n    <a href="{{url_for('admin_db')}}">🗄️ Admin DB</a>
-    <a href="{{url_for('admin_change_password')}}">🔐 Changer mot de passe</a>
+    <a href="{{url_for('profile')}}">👤 Profil</a>\n    {% if is_admin_user(user) %}<a href="{{url_for('admin_db')}}">🗄️ Admin DB</a>{% endif %}
+    {% if is_admin_user(user) %}<a href="{{url_for('admin_change_password')}}">🔐 Changer mot de passe</a>{% endif %}
     <a href="{{url_for('export_excel')}}">📗 Export Excel</a>
     <a href="{{url_for('export_pdf')}}">📄 Export PDF</a>
     <a href="{{url_for('logout')}}" class="logout">🚪 Déconnexion</a>
@@ -39,6 +40,7 @@
   {% if user %}
   <div class="topbar">
     <div></div>
+    <div class="sub-status {% if has_active_subscription(user) %}active{% else %}inactive{% endif %}">{% if is_admin_user(user) %}Admin{% elif has_active_subscription(user) %}Abonné{% else %}Non abonné{% endif %}</div>
     <form action="{{ url_for('toggle_theme') }}" method="get" class="theme-switch">
       <span>Mode</span>
       <select onchange="this.form.submit()">

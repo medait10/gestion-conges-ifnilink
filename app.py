@@ -16,12 +16,15 @@ from reportlab.lib.pagesizes import A4, landscape
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, Spacer
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
+import stripe
 
 load_dotenv()
 os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"
 os.environ["OAUTHLIB_RELAX_TOKEN_SCOPE"] = "1"
 app = Flask(__name__, instance_relative_config=True)
 app.secret_key = os.getenv("SECRET_KEY", "dev-secret-change-me")
+ADMIN_EMAIL = os.getenv("ADMIN_EMAIL", "aitelmalemmohamed@gmail.com").lower()
+stripe.api_key = os.getenv("STRIPE_SECRET_KEY", "")
 app.config["SESSION_COOKIE_HTTPONLY"] = True
 app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 app.config["SESSION_COOKIE_SECURE"] = os.getenv("FLASK_ENV") == "production"
@@ -75,6 +78,9 @@ class User(db.Model):
     role = db.Column(db.String(20), default="admin")
     google_token = db.Column(db.Text)
     theme = db.Column(db.String(10), default="dark")
+    subscription_status = db.Column(db.String(30), default="inactive")
+    stripe_customer_id = db.Column(db.String(120))
+    stripe_subscription_id = db.Column(db.String(120))
 
 class Holiday(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -163,11 +169,39 @@ def login_required(fn):
         return fn(*args, **kwargs)
     return wrapper
 
+
+def is_admin_user(u):
+    return bool(u and u.email and u.email.lower() == ADMIN_EMAIL)
+
+def has_active_subscription(u):
+    return bool(is_admin_user(u) or (u and u.subscription_status in ["active", "trialing"]))
+
+def subscription_required(fn):
+    @wraps(fn)
+    def wrapper(*args, **kwargs):
+        u = current_user()
+        if not u:
+            return redirect(url_for("login"))
+        if not has_active_subscription(u):
+            flash("Abonnement requis pour accéder à cette fonctionnalité.", "warning")
+            return redirect(url_for("pricing"))
+        return fn(*args, **kwargs)
+    return wrapper
+
+@app.before_request
+def enforce_admin_email_role():
+    u = current_user()
+    if u and u.email and u.email.lower() == ADMIN_EMAIL and u.role != "admin":
+        u.role = "admin"
+        u.subscription_status = "active"
+        db.session.commit()
+
+
 def admin_required(fn):
     @wraps(fn)
     def wrapper(*args, **kwargs):
         u = current_user()
-        if not u or u.role != "admin":
+        if not u or u.email.lower() != ADMIN_EMAIL:
             abort(403)
         return fn(*args, **kwargs)
     return wrapper
@@ -224,7 +258,7 @@ def seed_holidays_to(year_to=2100):
 def seed_db():
     db.create_all()
     if not User.query.first():
-        u=User(username="admin", email="aitelmalemmohamed@gmail.com", password_hash=generate_password_hash(os.getenv("ADMIN_PASSWORD", "Adm-IFNI-2026!Qx7#M9v2")))
+        u=User(username="admin", email=ADMIN_EMAIL, password_hash=generate_password_hash(os.getenv("ADMIN_PASSWORD", "Adm-IFNI-2026!Qx7#M9v2")), role="admin", subscription_status="active")
         db.session.add(u)
 
     db.session.flush()
@@ -321,10 +355,11 @@ def add_security_headers(response):
 
 @app.context_processor
 def inject():
-    return {"user": current_user(), "months_fr": MONTHS_FR, "leave_types": LEAVE_TYPES, "hijri_date": gregorian_to_hijri_approx, "theme": (current_user().theme if current_user() else "dark")}
+    return {"user": current_user(), "months_fr": MONTHS_FR, "leave_types": LEAVE_TYPES, "hijri_date": gregorian_to_hijri_approx, "theme": (current_user().theme if current_user() else "dark"), "ADMIN_EMAIL": ADMIN_EMAIL, "has_active_subscription": has_active_subscription, "is_admin_user": is_admin_user}
 
 @app.route("/")
 @login_required
+@subscription_required
 def dashboard():
     u=current_user()
     year=int(request.args.get("year", date.today().year))
@@ -375,7 +410,7 @@ def register():
                 company=request.form.get("company") or "MEDAIT-BOQAL",
                 job_title=request.form.get("job_title") or "Utilisateur",
                 hire_date=hire_dt,
-                role="user"
+                role="user", subscription_status="inactive"
             )
             db.session.add(u)
             db.session.commit()
@@ -489,6 +524,7 @@ def oauth2callback():
 
 @app.route("/profile", methods=["GET","POST"])
 @login_required
+@subscription_required
 def profile():
     u=current_user()
     if request.method=="POST":
@@ -503,6 +539,7 @@ def profile():
 
 @app.route("/request_leave", methods=["GET","POST"])
 @login_required
+@subscription_required
 def request_leave():
     if request.method=="POST":
         try:
@@ -598,6 +635,7 @@ def delete_google_calendar_event(event_id):
 
 @app.route("/requests")
 @login_required
+@subscription_required
 def requests_list():
     year = request.args.get("year", "all")
     q = LeaveRequest.query
@@ -688,6 +726,7 @@ def import_leave_events_from_google_calendar(y1, y2):
 
 @app.route("/history")
 @login_required
+@subscription_required
 def history():
     year = request.args.get("year", "all")
     q = LeaveRequest.query
@@ -746,6 +785,7 @@ def create_google_calendar_event(lr):
 
 @app.route("/calendar")
 @login_required
+@subscription_required
 def calendar_view():
     year=int(request.args.get("year", date.today().year))
     approved_q=LeaveRequest.query.filter_by(status="approved")
@@ -820,6 +860,7 @@ def sync_google_holidays(y1, y2, calendar_type="standard"):
 
 @app.route("/holidays")
 @login_required
+@subscription_required
 def holidays():
     year=int(request.args.get("year", date.today().year))
     calendar_type=request.args.get("calendar_type", "all")
@@ -834,6 +875,7 @@ def holidays():
 
 @app.route("/export_excel")
 @login_required
+@subscription_required
 def export_excel():
     from openpyxl.styles import Font, PatternFill, Border, Side, Alignment
     from openpyxl.utils import get_column_letter
@@ -892,6 +934,7 @@ def export_excel():
 
 @app.route("/export_pdf")
 @login_required
+@subscription_required
 def export_pdf():
     path=os.path.join(app.instance_path,"bilan_conges_medait_boqal.pdf")
     doc=SimpleDocTemplate(path,pagesize=landscape(A4), rightMargin=24, leftMargin=24, topMargin=24, bottomMargin=24)
@@ -944,6 +987,93 @@ def admin_change_password():
             return redirect(url_for("dashboard"))
     return render_template("admin_change_password.html")
 
+
+@app.route("/pricing")
+@login_required
+def pricing():
+    return render_template("pricing.html", stripe_public_key=os.getenv("STRIPE_PUBLISHABLE_KEY", ""), price_id=os.getenv("STRIPE_PRICE_ID", ""))
+
+@app.route("/create_checkout_session", methods=["POST"])
+@login_required
+def create_checkout_session():
+    u = current_user()
+    if is_admin_user(u):
+        flash("Le compte admin a un accès complet.", "info")
+        return redirect(url_for("dashboard"))
+    if not os.getenv("STRIPE_SECRET_KEY") or not os.getenv("STRIPE_PRICE_ID"):
+        flash("Paiement non configuré : ajoute STRIPE_SECRET_KEY et STRIPE_PRICE_ID dans Render.", "danger")
+        return redirect(url_for("pricing"))
+    domain = os.getenv("APP_BASE_URL", request.url_root.rstrip("/"))
+    try:
+        checkout_session = stripe.checkout.Session.create(
+            mode="subscription",
+            payment_method_types=["card"],
+            line_items=[{"price": os.getenv("STRIPE_PRICE_ID"), "quantity": 1}],
+            customer_email=u.email,
+            client_reference_id=str(u.id),
+            success_url=domain + url_for("payment_success") + "?session_id={CHECKOUT_SESSION_ID}",
+            cancel_url=domain + url_for("payment_cancel"),
+        )
+        return redirect(checkout_session.url, code=303)
+    except Exception as e:
+        flash("Erreur paiement : " + str(e), "danger")
+        return redirect(url_for("pricing"))
+
+@app.route("/payment_success")
+@login_required
+def payment_success():
+    flash("Paiement reçu. Ton abonnement sera activé après confirmation Stripe.", "success")
+    return redirect(url_for("dashboard"))
+
+@app.route("/payment_cancel")
+@login_required
+def payment_cancel():
+    flash("Paiement annulé.", "warning")
+    return redirect(url_for("pricing"))
+
+@app.route("/stripe_webhook", methods=["POST"])
+def stripe_webhook():
+    payload = request.get_data(as_text=True)
+    sig_header = request.headers.get("Stripe-Signature")
+    endpoint_secret = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+    try:
+        if endpoint_secret:
+            event = stripe.Webhook.construct_event(payload, sig_header, endpoint_secret)
+        else:
+            event = stripe.Event.construct_from(request.get_json(force=True), stripe.api_key)
+    except Exception:
+        return "Invalid payload", 400
+
+    event_type = event["type"]
+    data = event["data"]["object"]
+
+    if event_type == "checkout.session.completed":
+        user_id = data.get("client_reference_id")
+        u = db.session.get(User, int(user_id)) if user_id else None
+        if u:
+            u.subscription_status = "active"
+            u.stripe_customer_id = data.get("customer")
+            u.stripe_subscription_id = data.get("subscription")
+            db.session.commit()
+
+    elif event_type in ["customer.subscription.deleted", "customer.subscription.paused"]:
+        sub_id = data.get("id")
+        u = User.query.filter_by(stripe_subscription_id=sub_id).first()
+        if u and not is_admin_user(u):
+            u.subscription_status = "inactive"
+            db.session.commit()
+
+    elif event_type in ["customer.subscription.updated"]:
+        sub_id = data.get("id")
+        status = data.get("status")
+        u = User.query.filter_by(stripe_subscription_id=sub_id).first()
+        if u and not is_admin_user(u):
+            u.subscription_status = status or "inactive"
+            db.session.commit()
+
+    return "ok", 200
+
+
 # Mini panneau Admin SQLite
 ADMIN_DB_MODELS = {
     "users": User,
@@ -962,7 +1092,7 @@ def admin_db():
         table = "leave_requests"
     model = ADMIN_DB_MODELS[table]
     rows = model.query.order_by(model.id.desc()).limit(300).all()
-    columns = [c.name for c in model.__table__.columns if c.name not in ["password_hash", "google_token"]]
+    columns = [c.name for c in model.__table__.columns if c.name not in ["password_hash", "google_token", "stripe_customer_id", "stripe_subscription_id"]]
     return render_template("admin_db.html", tables=tables, table=table, rows=rows, columns=columns)
 
 @app.route("/admin/db/edit/<table>/<int:rid>", methods=["GET", "POST"])

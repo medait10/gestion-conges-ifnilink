@@ -156,3 +156,19 @@ body.light .secure-medical{background:rgba(22,163,74,.10)}
 .simple-label{text-align:left;color:var(--muted);display:grid;gap:6px}
 .brand h2{font-size:22px;letter-spacing:.04em}
 .hero h1,.login-card h1{background:linear-gradient(135deg,#38bdf8,#a78bfa,#22c55e);-webkit-background-clip:text;color:transparent}
+
+
+/* V16 Subscription Platform */
+.sub-status{padding:10px 14px;border-radius:999px;font-weight:900;border:1px solid var(--line);background:rgba(255,255,255,.06)}
+.sub-status.active{color:#bbf7d0;background:rgba(34,197,94,.14)}
+.sub-status.inactive{color:#fecaca;background:rgba(239,68,68,.14)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.price-card{border-radius:30px;padding:28px;position:relative;overflow:hidden}
+.price-card.featured{outline:2px solid rgba(56,189,248,.45);transform:translateY(-6px)}
+.price-card h2{font-size:28px;margin:10px 0}
+.price{font-size:30px;font-weight:950;color:var(--blue);margin:16px 0}
+.price-card p{color:var(--muted);line-height:1.6}
+.platform-features{width:min(760px,92vw);border-radius:34px;padding:28px;margin:22px auto 0}
+.feature-list{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.feature-list span{padding:12px;border-radius:16px;background:rgba(255,255,255,.06);font-weight:800}
+@media(max-width:950px){.pricing-grid{grid-template-columns:1fr}.price-card.featured{transform:none}.feature-list{grid-template-columns:1fr}}

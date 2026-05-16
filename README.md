@@ -164,3 +164,18 @@ FLASK_ENV=production
 - Page inscription utilisateur.
 - Les utilisateurs créent leurs comptes et accèdent à leurs propres demandes.
 - Exports Excel/PDF rebrandés MEDAIT-BOQAL.
+
+
+## V16 Subscription Platform
+- Admin interface reserved only for ADMIN_EMAIL.
+- Default admin email: aitelmalemmohamed@gmail.com.
+- Other users can create accounts and must subscribe to use the application.
+- Stripe Checkout subscription integration.
+- Stripe webhook endpoint: /stripe_webhook.
+- Environment variables needed:
+  ADMIN_EMAIL
+  STRIPE_PUBLISHABLE_KEY
+  STRIPE_SECRET_KEY
+  STRIPE_PRICE_ID
+  STRIPE_WEBHOOK_SECRET
+  APP_BASE_URL

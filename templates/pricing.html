@@ -1,0 +1,43 @@
+{% extends "base.html" %}{% block content %}
+<div class="hero glass">
+  <div>
+    <span class="eyebrow">MEDAIT-BOQAL Subscription</span>
+    <h1>Choisis ton abonnement</h1>
+    <p>Les utilisateurs doivent avoir un abonnement actif pour utiliser le portail de gestion des congés.</p>
+  </div>
+</div>
+
+<div class="pricing-grid">
+  <div class="price-card glass">
+    <span class="eyebrow">Admin</span>
+    <h2>Compte propriétaire</h2>
+    <div class="price">Accès complet</div>
+    <p>Réservé uniquement à {{ ADMIN_EMAIL }}.</p>
+    {% if is_admin_user(user) %}
+      <a class="btn-link" href="{{ url_for('dashboard') }}">Accéder au dashboard</a>
+    {% endif %}
+  </div>
+
+  <div class="price-card glass featured">
+    <span class="eyebrow">Utilisateur</span>
+    <h2>Abonnement mensuel</h2>
+    <div class="price">Paiement sécurisé</div>
+    <p>Accès aux demandes, historique, exports, calendrier et synchronisation Google.</p>
+    {% if has_active_subscription(user) %}
+      <a class="btn-link" href="{{ url_for('dashboard') }}">Déjà actif</a>
+    {% else %}
+      <form method="post" action="{{ url_for('create_checkout_session') }}">
+        <button>💳 S’abonner maintenant</button>
+      </form>
+    {% endif %}
+  </div>
+
+  <div class="price-card glass">
+    <span class="eyebrow">Entreprise</span>
+    <h2>Multi-utilisateurs</h2>
+    <div class="price">Sur demande</div>
+    <p>Gestion RH, exports, utilisateurs multiples, règles marocaines et tableaux avancés.</p>
+    <a class="btn-link" href="mailto:{{ ADMIN_EMAIL }}">Contacter</a>
+  </div>
+</div>
+{% endblock %}
