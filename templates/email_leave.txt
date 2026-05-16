@@ -3,7 +3,7 @@ Bonjour,
 Je vous prie de bien vouloir approuver ma demande :
 - Collaborateur : {{u.full_name}}
 - Société : {{u.company}}
-- Poste : {{u.job_title}}
+- {{ tt("job_title") }} : {{u.job_title}}
 - Type : {{leave_types[lr.leave_type].label}}
 - Période : {{lr.start_date.strftime('%d/%m/%Y')}} au {{lr.end_date.strftime('%d/%m/%Y')}}
 - Jours ouvrables calculés : {{lr.working_days}}

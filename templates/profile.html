@@ -1,5 +1,5 @@
 {% extends "base.html" %}{% block content %}<h1>Profil</h1><form method="post" class="form-grid">
-<label>Nom complet<input name="full_name" value="{{user.full_name}}"></label><label>Entreprise<input name="company" value="{{user.company}}"></label><label>Poste<input name="job_title" value="{{user.job_title}}"></label><label>Date embauche<input type="date" name="hire_date" value="{{user.hire_date}}"></label><button>Enregistrer</button></form>
+<label>{{ tt("full_name") }}<input name="full_name" value="{{user.full_name}}"></label><label>{{ tt("company") }}<input name="company" value="{{user.company}}"></label><label>{{ tt("job_title") }}<input name="job_title" value="{{user.job_title}}"></label><label>Date embauche<input type="date" name="hire_date" value="{{user.hire_date}}"></label><button>Enregistrer</button></form>
 <div class="panel glass">
   <div class="panel-head"><h2>État Google</h2><span class="chip">Gmail & Calendar</span></div>
   {% if user.google_token %}

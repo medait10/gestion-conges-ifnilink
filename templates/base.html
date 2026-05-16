@@ -17,13 +17,13 @@
 
     <nav class="top-tabs">
       {% if user %}
-      <a href="{{url_for('dashboard')}}" title="{{ t('dashboard') }}">🏠</a>
-      <a href="{{url_for('request_leave')}}" title="{{ t('leave_request') }}">➕</a>
-      <a href="{{url_for('calendar_view')}}" title="{{ t('calendar') }}">📅</a>
-      <a href="{{url_for('pricing')}}" title="{{ t('subscription') }}">💳</a>
+      <a href="{{url_for('dashboard')}}" title="{{ t('dashboard') }}"><span class="mf-icon">⌂</span></a>
+      <a href="{{url_for('request_leave')}}" title="{{ t('leave_request') }}"><span class="mf-icon">+</span></a>
+      <a href="{{url_for('calendar_view')}}" title="{{ t('calendar') }}"><span class="mf-icon">□</span></a>
+      <a href="{{url_for('pricing')}}" title="{{ t('subscription') }}"><span class="mf-icon">◆</span></a>
       {% else %}
-      <a href="{{url_for('public_home')}}">🌐</a>
-      <a href="{{url_for('login')}}">🔐</a>
+      <a href="{{url_for('public_home')}}"><span class="mf-icon">⌂</span></a>
+      <a href="{{url_for('login')}}"><span class="mf-icon">◇</span></a>
       {% endif %}
     </nav>
 
@@ -62,26 +62,26 @@
         </div>
       </div>
       <nav class="rail-menu">
-        <a href="{{url_for('public_home')}}">🌐 <span>{{ tt("home") }}</span></a>
-        <a href="{{url_for('dashboard')}}">🏠 <span>{{ tt("dashboard") }}</span></a>
-        <a href="{{url_for('guide')}}">📘 <span>{{ tt("guide") }}</span></a>
-        <a href="{{url_for('pricing')}}">💳 <span>{{ tt("subscription") }}</span></a>
-        <a href="{{url_for('request_leave')}}">➕ <span>{{ tt("leave_request") }}</span></a>
-        <a href="{{url_for('history')}}">🕘 <span>{{ tt("history") }}</span></a>
-        <a href="{{url_for('requests_list')}}">📋 <span>{{ tt("leave_request") }}</span></a>
-        <a href="{{url_for('calendar_view')}}">📅 <span>{{ tt("calendar") }}</span></a>
-        <a href="{{url_for('holidays')}}">🌙 <span>{{ tt("holidays") }}</span></a>
-        <a href="{{url_for('profile')}}">👤 <span>{{ tt("profile") }}</span></a>
+        <a href="{{url_for('public_home')}}"><span class="mf-icon">⌂</span><span>{{ tt("home") }}</span></a>
+        <a href="{{url_for('dashboard')}}"><span class="mf-icon">⌂</span><span>{{ tt("dashboard") }}</span></a>
+        <a href="{{url_for('guide')}}"><span class="mf-icon">?</span><span>{{ tt("guide") }}</span></a>
+        <a href="{{url_for('pricing')}}"><span class="mf-icon">◆</span><span>{{ tt("subscription") }}</span></a>
+        <a href="{{url_for('request_leave')}}"><span class="mf-icon">+</span><span>{{ tt("leave_request") }}</span></a>
+        <a href="{{url_for('history')}}"><span class="mf-icon">◷</span><span>{{ tt("history") }}</span></a>
+        <a href="{{url_for('requests_list')}}"><span class="mf-icon">▤</span><span>{{ tt("leave_request") }}</span></a>
+        <a href="{{url_for('calendar_view')}}"><span class="mf-icon">□</span><span>{{ tt("calendar") }}</span></a>
+        <a href="{{url_for('holidays')}}"><span class="mf-icon">◐</span><span>{{ tt("holidays") }}</span></a>
+        <a href="{{url_for('profile')}}"><span class="mf-icon">◎</span><span>{{ tt("profile") }}</span></a>
         {% if is_admin_user(user) %}
-        <a href="{{url_for('admin_db')}}">🗄️ <span>{{ tt("admin_db") }}</span></a>
-        <a href="{{url_for('admin_backups')}}">💾 <span>{{ tt("backups") }}</span></a>
-        <a href="{{url_for('admin_change_password')}}">🔐 <span>Security</span></a>
+        <a href="{{url_for('admin_db')}}"><span class="mf-icon">▦</span><span>{{ tt("admin_db") }}</span></a>
+        <a href="{{url_for('admin_backups')}}"><span class="mf-icon">⇩</span><span>{{ tt("backups") }}</span></a>
+        <a href="{{url_for('admin_change_password')}}"><span class="mf-icon">◇</span><span>Security</span></a>
         {% endif %}
-        <a href="{{url_for('export_excel')}}">📗 <span>{{ tt("export_excel") }}</span></a>
-        <a href="{{url_for('export_pdf')}}">📄 <span>{{ tt("export_pdf") }}</span></a>
-        <a href="{{url_for('about')}}">ℹ️ <span>{{ tt("about") }}</span></a>
-        <a href="{{url_for('copyright_page')}}">© <span>{{ tt("copyright") }}</span></a>
-        <a href="{{url_for('logout')}}" class="logout">🚪 <span>{{ tt("logout") }}</span></a>
+        <a href="{{url_for('export_excel')}}"><span class="mf-icon">⇱</span><span>{{ tt("export_excel") }}</span></a>
+        <a href="{{url_for('export_pdf')}}"><span class="mf-icon">¶</span><span>{{ tt("export_pdf") }}</span></a>
+        <a href="{{url_for('about')}}"><span class="mf-icon">i</span><span>{{ tt("about") }}</span></a>
+        <a href="{{url_for('copyright_page')}}"><span class="mf-icon">©</span><span>{{ tt("copyright") }}</span></a>
+        <a href="{{url_for('logout')}}" class="logout"><span class="mf-icon">↳</span><span>{{ tt("logout") }}</span></a>
       </nav>
     </aside>
     {% endif %}

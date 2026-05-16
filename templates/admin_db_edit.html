@@ -1,5 +1,5 @@
 {% extends "base.html" %}{% block content %}
-<div class="hero glass"><div><span class="eyebrow">Modification DB</span><h1>Modifier {{ table }} #{{ row.id }}</h1><p>Modification directe de la base.</p></div></div>
+<div class="hero glass"><div><span class="eyebrow">Modification DB</span><h1>{{ tt("edit") }} {{ table }} #{{ row.id }}</h1><p>Modification directe de la base.</p></div></div>
 <div class="panel glass">
 <form method="post" class="form-grid">
 {% for col in columns %}
@@ -18,7 +18,7 @@
 {% endif %}
 </label>
 {% endfor %}
-<button>Enregistrer</button><a class="btn-link" href="{{ url_for('admin_db', table=table) }}">Retour</a>
+<button>Enregistrer</button><a class="btn-link" href="{{ url_for('admin_db', table=table) }}">{{ tt("back") }}</a>
 </form>
 </div>
 {% endblock %}

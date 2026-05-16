@@ -2,17 +2,17 @@
 <div class="login-shell">
   <div class="login-card glass">
     <img class="login-logo-img" src="{{ url_for('static', filename='logo.svg') }}" alt="MEDFLOW">
-    <h1>Créer un compte</h1>
+    <h1>{{ tt("register_title") }}</h1>
     <p>Crée ton compte avec 7 jours d’essai gratuits. Tes données démarrent à zéro.</p>
     <form method="post" class="register-form">
-      <input name="full_name" placeholder="Nom complet" required>
-      <input name="email" type="email" placeholder="Email" required>
-      <input name="username" placeholder="Nom utilisateur" required>
-      <input name="company" placeholder="Entreprise" value="MEDFLOW">
-      <input name="job_title" placeholder="Poste">
-      <label class="simple-label">Date d'embauche <input name="hire_date" type="date"></label>
-      <input name="password" type="password" placeholder="Mot de passe" minlength="10" required>
-      <input name="confirm_password" type="password" placeholder="Confirmer mot de passe" minlength="10" required>
+      <input name="full_name" placeholder="{{ tt("full_name") }}" required>
+      <input name="email" type="email" placeholder="{{ tt("email") }}" required>
+      <input name="username" placeholder="{{ tt("username") }}" required>
+      <input name="company" placeholder="{{ tt("company") }}" value="MEDFLOW">
+      <input name="job_title" placeholder="{{ tt("job_title") }}">
+      <label class="simple-label">{{ tt("hire_date") }} <input name="hire_date" type="date"></label>
+      <input name="password" type="password" placeholder="{{ tt("password") }}" minlength="10" required>
+      <input name="confirm_password" type="password" placeholder="{{ tt("confirm_password") }}" minlength="10" required>
       <button>Créer mon compte</button>
     </form>
     <a class="register-link" href="{{ url_for('login') }}">Déjà inscrit ? Se connecter</a>

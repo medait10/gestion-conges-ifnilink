@@ -293,3 +293,11 @@ FLASK_ENV=production
 - Menus, tables, champs, statuts, mois et calendrier traduits selon langue choisie.
 - JavaScript de traduction partielle désactivé pour éviter mélange de langues.
 - Layout corrigé sans déformation.
+
+## MEDFLOW V30 Premium i18n UI
+- Traduction renforcée serveur + navigateur pour les textes restants.
+- Menus, champs, placeholders, tables, statuts et pages principales traduits.
+- Icônes premium CSS au lieu d’emojis.
+- Scrollbars stylées.
+- Animations premium avec respect prefers-reduced-motion.
+- UI plus moderne et responsive.

@@ -38,11 +38,11 @@
         <td data-label="Date">{{ f.date }}</td>
         <td data-label="Actions">
           <div class="db-actions">
-            <a class="btn-link mini" href="{{ url_for('admin_backup_download', filename=f.name) }}">Télécharger</a>
-            <form method="post" action="{{ url_for('admin_backup_restore') }}" onsubmit="return confirm('Restaurer ce backup ? La base actuelle sera remplacée.')">
+            <a class="btn-link mini" href="{{ url_for('admin_backup_download', filename=f.name) }}">{{ tt("download") }}</a>
+            <form method="post" action="{{ url_for('admin_backup_restore') }}" onsubmit="return confirm('{{ tt("restore") }} ce backup ? La base actuelle sera remplacée.')">
               <input type="hidden" name="filename" value="{{ f.name }}">
               <input name="confirm" placeholder="Écris RESTORE">
-              <button class="danger-btn mini">Restaurer</button>
+              <button class="danger-btn mini">{{ tt("restore") }}</button>
             </form>
           </div>
         </td>

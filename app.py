@@ -367,6 +367,54 @@ def month_name_i18n(m):
 def status_i18n(s):
     return tt(str(s or "").lower())
 
+def patch_full_i18n():
+    extra = {
+        "fr": {
+            "login_title":"Connexion sécurisée","register_title":"Créer un compte","full_name":"Nom complet","email":"Email","username":"Nom utilisateur","password":"Mot de passe","confirm_password":"Confirmer mot de passe","company":"Entreprise","job_title":"Poste","hire_date":"Date d'embauche",
+            "admin_only":"Admin uniquement","restore_backup":"Restaurer backup","upload_backup":"Uploader un backup","create_backup":"Créer un backup","download":"Télécharger","restore":"Restaurer","delete":"Supprimer","edit":"Modifier","security":"Sécurité","settings":"Paramètres",
+            "leave_balance":"Solde congé","approved_leaves":"Congés approuvés","remaining":"Restant","used":"Utilisé","google_connected":"Google connecté","google_not_connected":"Google non connecté","connect_google":"Connecter Google","disconnect_google":"Déconnecter Google",
+            "help_title":"Guide utilisateur MEDFLOW","privacy_title":"Politique de confidentialité","terms_title":"Conditions d’utilisation","about_title":"À propos de nous","copyright_title":"Droits d’auteur",
+            "no_card_stored":"Aucune carte bancaire n’est stockée sur MEDFLOW.","stripe_secure":"Paiement sécurisé via Stripe Checkout.","all_rights":"Tous droits réservés.","back":"Retour","search":"Rechercher","filter":"Filtrer"
+        },
+        "en": {
+            "login_title":"Secure login","register_title":"Create account","full_name":"Full name","email":"Email","username":"Username","password":"Password","confirm_password":"Confirm password","company":"Company","job_title":"Job title","hire_date":"Hire date",
+            "admin_only":"Admin only","restore_backup":"Restore backup","upload_backup":"Upload backup","create_backup":"Create backup","download":"Download","restore":"Restore","delete":"Delete","edit":"Edit","security":"Security","settings":"Settings",
+            "leave_balance":"Leave balance","approved_leaves":"Approved leaves","remaining":"Remaining","used":"Used","google_connected":"Google connected","google_not_connected":"Google not connected","connect_google":"Connect Google","disconnect_google":"Disconnect Google",
+            "help_title":"MEDFLOW user guide","privacy_title":"Privacy policy","terms_title":"Terms of use","about_title":"About us","copyright_title":"Copyright",
+            "no_card_stored":"No card data is stored on MEDFLOW.","stripe_secure":"Secure payment via Stripe Checkout.","all_rights":"All rights reserved.","back":"Back","search":"Search","filter":"Filter"
+        },
+        "de": {
+            "login_title":"Sichere Anmeldung","register_title":"Konto erstellen","full_name":"Vollständiger Name","email":"E-Mail","username":"Benutzername","password":"Passwort","confirm_password":"Passwort bestätigen","company":"Unternehmen","job_title":"Position","hire_date":"Einstellungsdatum",
+            "admin_only":"Nur Admin","restore_backup":"Backup wiederherstellen","upload_backup":"Backup hochladen","create_backup":"Backup erstellen","download":"Herunterladen","restore":"Wiederherstellen","delete":"Löschen","edit":"Bearbeiten","security":"Sicherheit","settings":"Einstellungen",
+            "leave_balance":"Urlaubssaldo","approved_leaves":"Genehmigte Urlaube","remaining":"Verbleibend","used":"Verwendet","google_connected":"Google verbunden","google_not_connected":"Google nicht verbunden","connect_google":"Google verbinden","disconnect_google":"Google trennen",
+            "help_title":"MEDFLOW Benutzerhandbuch","privacy_title":"Datenschutzerklärung","terms_title":"Nutzungsbedingungen","about_title":"Über uns","copyright_title":"Urheberrecht",
+            "no_card_stored":"Kartendaten werden nicht auf MEDFLOW gespeichert.","stripe_secure":"Sichere Zahlung über Stripe Checkout.","all_rights":"Alle Rechte vorbehalten.","back":"Zurück","search":"Suchen","filter":"Filtern"
+        },
+        "es": {
+            "login_title":"Inicio de sesión seguro","register_title":"Crear cuenta","full_name":"Nombre completo","email":"Email","username":"Usuario","password":"Contraseña","confirm_password":"Confirmar contraseña","company":"Empresa","job_title":"Puesto","hire_date":"Fecha de contratación",
+            "admin_only":"Solo admin","restore_backup":"Restaurar backup","upload_backup":"Subir backup","create_backup":"Crear backup","download":"Descargar","restore":"Restaurar","delete":"Eliminar","edit":"Editar","security":"Seguridad","settings":"Ajustes",
+            "leave_balance":"Saldo de permisos","approved_leaves":"Permisos aprobados","remaining":"Restante","used":"Usado","google_connected":"Google conectado","google_not_connected":"Google no conectado","connect_google":"Conectar Google","disconnect_google":"Desconectar Google",
+            "help_title":"Guía de usuario MEDFLOW","privacy_title":"Política de privacidad","terms_title":"Condiciones de uso","about_title":"Sobre nosotros","copyright_title":"Derechos de autor",
+            "no_card_stored":"No se almacenan datos de tarjeta en MEDFLOW.","stripe_secure":"Pago seguro vía Stripe Checkout.","all_rights":"Todos los derechos reservados.","back":"Volver","search":"Buscar","filter":"Filtrar"
+        },
+        "ar": {
+            "login_title":"تسجيل دخول آمن","register_title":"إنشاء حساب","full_name":"الاسم الكامل","email":"البريد الإلكتروني","username":"اسم المستخدم","password":"كلمة المرور","confirm_password":"تأكيد كلمة المرور","company":"الشركة","job_title":"المنصب","hire_date":"تاريخ التوظيف",
+            "admin_only":"للمدير فقط","restore_backup":"استعادة نسخة احتياطية","upload_backup":"رفع نسخة احتياطية","create_backup":"إنشاء نسخة احتياطية","download":"تحميل","restore":"استعادة","delete":"حذف","edit":"تعديل","security":"الأمان","settings":"الإعدادات",
+            "leave_balance":"رصيد العطل","approved_leaves":"العطل الموافق عليها","remaining":"المتبقي","used":"المستخدم","google_connected":"Google متصل","google_not_connected":"Google غير متصل","connect_google":"ربط Google","disconnect_google":"فصل Google",
+            "help_title":"دليل مستخدم MEDFLOW","privacy_title":"سياسة الخصوصية","terms_title":"شروط الاستخدام","about_title":"من نحن","copyright_title":"حقوق النشر",
+            "no_card_stored":"لا يتم تخزين بيانات البطاقة في MEDFLOW.","stripe_secure":"دفع آمن عبر Stripe Checkout.","all_rights":"جميع الحقوق محفوظة.","back":"رجوع","search":"بحث","filter":"تصفية"
+        }
+    }
+    try:
+        for lang, values in extra.items():
+            FULL_I18N.setdefault(lang, {})
+            FULL_I18N[lang].update(values)
+    except Exception:
+        pass
+
+patch_full_i18n()
+
+
 def safe_t(key):
     try:
         return t(key)

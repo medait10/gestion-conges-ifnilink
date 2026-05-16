@@ -6,7 +6,7 @@
     <p class="hero-public-copy">Connecte-toi à ton espace sécurisé MEDFLOW.</p>
     <form method="post">
       <input name="username" placeholder="admin ou email">
-      <input name="password" type="password" placeholder="Mot de passe">
+      <input name="password" type="password" placeholder="{{ tt("password") }}">
       <button>Se connecter</button>
     </form>
     <a class="register-link" href="{{ url_for('public_home') }}">Découvrir la plateforme</a>
