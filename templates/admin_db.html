@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% block content %}
+<div class="hero glass"><div><span class="eyebrow">Administration sécurisée</span><h1>Mini panneau Admin DB</h1><p>Voir, modifier ou supprimer les données SQLite depuis Render. Accès réservé admin.</p></div></div>
+<div class="panel glass">
+  <div class="db-tabs">{% for t in tables %}<a class="db-tab {% if t==table %}active{% endif %}" href="{{ url_for('admin_db', table=t) }}">{{ t }}</a>{% endfor %}</div>
+  <div class="table-scroll">
+    <table class="pro-table responsive-table">
+      <tr>{% for c in columns %}<th>{{ c }}</th>{% endfor %}<th>Actions</th></tr>
+      {% for r in rows %}
+      <tr>
+        {% for c in columns %}<td data-label="{{ c }}">{{ r|attr(c) }}</td>{% endfor %}
+        <td data-label="Actions"><div class="db-actions">
+          <a class="btn-link mini" href="{{ url_for('admin_db_edit', table=table, rid=r.id) }}">Modifier</a>
+          <form method="post" action="{{ url_for('admin_db_delete', table=table, rid=r.id) }}" onsubmit="return confirm('Supprimer cette ligne ?')"><button class="danger-btn mini">Supprimer</button></form>
+        </div></td>
+      </tr>
+      {% else %}<tr><td colspan="{{ columns|length + 1 }}">Aucune donnée.</td></tr>{% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

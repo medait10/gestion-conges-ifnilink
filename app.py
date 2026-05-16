@@ -847,6 +847,83 @@ def export_pdf():
     doc.build([title, Spacer(1,6), subtitle, Spacer(1,16), t])
     return send_file(path, as_attachment=True)
 
+
+# Mini panneau Admin SQLite
+ADMIN_DB_MODELS = {
+    "users": User,
+    "leave_requests": LeaveRequest,
+    "monthly_balances": MonthlyBalance,
+    "holidays": Holiday,
+}
+
+@app.route("/admin/db")
+@login_required
+@admin_required
+def admin_db():
+    tables = list(ADMIN_DB_MODELS.keys())
+    table = request.args.get("table", "leave_requests")
+    if table not in ADMIN_DB_MODELS:
+        table = "leave_requests"
+    model = ADMIN_DB_MODELS[table]
+    rows = model.query.order_by(model.id.desc()).limit(300).all()
+    columns = [c.name for c in model.__table__.columns]
+    return render_template("admin_db.html", tables=tables, table=table, rows=rows, columns=columns)
+
+@app.route("/admin/db/edit/<table>/<int:rid>", methods=["GET", "POST"])
+@login_required
+@admin_required
+def admin_db_edit(table, rid):
+    if table not in ADMIN_DB_MODELS:
+        abort(404)
+    model = ADMIN_DB_MODELS[table]
+    row = db.session.get(model, rid) or abort(404)
+    columns = [c for c in model.__table__.columns if c.name != "id"]
+    if request.method == "POST":
+        try:
+            for col in columns:
+                name = col.name
+                raw = request.form.get(name)
+                current = getattr(row, name)
+                if raw == "":
+                    value = None
+                elif isinstance(current, bool):
+                    value = raw in ["1", "true", "True", "on"]
+                elif hasattr(current, "year") and hasattr(current, "month") and hasattr(current, "day") and not hasattr(current, "hour"):
+                    value = datetime.strptime(raw, "%Y-%m-%d").date()
+                elif hasattr(current, "hour") and hasattr(current, "minute"):
+                    value = datetime.strptime(raw, "%Y-%m-%dT%H:%M")
+                elif isinstance(current, int):
+                    value = int(raw)
+                elif isinstance(current, float):
+                    value = float(raw)
+                else:
+                    value = raw
+                setattr(row, name, value)
+            db.session.commit()
+            flash("Ligne modifiée avec succès.", "success")
+            return redirect(url_for("admin_db", table=table))
+        except Exception as e:
+            db.session.rollback()
+            flash("Erreur modification : " + str(e), "danger")
+    return render_template("admin_db_edit.html", table=table, row=row, columns=columns)
+
+@app.route("/admin/db/delete/<table>/<int:rid>", methods=["POST"])
+@login_required
+@admin_required
+def admin_db_delete(table, rid):
+    if table not in ADMIN_DB_MODELS:
+        abort(404)
+    model = ADMIN_DB_MODELS[table]
+    row = db.session.get(model, rid) or abort(404)
+    try:
+        db.session.delete(row)
+        db.session.commit()
+        flash("Ligne supprimée.", "success")
+    except Exception as e:
+        db.session.rollback()
+        flash("Erreur suppression : " + str(e), "danger")
+    return redirect(url_for("admin_db", table=table))
+
 @app.errorhandler(403)
 def forbidden(e):
     return render_template("error.html", message="Accès refusé."), 403

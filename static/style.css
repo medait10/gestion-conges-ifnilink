@@ -135,3 +135,11 @@ body.light .secure-medical{background:rgba(22,163,74,.10)}
   .kpi b{font-size:32px}
   .sidebar{padding:16px}
 }
+
+/* V13 Admin DB */
+.db-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+.db-tab{padding:10px 14px;border-radius:14px;text-decoration:none;color:var(--txt);background:rgba(255,255,255,.06);border:1px solid var(--line);font-weight:800}
+.db-tab.active{background:linear-gradient(135deg,#2563eb,#7c3aed);color:white}
+.db-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.btn-link.mini,.danger-btn.mini{padding:8px 10px;font-size:12px;border-radius:12px}
+@media(max-width:760px){.db-actions{display:grid;grid-template-columns:1fr}.db-actions form{width:100%}.db-actions button,.db-actions a{text-align:center;width:100%}}

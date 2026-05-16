@@ -1,0 +1,24 @@
+{% extends "base.html" %}{% block content %}
+<div class="hero glass"><div><span class="eyebrow">Modification DB</span><h1>Modifier {{ table }} #{{ row.id }}</h1><p>Modification directe de la base.</p></div></div>
+<div class="panel glass">
+<form method="post" class="form-grid">
+{% for col in columns %}
+{% set value = row|attr(col.name) %}
+<label>{{ col.name }}
+{% if 'DATE' in col.type|string and 'DATETIME' not in col.type|string %}
+<input type="date" name="{{ col.name }}" value="{{ value }}">
+{% elif 'DATETIME' in col.type|string %}
+<input type="datetime-local" name="{{ col.name }}" value="{{ value.strftime('%Y-%m-%dT%H:%M') if value else '' }}">
+{% elif 'BOOLEAN' in col.type|string %}
+<select name="{{ col.name }}"><option value="1" {% if value %}selected{% endif %}>True</option><option value="0" {% if not value %}selected{% endif %}>False</option></select>
+{% elif 'TEXT' in col.type|string %}
+<textarea name="{{ col.name }}">{{ value or '' }}</textarea>
+{% else %}
+<input name="{{ col.name }}" value="{{ value or '' }}">
+{% endif %}
+</label>
+{% endfor %}
+<button>Enregistrer</button><a class="btn-link" href="{{ url_for('admin_db', table=table) }}">Retour</a>
+</form>
+</div>
+{% endblock %}

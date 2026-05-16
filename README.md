@@ -135,3 +135,8 @@ python app.py
 - Tableaux et listes responsive PC/tablette/smartphone.
 - Scroll horizontal sur PC si nécessaire.
 - Transformation des tableaux en cartes sur smartphone.
+
+
+## V13 Admin DB
+- Menu Admin DB pour voir/modifier/supprimer users, leave_requests, monthly_balances, holidays depuis Render.
+- Accès réservé admin.
