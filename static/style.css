@@ -1236,3 +1236,75 @@ select{
 @media(prefers-reduced-motion:reduce){
   .top-brand img,.anonymous-avatar,.mf-icon.top{animation:none!important}
 }
+
+
+/* MEDFLOW SaaS Ultimate V32 */
+:root{
+  --v32-bg:#070b18;
+  --v32-card:rgba(13,20,38,.82);
+  --v32-line:rgba(255,255,255,.10);
+  --v32-text:#eef5ff;
+  --v32-muted:#8ea0bd;
+  --v32-gradient:linear-gradient(135deg,#405de6,#833ab4,#e1306c,#fd1d1d,#fcb045);
+}
+body.dark{
+  background:
+    radial-gradient(circle at 14% 6%, rgba(225,48,108,.20), transparent 26%),
+    radial-gradient(circle at 90% 10%, rgba(64,93,230,.22), transparent 32%),
+    linear-gradient(180deg,#070b18,#090d19)!important;
+}
+body.light{
+  background:
+    radial-gradient(circle at 14% 6%, rgba(225,48,108,.10), transparent 26%),
+    radial-gradient(circle at 90% 10%, rgba(64,93,230,.12), transparent 32%),
+    #f8fafc!important;
+}
+.social-topbar{
+  height:70px!important;
+  border-bottom:1px solid rgba(255,255,255,.08)!important;
+}
+.social-layout{
+  gap:26px!important;
+}
+.left-rail{
+  border-inline-start:1px solid rgba(225,48,108,.10);
+}
+.rail-menu a{
+  min-height:56px;
+  font-size:15px;
+}
+.social-content{
+  padding-top:16px!important;
+}
+.panel,.glass,.hero,.mf-price-card,.mf-feature,.card,.kpi,.login-card{
+  backdrop-filter:blur(22px)!important;
+}
+.mf-page-head,.hero,.panel{
+  box-shadow:0 24px 80px rgba(0,0,0,.22)!important;
+}
+.pro-table{
+  border-collapse:separate!important;
+  border-spacing:0 6px!important;
+}
+.pro-table td{
+  border-top:1px solid rgba(255,255,255,.06)!important;
+  border-bottom:1px solid rgba(255,255,255,.06)!important;
+}
+.pro-table tr td:first-child{border-radius:14px 0 0 14px}
+.pro-table tr td:last-child{border-radius:0 14px 14px 0}
+.alert{
+  position:relative;
+  overflow:hidden;
+}
+.alert::before{
+  content:"";
+  position:absolute;
+  inset:0 auto 0 0;
+  width:5px;
+  background:var(--v32-gradient);
+}
+@media(max-width:860px){
+  .social-topbar{height:auto!important}
+  .social-layout{padding:10px!important}
+  .mf-page-head,.hero,.panel{border-radius:22px!important}
+}

@@ -309,3 +309,20 @@ FLASK_ENV=production
 - Style inspiré Instagram : gradient violet/rose/orange/bleu.
 - Icônes et animations premium.
 - Sélecteurs et scrollbars améliorés.
+
+# MEDFLOW SaaS Ultimate V32
+
+Version SaaS commercialisable basée sur V31 :
+- UI premium Instagram/Linear-inspired
+- Multilingue FR/EN/DE/ES/AR
+- RTL arabe
+- Responsive mobile/tablette/desktop
+- Stripe subscriptions monthly/yearly
+- Google OAuth Gmail/Calendar
+- Owner/admin sécurisé
+- Multi-users avec essai 7 jours
+- Backup/restore SQLite
+- Exports PDF/Excel
+- Calendrier Maroc Standard & Hijri
+- Dark/Light mode
+- Scrollbars et animations premium
