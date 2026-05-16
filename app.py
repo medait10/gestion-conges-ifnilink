@@ -837,8 +837,23 @@ def t35(key):
 
 def t35_text(text):
     if not text:
-            pass
         return text
+    try:
+        lang = get_lang()
+    except Exception:
+        lang = "fr"
+
+    if lang == "fr":
+        return text
+
+    try:
+        for k, v in V35_I18N["fr"].items():
+            if str(v).strip() == str(text).strip():
+                return V35_I18N.get(lang, {}).get(k, text)
+    except Exception:
+        pass
+
+    return text
     try:
         lang = get_lang()
     except Exception:
