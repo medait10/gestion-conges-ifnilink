@@ -161,6 +161,98 @@ SEED_APPROVED_REQUESTS = [
     ("annual","2026-05-25","2026-06-01",4,"Congé historique approuvé - 25/05/2026-01/06/2026"),
 ]
 
+
+LANGUAGES = {
+    "fr": "Français",
+    "en": "English",
+    "de": "Deutsch",
+    "es": "Español",
+    "ar": "العربية",
+}
+
+TRANSLATIONS = {
+    "fr": {
+        "dashboard": "Dashboard", "leave_request": "Demande congé", "history": "Historique",
+        "calendar": "Calendrier", "holidays": "Jours fériés", "profile": "Profil",
+        "subscription": "Abonnement", "guide": "Guide utilisateur", "admin_db": "Admin DB",
+        "backups": "Backups", "logout": "Déconnexion", "login": "Connexion",
+        "register": "Créer un compte", "language": "Langue", "mode": "Mode",
+        "public_home": "Accueil public", "pricing_title": "Abonnement MEDAIT-BOQAL",
+        "secure_payment": "Paiement sécurisé", "trial_7": "7 jours d’essai",
+        "welcome": "Bienvenue", "create_request": "Nouvelle demande de congé",
+        "year": "Année", "status": "Statut", "actions": "Actions",
+        "save": "Enregistrer", "cancel": "Annuler", "approve": "Approuver",
+        "refuse": "Refuser", "export_excel": "Export Excel", "export_pdf": "Export PDF",
+    },
+    "en": {
+        "dashboard": "Dashboard", "leave_request": "Leave request", "history": "History",
+        "calendar": "Calendar", "holidays": "Holidays", "profile": "Profile",
+        "subscription": "Subscription", "guide": "User guide", "admin_db": "Admin DB",
+        "backups": "Backups", "logout": "Logout", "login": "Login",
+        "register": "Create account", "language": "Language", "mode": "Mode",
+        "public_home": "Public home", "pricing_title": "MEDAIT-BOQAL Subscription",
+        "secure_payment": "Secure payment", "trial_7": "7-day trial",
+        "welcome": "Welcome", "create_request": "New leave request",
+        "year": "Year", "status": "Status", "actions": "Actions",
+        "save": "Save", "cancel": "Cancel", "approve": "Approve",
+        "refuse": "Reject", "export_excel": "Excel export", "export_pdf": "PDF export",
+    },
+    "de": {
+        "dashboard": "Dashboard", "leave_request": "Urlaubsantrag", "history": "Verlauf",
+        "calendar": "Kalender", "holidays": "Feiertage", "profile": "Profil",
+        "subscription": "Abonnement", "guide": "Benutzerhandbuch", "admin_db": "Admin DB",
+        "backups": "Backups", "logout": "Abmelden", "login": "Anmelden",
+        "register": "Konto erstellen", "language": "Sprache", "mode": "Modus",
+        "public_home": "Startseite", "pricing_title": "MEDAIT-BOQAL Abonnement",
+        "secure_payment": "Sichere Zahlung", "trial_7": "7 Tage Testphase",
+        "welcome": "Willkommen", "create_request": "Neuer Urlaubsantrag",
+        "year": "Jahr", "status": "Status", "actions": "Aktionen",
+        "save": "Speichern", "cancel": "Abbrechen", "approve": "Genehmigen",
+        "refuse": "Ablehnen", "export_excel": "Excel Export", "export_pdf": "PDF Export",
+    },
+    "es": {
+        "dashboard": "Panel", "leave_request": "Solicitud de permiso", "history": "Historial",
+        "calendar": "Calendario", "holidays": "Festivos", "profile": "Perfil",
+        "subscription": "Suscripción", "guide": "Guía de usuario", "admin_db": "Admin DB",
+        "backups": "Copias", "logout": "Cerrar sesión", "login": "Iniciar sesión",
+        "register": "Crear cuenta", "language": "Idioma", "mode": "Modo",
+        "public_home": "Inicio público", "pricing_title": "Suscripción MEDAIT-BOQAL",
+        "secure_payment": "Pago seguro", "trial_7": "Prueba de 7 días",
+        "welcome": "Bienvenido", "create_request": "Nueva solicitud de permiso",
+        "year": "Año", "status": "Estado", "actions": "Acciones",
+        "save": "Guardar", "cancel": "Cancelar", "approve": "Aprobar",
+        "refuse": "Rechazar", "export_excel": "Exportar Excel", "export_pdf": "Exportar PDF",
+    },
+    "ar": {
+        "dashboard": "لوحة التحكم", "leave_request": "طلب عطلة", "history": "السجل",
+        "calendar": "التقويم", "holidays": "العطل الرسمية", "profile": "الملف الشخصي",
+        "subscription": "الاشتراك", "guide": "دليل المستخدم", "admin_db": "إدارة قاعدة البيانات",
+        "backups": "النسخ الاحتياطي", "logout": "تسجيل الخروج", "login": "تسجيل الدخول",
+        "register": "إنشاء حساب", "language": "اللغة", "mode": "الوضع",
+        "public_home": "الصفحة الرئيسية", "pricing_title": "اشتراك MEDAIT-BOQAL",
+        "secure_payment": "دفع آمن", "trial_7": "تجربة 7 أيام",
+        "welcome": "مرحبا", "create_request": "طلب عطلة جديد",
+        "year": "السنة", "status": "الحالة", "actions": "الإجراءات",
+        "save": "حفظ", "cancel": "إلغاء", "approve": "موافقة",
+        "refuse": "رفض", "export_excel": "تصدير Excel", "export_pdf": "تصدير PDF",
+    }
+}
+
+def get_lang():
+    lang = session.get("lang", "fr")
+    return lang if lang in LANGUAGES else "fr"
+
+def t(key):
+    lang = get_lang()
+    return TRANSLATIONS.get(lang, TRANSLATIONS["fr"]).get(key, TRANSLATIONS["fr"].get(key, key))
+
+@app.route("/set_language/<lang>")
+def set_language(lang):
+    if lang in LANGUAGES:
+        session["lang"] = lang
+    return redirect(request.referrer or url_for("dashboard"))
+
+
 def current_user():
     uid = session.get("uid")
     return db.session.get(User, uid) if uid else None
@@ -393,6 +485,11 @@ def dashboard():
     years=list(range(2023, date.today().year + 2))
     return render_template("dashboard.html", rows=rows, year=year, years=years, pending=pending, approved=approved, refused=refused, total_taken=total_taken, end_balance=end_balance)
 
+
+
+@app.route("/home")
+def public_home():
+    return render_template("public_home.html")
 
 @app.route("/register", methods=["GET","POST"])
 def register():
@@ -1050,6 +1147,10 @@ def create_checkout_session():
             line_items=[{"price": os.getenv("STRIPE_PRICE_ID"), "quantity": 1}],
             customer_email=u.email,
             client_reference_id=str(u.id),
+            billing_address_collection="auto",
+            allow_promotion_codes=True,
+            metadata={"user_id": str(u.id), "app": "MEDAIT-BOQAL"},
+            subscription_data={"metadata": {"user_id": str(u.id), "app": "MEDAIT-BOQAL"}},
             success_url=domain + url_for("payment_success") + "?session_id={CHECKOUT_SESSION_ID}",
             cancel_url=domain + url_for("payment_cancel"),
         )
@@ -1058,9 +1159,48 @@ def create_checkout_session():
         flash("Erreur paiement : " + str(e), "danger")
         return redirect(url_for("pricing"))
 
+
+@app.route("/billing_portal", methods=["POST"])
+@login_required
+def billing_portal():
+    u = current_user()
+    if is_admin_user(u):
+        flash("Le compte owner n’a pas besoin d’espace facturation.", "info")
+        return redirect(url_for("dashboard"))
+    if not os.getenv("STRIPE_SECRET_KEY"):
+        flash("Stripe non configuré.", "danger")
+        return redirect(url_for("pricing"))
+    if not u.stripe_customer_id:
+        flash("Aucun client Stripe lié à ce compte. Lance d’abord un abonnement.", "warning")
+        return redirect(url_for("pricing"))
+    try:
+        domain = os.getenv("APP_BASE_URL", request.url_root.rstrip("/"))
+        session_portal = stripe.billing_portal.Session.create(
+            customer=u.stripe_customer_id,
+            return_url=domain + url_for("pricing"),
+        )
+        return redirect(session_portal.url, code=303)
+    except Exception as e:
+        flash("Erreur portail facturation : " + str(e), "danger")
+        return redirect(url_for("pricing"))
+
 @app.route("/payment_success")
 @login_required
 def payment_success():
+    session_id = request.args.get("session_id")
+    u = current_user()
+    try:
+        if session_id and os.getenv("STRIPE_SECRET_KEY"):
+            checkout_session = stripe.checkout.Session.retrieve(session_id)
+            if str(checkout_session.get("client_reference_id")) == str(u.id) and checkout_session.get("payment_status") in ["paid", "no_payment_required"]:
+                u.subscription_status = "active"
+                u.stripe_customer_id = checkout_session.get("customer")
+                u.stripe_subscription_id = checkout_session.get("subscription")
+                db.session.commit()
+                flash("Paiement confirmé. Abonnement activé.", "success")
+                return redirect(url_for("dashboard"))
+    except Exception:
+        pass
     flash("Paiement reçu. Ton abonnement sera activé après confirmation Stripe.", "success")
     return redirect(url_for("dashboard"))
 

@@ -3,13 +3,14 @@
   <div class="login-card glass">
     <img class="login-logo-img" src="{{ url_for('static', filename='logo.svg') }}" alt="MEDAIT-BOQAL">
     <h1>MEDAIT-BOQAL</h1>
-    <p class="hero-public-copy">Plateforme moderne de gestion RH, congés, calendriers Maroc, abonnements et exports professionnels.</p>
+    <p class="hero-public-copy">Connecte-toi à ton espace sécurisé MEDAIT-BOQAL.</p>
     <form method="post">
       <input name="username" placeholder="admin ou email">
       <input name="password" type="password" placeholder="Mot de passe">
       <button>Se connecter</button>
     </form>
-    <a class="register-link" href="{{ url_for('register') }}">Créer un compte</a>
+    <a class="register-link" href="{{ url_for('public_home') }}">Découvrir la plateforme</a>
+    <a class="register-link" href="{{ url_for('register') }}">{{ t("register") }}</a>
     <a class="google" href="{{url_for('google_login')}}">Connexion Google OAuth</a>
     <p class="muted">Accès réservé aux utilisateurs autorisés.</p>
   </div>

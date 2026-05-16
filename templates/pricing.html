@@ -1,43 +1,51 @@
 {% extends "base.html" %}{% block content %}
 <div class="hero glass">
   <div>
-    <span class="eyebrow">MEDAIT-BOQAL Subscription</span>
-    <h1>Choisis ton abonnement</h1>
-    <p>Les nouveaux utilisateurs bénéficient de 7 jours d’essai. Ensuite, un abonnement actif est requis pour utiliser le portail de gestion des congés.</p>
+    <span class="eyebrow">{{ t("secure_payment") }}</span>
+    <h1>{{ t("pricing_title") }}</h1>
+    <p>{{ t("trial_7") }} pour les nouveaux utilisateurs, puis abonnement via Stripe Checkout sécurisé.</p>
   </div>
+</div>
+
+<div class="trust-row">
+  <div class="trust-item glass">🔒 Checkout hébergé Stripe</div>
+  <div class="trust-item glass">💳 Carte non stockée sur notre serveur</div>
+  <div class="trust-item glass">🧾 Facturation via Stripe Billing</div>
+  <div class="trust-item glass">⚙️ Portail client sécurisé</div>
 </div>
 
 <div class="pricing-grid">
   <div class="price-card glass">
-    <span class="eyebrow">Admin</span>
-    <h2>Compte propriétaire</h2>
-    <div class="price">Accès complet</div>
-    <p>Réservé uniquement à {{ ADMIN_EMAIL }}.</p>
-    {% if is_admin_user(user) %}
-      <a class="btn-link" href="{{ url_for('dashboard') }}">Accéder au dashboard</a>
-    {% endif %}
+    <span class="eyebrow">Essai</span>
+    <h2>7 jours gratuits</h2>
+    <div class="price">0 MAD</div>
+    <p>Découvre l’application : demandes, calendrier, historique et exports.</p>
+    <a class="btn-link secondary" href="{{ url_for('dashboard') }}">Utiliser l’essai</a>
   </div>
 
   <div class="price-card glass featured">
-    <span class="eyebrow">Utilisateur</span><div class="trial-badge">Essai 7 jours inclus</div>
-    <h2>Abonnement mensuel</h2>
-    <div class="price">Paiement sécurisé</div>
-    <p>Accès aux demandes, historique, exports, calendrier et synchronisation Google.</p>
+    <span class="eyebrow">Pro</span>
+    <h2>Abonnement utilisateur</h2>
+    <div class="price">Stripe Checkout</div>
+    <p>Accès complet après la période d’essai. {{ t("secure_payment") }} via page hébergée Stripe.</p>
     {% if has_active_subscription(user) %}
-      <a class="btn-link" href="{{ url_for('dashboard') }}">Déjà actif</a>
+      <a class="btn-link" href="{{ url_for('dashboard') }}">Accès actif</a>
+      {% if user.stripe_customer_id %}
+      <form method="post" action="{{ url_for('billing_portal') }}"><button>Gérer facturation</button></form>
+      {% endif %}
     {% else %}
       <form method="post" action="{{ url_for('create_checkout_session') }}">
-        <button>💳 S’abonner maintenant</button>
+        <button>💳 Payer avec Stripe</button>
       </form>
     {% endif %}
   </div>
 
   <div class="price-card glass">
-    <span class="eyebrow">Entreprise</span>
-    <h2>Multi-utilisateurs</h2>
-    <div class="price">Sur demande</div>
-    <p>Gestion RH, exports, utilisateurs multiples, règles marocaines et tableaux avancés.</p>
-    <a class="btn-link" href="mailto:{{ ADMIN_EMAIL }}">Contacter</a>
+    <span class="eyebrow">Owner</span>
+    <h2>Administration</h2>
+    <div class="price">Privé</div>
+    <p>L’interface admin est réservée uniquement à l’owner.</p>
+    {% if is_admin_user(user) %}<a class="btn-link" href="{{ url_for('admin_db') }}">Admin DB</a>{% endif %}
   </div>
 </div>
 {% endblock %}

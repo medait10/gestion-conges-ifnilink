@@ -1,0 +1,28 @@
+{% extends "base.html" %}{% block content %}
+<div class="social-shell">
+  <section class="social-hero glass">
+    <div class="hero-copy">
+      <span class="eyebrow">MEDAIT-BOQAL SaaS</span>
+      <h1>Gère les congés comme une vraie plateforme moderne.</h1>
+      <p>Un espace simple, sécurisé et fluide pour demandes, validations, calendrier, paiements et exports RH.</p>
+      <div class="hero-actions">
+        <a class="btn-link" href="{{ url_for('register') }}">Créer un compte</a>
+        <a class="btn-link secondary" href="{{ url_for('login') }}">Se connecter</a>
+      </div>
+    </div>
+    <div class="phone-preview">
+      <div class="phone-card top">👤 Profil collaborateur</div>
+      <div class="phone-card">📅 Congé approuvé</div>
+      <div class="phone-card">💳 Abonnement sécurisé</div>
+      <div class="phone-card">📊 Export RH</div>
+    </div>
+  </section>
+
+  <section class="social-feed">
+    <div class="feed-card glass"><b>🔐 Paiement sécurisé</b><p>Checkout Stripe hébergé, aucune carte bancaire stockée dans MEDAIT-BOQAL.</p></div>
+    <div class="feed-card glass"><b>☁️ Google connecté</b><p>Chaque utilisateur peut envoyer ses emails via son propre compte Gmail autorisé.</p></div>
+    <div class="feed-card glass"><b>🌙 Maroc & Hijri</b><p>Calendrier standard et Hijri pour gérer les jours non calculables.</p></div>
+    <div class="feed-card glass"><b>📱 Responsive</b><p>Expérience propre sur PC, tablette et smartphone.</p></div>
+  </section>
+</div>
+{% endblock %}

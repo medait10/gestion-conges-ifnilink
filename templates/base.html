@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="{{ current_lang }}" dir="{{ 'rtl' if is_rtl else 'ltr' }}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -21,19 +21,20 @@
     <div><b>Espace sécurisé</b><small>Session active</small></div>
   </div>
   <nav>
-    <a href="{{url_for('dashboard')}}">🏠 Dashboard</a>
-    <a href="{{url_for('guide')}}">📘 Guide utilisateur</a>
-    <a href="{{url_for('pricing')}}">💳 Abonnement</a>
-    <a href="{{url_for('request_leave')}}">➕ Demande congé</a>
-    <a href="{{url_for('history')}}">🕘 Historique</a>
-    <a href="{{url_for('requests_list')}}">📋 Liste des demandes</a>
-    <a href="{{url_for('calendar_view')}}">📅 Calendrier</a>
-    <a href="{{url_for('holidays')}}">🌙 Jours fériés & Hijri</a>
-    <a href="{{url_for('profile')}}">👤 Profil</a>\n    {% if is_admin_user(user) %}<a href="{{url_for('admin_db')}}">🗄️ Admin DB</a><a href="{{url_for('admin_backups')}}">💾 Backups</a>{% endif %}
+    <a href="{{url_for('public_home')}}">🌐 {{ t("public_home") }}</a>
+    <a href="{{url_for('dashboard')}}">🏠 {{ t("dashboard") }}</a>
+    <a href="{{url_for('guide')}}">📘 {{ t("guide") }}</a>
+    <a href="{{url_for('pricing')}}">💳 {{ t("subscription") }}</a>
+    <a href="{{url_for('request_leave')}}">➕ {{ t("leave_request") }}</a>
+    <a href="{{url_for('history')}}">🕘 {{ t("history") }}</a>
+    <a href="{{url_for('requests_list')}}">📋 {{ t("leave_request") }}</a>
+    <a href="{{url_for('calendar_view')}}">📅 {{ t("calendar") }}</a>
+    <a href="{{url_for('holidays')}}">🌙 {{ t("holidays") }}</a>
+    <a href="{{url_for('profile')}}">👤 {{ t("profile") }}</a>\n    {% if is_admin_user(user) %}<a href="{{url_for('admin_db')}}">🗄️ {{ t("admin_db") }}</a><a href="{{url_for('admin_backups')}}">💾 {{ t("backups") }}</a>{% endif %}
     {% if is_admin_user(user) %}<a href="{{url_for('admin_change_password')}}">🔐 Changer mot de passe</a>{% endif %}
-    <a href="{{url_for('export_excel')}}">📗 Export Excel</a>
-    <a href="{{url_for('export_pdf')}}">📄 Export PDF</a>
-    <a href="{{url_for('logout')}}" class="logout">🚪 Déconnexion</a>
+    <a href="{{url_for('export_excel')}}">📗 {{ t("export_excel") }}</a>
+    <a href="{{url_for('export_pdf')}}">📄 {{ t("export_pdf") }}</a>
+    <a href="{{url_for('logout')}}" class="logout">🚪 {{ t("logout") }}</a>
   </nav>
 </aside>
 {% endif %}
@@ -42,8 +43,16 @@
   <div class="topbar">
     <div></div>
     <div class="sub-status {% if has_active_subscription(user) %}active{% else %}inactive{% endif %}">{% if is_admin_user(user) %}Admin{% elif user.subscription_status=="trial" and has_active_subscription(user) %}Essai {{ trial_days_left(user) }}j{% elif has_active_subscription(user) %}Abonné{% else %}Non abonné{% endif %}</div>
+    <div class="language-switch">
+      <span>{{ t("language") }}</span>
+      <select onchange="if(this.value) window.location.href=this.value">
+        {% for code, label in languages.items() %}
+        <option value="{{ url_for('set_language', lang=code) }}" {% if current_lang==code %}selected{% endif %}>{{ code.upper() }}</option>
+        {% endfor %}
+      </select>
+    </div>
     <form action="{{ url_for('toggle_theme') }}" method="get" class="theme-switch">
-      <span>Mode</span>
+      <span>{{ t("mode") }}</span>
       <select onchange="this.form.submit()">
         <option value="dark" {% if theme=="dark" %}selected{% endif %}>Dark</option>
         <option value="light" {% if theme=="light" %}selected{% endif %}>Light</option>

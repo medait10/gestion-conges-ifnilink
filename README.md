@@ -210,3 +210,26 @@ FLASK_ENV=production
 - Nouveaux utilisateurs : période d’essai gratuite de 7 jours.
 - Après expiration, abonnement requis.
 - Dashboard et exports filtrés par utilisateur.
+
+
+## V20 Secure Payment + Social Redesign
+- Paiement sécurisé via Stripe Checkout hébergé.
+- Billing portal Stripe pour gérer l’abonnement.
+- Checkout Session renforcée : metadata, customer_email, billing address auto, promotion codes.
+- Landing page moderne type SaaS/social app.
+- Pricing page plus rassurante.
+- Design responsive retravaillé.
+- Variables Render à configurer :
+  STRIPE_SECRET_KEY
+  STRIPE_PUBLISHABLE_KEY
+  STRIPE_PRICE_ID
+  STRIPE_WEBHOOK_SECRET
+  APP_BASE_URL
+
+
+## V21 Multi-language
+- Langues ajoutées : FR, EN, DE, ES, AR.
+- Sélecteur de langue dans le topbar.
+- Langue sauvegardée en session.
+- Support RTL pour arabe.
+- Dictionnaire simple dans app.py avec fonction `t(key)`.

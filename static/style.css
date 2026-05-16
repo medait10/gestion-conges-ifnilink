@@ -208,3 +208,68 @@ body.light .hero{background:linear-gradient(135deg,rgba(255,255,255,.92),rgba(23
 .trial-info b{color:var(--blue)}
 .trial-badge{display:inline-block;margin:8px 0;padding:8px 12px;border-radius:999px;background:rgba(34,197,94,.14);color:#bbf7d0;font-weight:900}
 body.light .trial-badge{color:#166534;background:rgba(34,197,94,.16)}
+
+
+/* V20 Secure payment + social-inspired redesign */
+:root{
+  --soft-card:rgba(255,255,255,.075);
+  --soft-line:rgba(255,255,255,.12);
+}
+body{background:
+ radial-gradient(circle at 12% 10%, rgba(56,189,248,.22), transparent 34%),
+ radial-gradient(circle at 92% 8%, rgba(139,92,246,.22), transparent 32%),
+ radial-gradient(circle at 50% 100%, rgba(34,197,94,.13), transparent 35%),
+ #07111f;}
+body.light{background:
+ radial-gradient(circle at 12% 10%, rgba(14,165,233,.18), transparent 34%),
+ radial-gradient(circle at 92% 8%, rgba(124,58,237,.14), transparent 32%),
+ #f8fafc;}
+.sidebar{box-shadow:0 0 0 1px var(--line), 0 24px 70px rgba(0,0,0,.22)}
+nav a{font-weight:850}
+nav a:hover{background:linear-gradient(135deg,rgba(56,189,248,.16),rgba(139,92,246,.12))}
+.social-shell{display:grid;gap:24px}
+.social-hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;border-radius:36px;padding:42px;min-height:460px}
+.hero-copy h1{font-size:58px;line-height:.98;margin:12px 0;background:linear-gradient(135deg,#e0f2fe,#a78bfa,#bbf7d0);-webkit-background-clip:text;color:transparent}
+body.light .hero-copy h1{background:linear-gradient(135deg,#0369a1,#7c3aed,#15803d);-webkit-background-clip:text;color:transparent}
+.hero-copy p{font-size:18px;line-height:1.8;color:var(--muted);max-width:720px}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.btn-link.secondary{background:rgba(255,255,255,.08);border:1px solid var(--line)}
+body.light .btn-link.secondary{background:#fff;color:#0f172a}
+.phone-preview{border-radius:38px;padding:20px;background:linear-gradient(145deg,rgba(2,6,23,.74),rgba(15,23,42,.54));border:1px solid var(--line);box-shadow:0 35px 90px rgba(0,0,0,.35)}
+.phone-card{padding:18px 20px;margin:14px 0;border-radius:22px;background:rgba(255,255,255,.08);border:1px solid var(--line);font-weight:900}
+.phone-card.top{background:linear-gradient(135deg,rgba(56,189,248,.24),rgba(139,92,246,.20))}
+.social-feed{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.feed-card{border-radius:26px;padding:22px}
+.feed-card p{color:var(--muted);line-height:1.65}
+.trust-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.trust-item{border-radius:20px;padding:16px;font-weight:900;text-align:center}
+.price-card{transition:transform .22s ease, box-shadow .22s ease}
+.price-card:hover,.feed-card:hover,.kpi:hover{transform:translateY(-4px)}
+.price-card.featured{box-shadow:0 30px 90px rgba(56,189,248,.18)}
+button{background:linear-gradient(135deg,#0ea5e9,#7c3aed);min-height:44px}
+@media(max-width:1100px){
+  .social-hero{grid-template-columns:1fr}
+  .hero-copy h1{font-size:42px}
+  .social-feed,.trust-row{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:680px){
+  .social-hero{padding:22px;border-radius:26px}
+  .hero-copy h1{font-size:34px}
+  .social-feed,.trust-row{grid-template-columns:1fr}
+  .hero-actions{display:grid}
+}
+
+
+/* V21 Multilanguage */
+.language-switch{display:flex;align-items:center;gap:10px;background:rgba(15,23,42,.55);border:1px solid var(--line);backdrop-filter:blur(14px);padding:8px 10px;border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.16)}
+.language-switch span{color:var(--muted);font-weight:800;font-size:13px}
+.language-switch select{padding:9px 12px;border-radius:14px}
+body.light .language-switch{background:rgba(255,255,255,.7)}
+html[dir="rtl"] body{font-family:Inter,Segoe UI,Tahoma,Arial,sans-serif}
+html[dir="rtl"] .layout{direction:rtl}
+html[dir="rtl"] .sidebar{border-radius:32px 0 0 32px}
+html[dir="rtl"] nav a:hover{transform:translateX(-4px)}
+html[dir="rtl"] .hero, html[dir="rtl"] table{text-align:right}
+html[dir="rtl"] .topbar{direction:ltr}
+html[dir="rtl"] .content{direction:rtl}
+@media(max-width:760px){.language-switch{width:100%;justify-content:space-between}.topbar{display:grid;gap:10px}}
