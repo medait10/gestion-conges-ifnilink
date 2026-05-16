@@ -1,38 +1,28 @@
 {% extends "base.html" %}{% block content %}
 <section class="mf-hero">
   <div class="mf-hero-card">
-    <div class="mf-badge">MEDFLOW V26 • Modern HR SaaS</div>
-    <h1>Professional leave management, beautifully simple.</h1>
-    <p>MEDFLOW centralizes leave requests, approvals, calendars, exports, subscriptions and Google integrations in one premium workspace.</p>
+    <div class="mf-badge">MEDFLOW V35</div>
+    <h1>{{ t35("home_title") }}</h1>
+    <p>{{ t35("home_subtitle") }}</p>
     <div class="mf-actions">
-      <a class="mf-primary" href="{{ url_for('register') }}">Start 7-day trial</a>
-      <a class="mf-secondary" href="{{ url_for('login') }}">Sign in</a>
-    </div>
-    <div class="mf-trust">
-      <span>🔐 Secure workspace</span>
-      <span>💳 Stripe Checkout</span>
-      <span>🌍 {{ tt("multi_language") }}</span>
+      <a class="mf-primary" href="{{ url_for('register') }}">{{ t35("start_trial") }}</a>
+      <a class="mf-secondary" href="{{ url_for('login') }}">{{ t35("sign_in") }}</a>
     </div>
   </div>
   <div class="mf-showcase">
     <div class="mf-window">
       <div class="mf-window-bar"><span></span><span></span><span></span></div>
-      <div class="mf-stat-row">
-        <div><small>Leave balance</small><b>18.5</b></div>
-        <div><small>Approved</small><b>12</b></div>
-      </div>
-      <div class="mf-list-item active">📅 Annual leave approved</div>
-      <div class="mf-list-item">🌙 Morocco Hijri calendar</div>
-      <div class="mf-list-item">📤 PDF / Excel export</div>
-      <div class="mf-list-item">☁️ Google Calendar Sync</div>
+      <div class="mf-list-item active">{{ t35("leave_balance") }}</div>
+      <div class="mf-list-item">{{ t35("google_calendar") }}</div>
+      <div class="mf-list-item">{{ t35("export_pdf") }} / {{ t35("export_excel") }}</div>
+      <div class="mf-list-item">{{ t35("secure_payment") }}</div>
     </div>
   </div>
 </section>
-
 <section class="mf-feature-grid">
-  <div class="mf-feature"><b>Smart leave workflow</b><p>Requests, approvals, refusals, cancellation and balance recalculation.</p></div>
-  <div class="mf-feature"><b>Morocco-ready</b><p>Standard and Hijri calendars, weekends and public holidays excluded.</p></div>
-  <div class="mf-feature"><b>User subscriptions</b><p>7-day trial, monthly or annual plans through Stripe Checkout.</p></div>
-  <div class="mf-feature"><b>Owner control</b><p>Admin area, backups, database panel and secure owner-only tools.</p></div>
+  <div class="mf-feature"><b>{{ t35("leave_request") }}</b><p>{{ t35("request_intro") }}</p></div>
+  <div class="mf-feature"><b>{{ t35("holidays") }}</b><p>{{ t35("holidays_subtitle") }}</p></div>
+  <div class="mf-feature"><b>{{ t35("subscription") }}</b><p>{{ t35("trial_7") }}</p></div>
+  <div class="mf-feature"><b>{{ t35("backups") }}</b><p>{{ t35("data_protection") }}</p></div>
 </section>
 {% endblock %}

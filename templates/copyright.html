@@ -1,13 +1,7 @@
 {% extends "base.html" %}{% block content %}
-<div class="hero glass">
-  <div>
-    <span class="eyebrow">Legal</span>
-    <h1>{{ tt("copyright_title") }}</h1>
-    <p data-i18n-auto>© MEDFLOW. Tous droits réservés.</p>
-  </div>
-</div>
-<div class="panel glass">
-  <p data-i18n-auto>Le nom, le logo, le design et le code de MEDFLOW sont protégés. Toute reproduction non autorisée est interdite.</p>
-  <p data-i18n-auto>Cette interface est inspirée des meilleures pratiques UX des grandes plateformes modernes, sans copier leurs marques, logos ou interfaces propriétaires.</p>
+<div class="mf-page-head">
+  <span class="mf-badge">MEDFLOW</span>
+  <h1>{{ t35("copyright_title") }}</h1>
+  <p>{{ t35("copyright_desc") }}</p>
 </div>
 {% endblock %}

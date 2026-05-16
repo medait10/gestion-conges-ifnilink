@@ -2,28 +2,16 @@
 <div class="login-shell">
   <div class="login-card glass">
     <img class="login-logo-img" src="{{ url_for('static', filename='logo.svg') }}" alt="MEDFLOW">
-    <h1>MEDFLOW</h1>
-    <p class="hero-public-copy">Connecte-toi à ton espace sécurisé MEDFLOW.</p>
+    <h1>{{ t35("login_title") }}</h1>
+    <p>{{ t35("login_subtitle") }}</p>
     <form method="post">
-      <input name="username" placeholder="admin ou email">
-      <input name="password" type="password" placeholder="{{ tt("password") }}">
-      <button>Se connecter</button>
+      <input name="username" placeholder="{{ t35('username') }}" required>
+      <input name="password" type="password" placeholder="{{ t35('password') }}" required>
+      <button>{{ t35("sign_in") }}</button>
     </form>
-    <a class="register-link" href="{{ url_for('public_home') }}">Découvrir la plateforme</a>
-    <a class="register-link" href="{{ url_for('register') }}">{{ t("register") }}</a>
-    <a class="google" href="{{url_for('google_login')}}">Connexion Google OAuth</a>
-    <p class="muted">Accès réservé aux utilisateurs autorisés.</p>
-  </div>
-  <div class="platform-features glass">
-    <h2>Une plateforme complète</h2>
-    <div class="feature-list">
-      <span>📅 Calendriers Standard & Hijri</span>
-      <span>💳 Abonnements utilisateurs</span>
-      <span>🔐 Admin sécurisé</span>
-      <span>📊 Exports PDF/Excel pro</span>
-      <span>📧 Gmail OAuth</span>
-      <span>☁️ Google Calendar Sync</span>
-    </div>
+    <a class="register-link" href="{{ url_for('public_home') }}">{{ t35("discover_platform") }}</a>
+    <a class="register-link" href="{{ url_for('register') }}">{{ t35("create_account") }}</a>
+    <a class="google" href="{{ url_for('google_login') }}">{{ t35("google_login") }}</a>
   </div>
 </div>
 {% endblock %}

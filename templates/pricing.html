@@ -1,45 +1,23 @@
 {% extends "base.html" %}{% block content %}
 <div class="mf-page-head">
-  <span class="mf-badge">{{ tt("secure_payment") }}</span>
-  <h1>{{ tt("pricing_title") }}</h1>
-  <p>{{ tt("trial_7") }} — Stripe Checkout</p>
+  <span class="mf-badge">{{ t35("secure_payment") }}</span>
+  <h1>{{ t35("pricing_title") }}</h1>
+  <p>{{ t35("trial_7") }} — Stripe Checkout</p>
 </div>
-
 <div class="mf-pricing">
-  <div class="mf-price-card">
-    <span>{{ tt("trial") }}</span>
-    <h2>{{ tt("trial_7") }}</h2>
-    <div class="mf-price">0 MAD</div>
-    <p>MEDFLOW</p>
-    <a class="mf-secondary full" href="{{ url_for('dashboard') }}">{{ tt("use_trial") }}</a>
+  <div class="mf-price-card"><span>{{ t35("trial") }}</span><h2>{{ t35("trial_7") }}</h2><div class="mf-price">0 MAD</div><a class="mf-secondary full" href="{{ url_for('dashboard') }}">{{ t35("use_trial") }}</a></div>
+  <div class="mf-price-card featured"><span>{{ t35("monthly") }}</span><h2>Pro</h2><div class="mf-price">29 MAD</div>
+    {% if has_active_subscription(user) %}<a class="mf-primary full" href="{{ url_for('dashboard') }}">{{ t35("active") }}</a>{% else %}
+    <form method="post" action="{{ url_for('create_checkout_session') }}"><input type="hidden" name="plan" value="monthly"><button class="mf-primary full">{{ t35("subscribe_monthly") }}</button></form>{% endif %}
   </div>
-
-  <div class="mf-price-card featured">
-    <span>{{ tt("monthly") }}</span>
-    <h2>Pro</h2>
-    <div class="mf-price">29 MAD</div>
-    {% if has_active_subscription(user) %}
-      <a class="mf-primary full" href="{{ url_for('dashboard') }}">{{ tt("active") }}</a>
-    {% else %}
-      <form method="post" action="{{ url_for('create_checkout_session') }}">
-        <input type="hidden" name="plan" value="monthly">
-        <button class="mf-primary full">{{ tt("subscribe_monthly") }}</button>
-      </form>
-    {% endif %}
-  </div>
-
-  <div class="mf-price-card">
-    <span>{{ tt("annual_plan") }}</span>
-    <h2>Pro</h2>
-    <div class="mf-price">299 MAD</div>
-    {% if has_active_subscription(user) and user.stripe_customer_id %}
-      <form method="post" action="{{ url_for('billing_portal') }}"><button class="mf-secondary full">{{ tt("manage_billing") }}</button></form>
-    {% else %}
-      <form method="post" action="{{ url_for('create_checkout_session') }}">
-        <input type="hidden" name="plan" value="annual">
-        <button class="mf-secondary full">{{ tt("subscribe_annually") }}</button>
-      </form>
-    {% endif %}
+  <div class="mf-price-card"><span>{{ t35("annual") }}</span><h2>Pro</h2><div class="mf-price">299 MAD</div>
+    {% if has_active_subscription(user) and user.stripe_customer_id %}<form method="post" action="{{ url_for('billing_portal') }}"><button class="mf-secondary full">{{ t35("manage_billing") }}</button></form>{% else %}
+    <form method="post" action="{{ url_for('create_checkout_session') }}"><input type="hidden" name="plan" value="annual"><button class="mf-secondary full">{{ t35("subscribe_annually") }}</button></form>{% endif %}
   </div>
 </div>
+<div class="panel glass"><h2>{{ t35("payment_setup") }}</h2><p>{{ t35("payment_setup_desc") }}</p><pre class="codebox">STRIPE_SECRET_KEY=
+STRIPE_MONTHLY_PRICE_ID=
+STRIPE_ANNUAL_PRICE_ID=
+STRIPE_WEBHOOK_SECRET=
+APP_BASE_URL=</pre></div>
 {% endblock %}

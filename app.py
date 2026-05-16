@@ -746,6 +746,118 @@ def tr_text(text):
         return text
     return I18N_TEXT_MAP.get(lang, {}).get(str(text).strip(), text)
 
+
+# -------------------------
+# MEDFLOW V35 FULL LANGUAGE PACK
+# -------------------------
+V35_I18N = {
+    "fr": {
+        "app_name":"MEDFLOW","public_home":"Accueil","home_title":"Gestion professionnelle des congés, simplement.","home_subtitle":"MEDFLOW centralise les congés, validations, calendriers, exports et abonnements dans un espace premium.",
+        "start_trial":"Commencer l’essai 7 jours","sign_in":"Se connecter","create_account":"Créer un compte","login_title":"Connexion sécurisée","login_subtitle":"Connecte-toi à ton espace sécurisé MEDFLOW.",
+        "username":"Nom utilisateur","password":"Mot de passe","google_login":"Connexion Google","discover_platform":"Découvrir la plateforme","already_registered":"Déjà inscrit ? Se connecter",
+        "register_title":"Créer un compte","register_subtitle":"Crée ton compte avec 7 jours d’essai gratuits. Tes données démarrent à zéro.","full_name":"Nom complet","email":"Email","company":"Entreprise","job_title":"Poste","hire_date":"Date d’embauche","confirm_password":"Confirmer mot de passe",
+        "dashboard":"Dashboard","guide":"Guide utilisateur","subscription":"Abonnement","leave_request":"Demande congé","history":"Historique","calendar":"Calendrier","holidays":"Jours fériés","profile":"Profil","admin_db":"Admin DB","backups":"Backups","profiling":"Profiling","export_excel":"Export Excel","export_pdf":"Export PDF","logout":"Déconnexion",
+        "language":"Langue","mode":"Mode","dark":"Dark","light":"Light","owner":"Owner","active":"Actif","inactive":"Inactif","trial":"Essai","workspace":"Workspace","version":"Version",
+        "about":"À propos","privacy":"Confidentialité","terms":"Conditions","copyright":"Droits d’auteur","about_title":"À propos de nous","about_desc":"MEDFLOW est une plateforme moderne pour gérer les congés, absences, calendriers et abonnements de manière simple et sécurisée.","our_mission":"Notre mission","mission_desc":"Offrir un outil clair, accessible et sécurisé pour les utilisateurs individuels, freelances et petites équipes.",
+        "privacy_title":"Politique de confidentialité","privacy_desc":"Les données sont utilisées uniquement pour gérer les congés, les utilisateurs, les abonnements et les intégrations Google autorisées.","terms_title":"Conditions d’utilisation","terms_desc":"L’utilisateur est responsable de l’exactitude des demandes saisies. MEDFLOW aide à gérer les congés mais ne remplace pas un conseil juridique officiel.","copyright_title":"Droits d’auteur","copyright_desc":"© MEDFLOW. Tous droits réservés. Le nom, le logo, le design et le code sont protégés.",
+        "pricing_title":"Abonnement MEDFLOW","secure_payment":"Paiement sécurisé","trial_7":"7 jours d’essai","monthly":"Mensuel","annual":"Annuel","use_trial":"Utiliser l’essai","subscribe_monthly":"S’abonner mensuellement","subscribe_annually":"S’abonner annuellement","manage_billing":"Gérer facturation","payment_setup":"Configuration paiement owner","payment_setup_desc":"Pour recevoir les paiements, crée deux prix Stripe puis ajoute les variables dans Render.",
+        "dashboard_title":"Tableau de bord","dashboard_subtitle":"Gestion congés secteur privé Maroc","monthly_summary":"Bilan mensuel","leave_balance":"Solde congé","approved_leaves":"Congés approuvés","pending_requests":"Demandes en attente","rejected_requests":"Demandes refusées","taken_leaves":"Congés pris","end_balance":"Solde fin",
+        "year":"Année","all":"Tous","month":"Mois","credit":"Crédit","extra":"Extra","taken":"Pris","period":"Période","balance":"Solde","status":"Statut","actions":"Actions","created_at":"Créée le","type":"Type","days":"Jours","comment":"Commentaire","decision":"Décision","source":"Source","date":"Date","name":"Nom",
+        "new_leave_request":"Nouvelle demande de congé","request_intro":"Choisis la période avec calendrier. Les week-ends et jours fériés ne sont pas comptés.","leave_type":"Type de congé","start_date":"Date début","end_date":"Date fin","recipient_email":"Email destinataire","email_message":"Message email personnalisé","send_email":"Envoyer email via Gmail API OAuth","create_request":"Créer la demande","authorized_days":"Jours autorisés occasion / loi","estimated_working_days":"Jours ouvrables estimés","deduct_from_balance":"À déduire du solde","medical_certificate":"Certificat médical sécurisé","latest_requests":"Dernières demandes","direct_tracking":"Suivi direct",
+        "requests_list":"Liste des demandes","requests_google":"Demandes & Google Calendar","sync_from_google":"Synchronisation depuis Google Calendar","sync_calendar":"Synchroniser avec calendrier","import_existing":"Import congés existants","from":"Depuis","to":"Jusqu’à","all_requests":"Toutes les demandes","google_calendar":"Google Calendar","synced":"Synchronisé","not_synced":"Non","cancel":"Annuler","cancel_reason":"Motif annulation",
+        "guide_title":"Guide utilisateur MEDFLOW","guide_subtitle":"Tout ce qu’il faut savoir pour utiliser l’application simplement et en sécurité.","section_login":"Connexion","section_leave":"Demande congé","section_occasions":"Occasions","section_sick":"Maladie","section_calendar":"Google Calendar","section_exports":"Exports","section_subscription":"Abonnement","section_security":"Sécurité","section_data":"Données séparées",
+        "profile_title":"Profil","google_status":"État Google","google_connected":"Google connecté","google_not_connected":"Google non connecté","connect_google":"Connecter Google","disconnect_google":"Déconnecter Google","save":"Enregistrer",
+        "holidays_title":"Calendriers Maroc : Standard & Hijri","holidays_subtitle":"Sélectionne le calendrier à synchroniser depuis Google Calendar.","standard":"Standard","hijri":"Hijri",
+        "backups_title":"Backups base de données","data_protection":"Protection des données","create_backup":"Créer un backup maintenant","backup_files":"Fichiers backup","upload_backup":"Uploader un backup","restore_secure":"Restore sécurisé","download":"Télécharger","restore":"Restaurer","delete":"Supprimer","edit":"Modifier","admin_only":"Admin uniquement","no_data":"Aucune donnée",
+        "approved":"Approuvé","pending":"En attente","refused":"Refusé","cancelled":"Annulé",
+        "annual":"Congé annuel payé","birth":"Naissance fils/fille","death_parent":"Décès parent / ascendant","death_spouse_child":"Décès conjoint / enfant","death_sibling_parent_inlaw":"Décès frère/sœur/beau-parent","marriage_self":"Mariage du salarié","marriage_child":"Mariage d’un enfant","circumcision":"Circoncision","operation_family":"Opération conjoint/enfant à charge","sick":"Repos maladie",
+        "january":"Janvier","february":"Février","march":"Mars","april":"Avril","may":"Mai","june":"Juin","july":"Juillet","august":"Août","september":"Septembre","october":"Octobre","november":"Novembre","december":"Décembre"
+    },
+    "en": {
+        "app_name":"MEDFLOW","public_home":"Home","home_title":"Professional leave management, beautifully simple.","home_subtitle":"MEDFLOW centralizes leave, approvals, calendars, exports and subscriptions in a premium workspace.",
+        "start_trial":"Start 7-day trial","sign_in":"Sign in","create_account":"Create account","login_title":"Secure login","login_subtitle":"Sign in to your secure MEDFLOW workspace.",
+        "username":"Username","password":"Password","google_login":"Google login","discover_platform":"Discover platform","already_registered":"Already registered? Sign in",
+        "register_title":"Create account","register_subtitle":"Create your account with 7 free trial days. Your data starts from zero.","full_name":"Full name","email":"Email","company":"Company","job_title":"Job title","hire_date":"Hire date","confirm_password":"Confirm password",
+        "dashboard":"Dashboard","guide":"User guide","subscription":"Subscription","leave_request":"Leave request","history":"History","calendar":"Calendar","holidays":"Holidays","profile":"Profile","admin_db":"Admin DB","backups":"Backups","profiling":"Profiling","export_excel":"Excel export","export_pdf":"PDF export","logout":"Logout",
+        "language":"Language","mode":"Mode","dark":"Dark","light":"Light","owner":"Owner","active":"Active","inactive":"Inactive","trial":"Trial","workspace":"Workspace","version":"Version",
+        "about":"About","privacy":"Privacy","terms":"Terms","copyright":"Copyright","about_title":"About us","about_desc":"MEDFLOW is a modern platform for managing leave, absences, calendars and subscriptions simply and securely.","our_mission":"Our mission","mission_desc":"Provide a clear, accessible and secure tool for individuals, freelancers and small teams.",
+        "privacy_title":"Privacy policy","privacy_desc":"Data is used only to manage leave, users, subscriptions and authorized Google integrations.","terms_title":"Terms of use","terms_desc":"The user is responsible for the accuracy of submitted requests. MEDFLOW helps manage leave but does not replace official legal advice.","copyright_title":"Copyright","copyright_desc":"© MEDFLOW. All rights reserved. The name, logo, design and code are protected.",
+        "pricing_title":"MEDFLOW subscription","secure_payment":"Secure payment","trial_7":"7-day trial","monthly":"Monthly","annual":"Annual","use_trial":"Use trial","subscribe_monthly":"Subscribe monthly","subscribe_annually":"Subscribe annually","manage_billing":"Manage billing","payment_setup":"Owner payment setup","payment_setup_desc":"To receive payments, create two Stripe prices then add the variables in Render.",
+        "dashboard_title":"Dashboard","dashboard_subtitle":"Morocco private sector leave management","monthly_summary":"Monthly summary","leave_balance":"Leave balance","approved_leaves":"Approved leaves","pending_requests":"Pending requests","rejected_requests":"Rejected requests","taken_leaves":"Taken leaves","end_balance":"End balance",
+        "year":"Year","all":"All","month":"Month","credit":"Credit","extra":"Extra","taken":"Taken","period":"Period","balance":"Balance","status":"Status","actions":"Actions","created_at":"Created at","type":"Type","days":"Days","comment":"Comment","decision":"Decision","source":"Source","date":"Date","name":"Name",
+        "new_leave_request":"New leave request","request_intro":"Choose the period with the calendar. Weekends and holidays are not counted.","leave_type":"Leave type","start_date":"Start date","end_date":"End date","recipient_email":"Recipient email","email_message":"Custom email message","send_email":"Send email via Gmail API OAuth","create_request":"Create request","authorized_days":"Authorized occasion / legal days","estimated_working_days":"Estimated working days","deduct_from_balance":"To deduct from balance","medical_certificate":"Secure medical certificate","latest_requests":"Latest requests","direct_tracking":"Direct tracking",
+        "requests_list":"Requests list","requests_google":"Requests & Google Calendar","sync_from_google":"Sync from Google Calendar","sync_calendar":"Sync with calendar","import_existing":"Import existing leaves","from":"From","to":"To","all_requests":"All requests","google_calendar":"Google Calendar","synced":"Synced","not_synced":"No","cancel":"Cancel","cancel_reason":"Cancellation reason",
+        "guide_title":"MEDFLOW user guide","guide_subtitle":"Everything you need to use the app simply and securely.","section_login":"Login","section_leave":"Leave request","section_occasions":"Occasions","section_sick":"Sickness","section_calendar":"Google Calendar","section_exports":"Exports","section_subscription":"Subscription","section_security":"Security","section_data":"Separated data",
+        "profile_title":"Profile","google_status":"Google status","google_connected":"Google connected","google_not_connected":"Google not connected","connect_google":"Connect Google","disconnect_google":"Disconnect Google","save":"Save",
+        "holidays_title":"Morocco calendars: Standard & Hijri","holidays_subtitle":"Select the calendar to synchronize from Google Calendar.","standard":"Standard","hijri":"Hijri",
+        "backups_title":"Database backups","data_protection":"Data protection","create_backup":"Create backup now","backup_files":"Backup files","upload_backup":"Upload backup","restore_secure":"Secure restore","download":"Download","restore":"Restore","delete":"Delete","edit":"Edit","admin_only":"Admin only","no_data":"No data",
+        "approved":"Approved","pending":"Pending","refused":"Rejected","cancelled":"Cancelled",
+        "annual":"Paid annual leave","birth":"Birth of child","death_parent":"Death of parent / ascendant","death_spouse_child":"Death of spouse / child","death_sibling_parent_inlaw":"Death of sibling / parent-in-law","marriage_self":"Employee marriage","marriage_child":"Child marriage","circumcision":"Circumcision","operation_family":"Spouse/dependent child operation","sick":"Sick leave",
+        "january":"January","february":"February","march":"March","april":"April","may":"May","june":"June","july":"July","august":"August","september":"September","october":"October","november":"November","december":"December"
+    }
+}
+# Generate ES/DE/AR by overriding important keys
+V35_I18N["de"] = dict(V35_I18N["en"], **{
+"public_home":"Startseite","home_title":"Professionelle Urlaubsverwaltung, schön einfach.","home_subtitle":"MEDFLOW zentralisiert Urlaub, Genehmigungen, Kalender, Exporte und Abonnements in einem Premium-Arbeitsbereich.",
+"start_trial":"7 Tage testen","sign_in":"Anmelden","create_account":"Konto erstellen","login_title":"Sichere Anmeldung","login_subtitle":"Melden Sie sich in Ihrem sicheren MEDFLOW-Bereich an.","username":"Benutzername","password":"Passwort","register_title":"Konto erstellen","full_name":"Vollständiger Name","company":"Unternehmen","job_title":"Position","hire_date":"Einstellungsdatum","confirm_password":"Passwort bestätigen",
+"guide":"Benutzerhandbuch","subscription":"Abonnement","leave_request":"Urlaubsantrag","history":"Verlauf","calendar":"Kalender","holidays":"Feiertage","profile":"Profil","logout":"Abmelden","language":"Sprache","active":"Aktiv","inactive":"Inaktiv","trial":"Test","about":"Über uns","privacy":"Datenschutz","terms":"Bedingungen","copyright":"Urheberrecht","about_title":"Über uns","our_mission":"Unsere Mission",
+"pricing_title":"MEDFLOW Abonnement","secure_payment":"Sichere Zahlung","trial_7":"7 Tage Testphase","monthly":"Monatlich","annual":"Jährlich","use_trial":"Testphase nutzen","subscribe_monthly":"Monatlich abonnieren","subscribe_annually":"Jährlich abonnieren","manage_billing":"Abrechnung verwalten",
+"dashboard_title":"Dashboard","dashboard_subtitle":"Urlaubsverwaltung Privatsektor Marokko","monthly_summary":"Monatsübersicht","leave_balance":"Urlaubssaldo","approved_leaves":"Genehmigte Urlaube","pending_requests":"Ausstehende Anträge","rejected_requests":"Abgelehnte Anträge","taken_leaves":"Genommene Urlaube","end_balance":"Endsaldo",
+"year":"Jahr","all":"Alle","month":"Monat","credit":"Guthaben","taken":"Genommen","period":"Zeitraum","balance":"Saldo","status":"Status","actions":"Aktionen","created_at":"Erstellt am","type":"Typ","days":"Tage","comment":"Kommentar","decision":"Entscheidung","date":"Datum","name":"Name",
+"new_leave_request":"Neuer Urlaubsantrag","request_intro":"Wählen Sie den Zeitraum im Kalender. Wochenenden und Feiertage werden nicht gezählt.","leave_type":"Urlaubsart","start_date":"Startdatum","end_date":"Enddatum","recipient_email":"Empfänger-E-Mail","email_message":"Individuelle E-Mail-Nachricht","create_request":"Antrag erstellen","estimated_working_days":"Geschätzte Arbeitstage","deduct_from_balance":"Vom Saldo abzuziehen","medical_certificate":"Sicheres ärztliches Attest","latest_requests":"Letzte Anträge",
+"requests_list":"Antragsliste","sync_from_google":"Synchronisierung aus Google Calendar","sync_calendar":"Mit Kalender synchronisieren","from":"Von","to":"Bis","all_requests":"Alle Anträge","synced":"Synchronisiert","cancel":"Stornieren","cancel_reason":"Stornierungsgrund",
+"profile_title":"Profil","google_status":"Google-Status","connect_google":"Google verbinden","save":"Speichern","backups_title":"Datenbank-Backups","create_backup":"Backup jetzt erstellen","backup_files":"Backup-Dateien","upload_backup":"Backup hochladen","download":"Herunterladen","restore":"Wiederherstellen","delete":"Löschen","edit":"Bearbeiten",
+"approved":"Genehmigt","pending":"Ausstehend","refused":"Abgelehnt","cancelled":"Storniert","annual":"Bezahlter Jahresurlaub","birth":"Geburt eines Kindes","sick":"Krankschreibung"
+})
+V35_I18N["es"] = dict(V35_I18N["en"], **{
+"public_home":"Inicio","home_title":"Gestión profesional de permisos, simple y elegante.","start_trial":"Prueba de 7 días","sign_in":"Iniciar sesión","create_account":"Crear cuenta","login_title":"Inicio seguro","username":"Usuario","password":"Contraseña","register_title":"Crear cuenta","full_name":"Nombre completo","company":"Empresa","job_title":"Puesto","hire_date":"Fecha de contratación","confirm_password":"Confirmar contraseña","guide":"Guía de usuario","subscription":"Suscripción","leave_request":"Solicitud de permiso","history":"Historial","calendar":"Calendario","holidays":"Festivos","profile":"Perfil","logout":"Cerrar sesión","language":"Idioma","active":"Activo","inactive":"Inactivo","trial":"Prueba","about":"Sobre nosotros","privacy":"Privacidad","terms":"Condiciones","copyright":"Derechos de autor","pricing_title":"Suscripción MEDFLOW","secure_payment":"Pago seguro","trial_7":"Prueba de 7 días","monthly":"Mensual","annual":"Anual","dashboard_title":"Panel","year":"Año","all":"Todos","month":"Mes","period":"Periodo","balance":"Saldo","status":"Estado","actions":"Acciones","new_leave_request":"Nueva solicitud de permiso","start_date":"Fecha inicio","end_date":"Fecha fin","recipient_email":"Email destinatario","create_request":"Crear solicitud","approved":"Aprobado","pending":"Pendiente","refused":"Rechazado","cancelled":"Cancelado","annual":"Vacaciones anuales pagadas","sick":"Baja médica"
+})
+V35_I18N["ar"] = dict(V35_I18N["en"], **{
+"public_home":"الرئيسية","home_title":"تدبير احترافي للعطل ببساطة وجمال.","home_subtitle":"MEDFLOW يجمع العطل والموافقات والتقويمات والتصدير والاشتراكات في مساحة عمل احترافية.","start_trial":"ابدأ تجربة 7 أيام","sign_in":"تسجيل الدخول","create_account":"إنشاء حساب","login_title":"تسجيل دخول آمن","login_subtitle":"سجّل الدخول إلى فضاء MEDFLOW الآمن.","username":"اسم المستخدم","password":"كلمة المرور","register_title":"إنشاء حساب","register_subtitle":"أنشئ حسابك مع 7 أيام تجربة مجانية. تبدأ بياناتك من الصفر.","full_name":"الاسم الكامل","email":"البريد الإلكتروني","company":"الشركة","job_title":"المنصب","hire_date":"تاريخ التوظيف","confirm_password":"تأكيد كلمة المرور",
+"dashboard":"لوحة التحكم","guide":"دليل المستخدم","subscription":"الاشتراك","leave_request":"طلب عطلة","history":"السجل","calendar":"التقويم","holidays":"العطل الرسمية","profile":"الملف الشخصي","logout":"تسجيل الخروج","language":"اللغة","mode":"الوضع","active":"نشط","inactive":"غير نشط","trial":"تجربة","workspace":"مساحة العمل",
+"about":"من نحن","privacy":"الخصوصية","terms":"الشروط","copyright":"حقوق النشر","about_title":"من نحن","about_desc":"MEDFLOW منصة حديثة لتدبير العطل والغيابات والتقويمات والاشتراكات بطريقة بسيطة وآمنة.","our_mission":"مهمتنا","mission_desc":"تقديم أداة واضحة وآمنة وسهلة الاستخدام للأفراد والمستقلين والفرق الصغيرة.",
+"privacy_title":"سياسة الخصوصية","terms_title":"شروط الاستخدام","copyright_title":"حقوق النشر","copyright_desc":"© MEDFLOW. جميع الحقوق محفوظة.",
+"pricing_title":"اشتراك MEDFLOW","secure_payment":"دفع آمن","trial_7":"تجربة 7 أيام","monthly":"شهري","annual":"سنوي","use_trial":"استخدم التجربة","subscribe_monthly":"اشترك شهرياً","subscribe_annually":"اشترك سنوياً","manage_billing":"إدارة الفوترة",
+"dashboard_title":"لوحة التحكم","dashboard_subtitle":"تدبير العطل للقطاع الخاص بالمغرب","monthly_summary":"الحصيلة الشهرية","leave_balance":"رصيد العطل","approved_leaves":"العطل الموافق عليها","pending_requests":"طلبات قيد الانتظار","rejected_requests":"طلبات مرفوضة","taken_leaves":"عطل مأخوذة","end_balance":"الرصيد النهائي",
+"year":"السنة","all":"الكل","month":"الشهر","credit":"الرصيد","extra":"إضافي","taken":"المأخوذ","period":"الفترة","balance":"الرصيد","status":"الحالة","actions":"الإجراءات","created_at":"تاريخ الإنشاء","type":"النوع","days":"الأيام","comment":"تعليق","decision":"القرار","source":"المصدر","date":"التاريخ","name":"الاسم",
+"new_leave_request":"طلب عطلة جديد","request_intro":"اختر الفترة عبر التقويم. لا يتم احتساب نهاية الأسبوع والعطل الرسمية.","leave_type":"نوع العطلة","start_date":"تاريخ البداية","end_date":"تاريخ النهاية","recipient_email":"بريد المستلم","email_message":"رسالة بريد مخصصة","send_email":"إرسال عبر Gmail API OAuth","create_request":"إنشاء الطلب","authorized_days":"الأيام المرخصة / القانونية","estimated_working_days":"أيام العمل المقدرة","deduct_from_balance":"سيتم خصمها من الرصيد","medical_certificate":"شهادة طبية آمنة","latest_requests":"آخر الطلبات","direct_tracking":"تتبع مباشر",
+"requests_list":"قائمة الطلبات","requests_google":"الطلبات و Google Calendar","sync_from_google":"مزامنة من Google Calendar","sync_calendar":"مزامنة مع التقويم","import_existing":"استيراد عطل موجودة","from":"من","to":"إلى","all_requests":"كل الطلبات","google_calendar":"تقويم Google","synced":"متزامن","not_synced":"لا","cancel":"إلغاء","cancel_reason":"سبب الإلغاء",
+"profile_title":"الملف الشخصي","google_status":"حالة Google","google_connected":"Google متصل","google_not_connected":"Google غير متصل","connect_google":"ربط Google","disconnect_google":"فصل Google","save":"حفظ","backups_title":"نسخ قاعدة البيانات","data_protection":"حماية البيانات","create_backup":"إنشاء نسخة الآن","backup_files":"ملفات النسخ الاحتياطي","upload_backup":"رفع نسخة احتياطية","restore_secure":"استعادة آمنة","download":"تحميل","restore":"استعادة","delete":"حذف","edit":"تعديل","admin_only":"للمدير فقط","no_data":"لا توجد بيانات",
+"approved":"موافق عليه","pending":"قيد الانتظار","refused":"مرفوض","cancelled":"ملغى","annual":"عطلة سنوية مدفوعة","birth":"ازدياد ابن/ابنة","death_parent":"وفاة أحد الوالدين / الأصول","death_spouse_child":"وفاة الزوج/الزوجة أو الابن","marriage_self":"زواج الموظف","marriage_child":"زواج ابن/ابنة","sick":"راحة مرضية"
+})
+
+def t35(key):
+    try:
+        lang = get_lang()
+    except Exception:
+        lang = "fr"
+    return V35_I18N.get(lang, V35_I18N["fr"]).get(key, key)
+
+def t35_text(text):
+    if not text:
+        return text
+    try:
+        lang = get_lang()
+    except Exception:
+        lang = "fr"
+    if lang == "fr":
+        return text
+    # reverse search by FR text then map to target
+    for k, v in V35_I18N["fr"].items():
+        if str(v).strip() == str(text).strip():
+            return V35_I18N.get(lang, {}).get(k, text)
+    return text
+
+def month_name_i18n_v35(m):
+    keys = ["january","february","march","april","may","june","july","august","september","october","november","december"]
+    return t35(keys[int(m)-1])
+
+def status_i18n_v35(s):
+    return t35(str(s or "").lower())
+
+def leave_label_i18n_v35(key):
+    return t35(str(key or "annual"))
+
 def current_user():
     uid = session.get("uid")
     return db.session.get(User, uid) if uid else None
@@ -2029,6 +2141,18 @@ try:
 except Exception:
     pass
 
+
+
+# V35 template globals
+try:
+    app.jinja_env.globals["t35"] = t35
+    app.jinja_env.globals["tt"] = t35
+    app.jinja_env.globals["tr_text"] = t35_text
+    app.jinja_env.globals["month_name_i18n"] = month_name_i18n_v35
+    app.jinja_env.globals["status_i18n"] = status_i18n_v35
+    app.jinja_env.globals["leave_label_i18n"] = leave_label_i18n_v35
+except Exception:
+    pass
 
 with app.app_context():
     seed_db()

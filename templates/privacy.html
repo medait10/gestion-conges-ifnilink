@@ -1,7 +1,7 @@
 {% extends "base.html" %}{% block content %}
-<div class="hero glass"><div><span class="eyebrow">Données</span><h1>{{ tt("privacy_title") }}</h1><p>MEDFLOW protège les données utilisateur.</p></div></div>
-<div class="panel glass">
-<p>Les données sont utilisées uniquement pour gérer les congés, les utilisateurs, les abonnements et les intégrations Google autorisées.</p>
-<p>Les tokens et mots de passe ne sont pas affichés dans l’interface admin. Les accès Google peuvent être retirés depuis le profil.</p>
+<div class="mf-page-head">
+  <span class="mf-badge">MEDFLOW</span>
+  <h1>{{ t35("privacy_title") }}</h1>
+  <p>{{ t35("privacy_desc") }}</p>
 </div>
 {% endblock %}

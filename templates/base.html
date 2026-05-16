@@ -29,7 +29,7 @@
 
     <div class="top-actions">
       <div class="language-switch">
-        <span>{{ tt("language") }}</span>
+        <span>{{ t35("language") }}</span>
         <select onchange="if(this.value) window.location.href=this.value">
           {% for code, label in languages.items() %}
           <option value="{{ url_for('set_language', lang=code) }}" {% if current_lang==code %}selected{% endif %}>{{ code.upper() }}</option>
@@ -41,7 +41,7 @@
         {% if is_admin_user(user) %}{{ tt("owner") }}{% elif user.subscription_status=="trial" and has_active_subscription(user) %}{{ tt("trial") }} {{ trial_days_left(user) }}d{% elif has_active_subscription(user) %}{{ tt("active") }}{% else %}{{ tt("inactive") }}{% endif %}
       </div>
       <form action="{{ url_for('toggle_theme') }}" method="get" class="theme-switch">
-        <span>{{ tt("mode") }}</span>
+        <span>{{ t35("mode") }}</span>
         <select onchange="this.form.submit()">
           <option value="dark" {% if theme=="dark" %}selected{% endif %}>Dark</option>
           <option value="light" {% if theme=="light" %}selected{% endif %}>Light</option>
@@ -62,27 +62,27 @@
         </div>
       </div>
       <nav class="rail-menu">
-        <a href="{{url_for('public_home')}}"><span class="mf-icon">⌂</span><span>{{ tt("home") }}</span></a>
-        <a href="{{url_for('dashboard')}}"><span class="mf-icon">⌂</span><span>{{ tt("dashboard") }}</span></a>
-        <a href="{{url_for('guide')}}"><span class="mf-icon">?</span><span>{{ tt("guide") }}</span></a>
-        <a href="{{url_for('pricing')}}"><span class="mf-icon">◆</span><span>{{ tt("subscription") }}</span></a>
-        <a href="{{url_for('request_leave')}}"><span class="mf-icon">+</span><span>{{ tt("leave_request") }}</span></a>
-        <a href="{{url_for('history')}}"><span class="mf-icon">◷</span><span>{{ tt("history") }}</span></a>
-        <a href="{{url_for('requests_list')}}"><span class="mf-icon">▤</span><span>{{ tt("leave_request") }}</span></a>
-        <a href="{{url_for('calendar_view')}}"><span class="mf-icon">□</span><span>{{ tt("calendar") }}</span></a>
-        <a href="{{url_for('holidays')}}"><span class="mf-icon">◐</span><span>{{ tt("holidays") }}</span></a>
-        <a href="{{url_for('profile')}}"><span class="mf-icon">◎</span><span>{{ tt("profile") }}</span></a>
+        <a href="{{url_for('public_home')}}"><span class="mf-icon">⌂</span><span>{{ t35("public_home") }}</span></a>
+        <a href="{{url_for('dashboard')}}"><span class="mf-icon">⌂</span><span>{{ t35("dashboard") }}</span></a>
+        <a href="{{url_for('guide')}}"><span class="mf-icon">?</span><span>{{ t35("guide") }}</span></a>
+        <a href="{{url_for('pricing')}}"><span class="mf-icon">◆</span><span>{{ t35("subscription") }}</span></a>
+        <a href="{{url_for('request_leave')}}"><span class="mf-icon">+</span><span>{{ t35("leave_request") }}</span></a>
+        <a href="{{url_for('history')}}"><span class="mf-icon">◷</span><span>{{ t35("history") }}</span></a>
+        <a href="{{url_for('requests_list')}}"><span class="mf-icon">▤</span><span>{{ t35("leave_request") }}</span></a>
+        <a href="{{url_for('calendar_view')}}"><span class="mf-icon">□</span><span>{{ t35("calendar") }}</span></a>
+        <a href="{{url_for('holidays')}}"><span class="mf-icon">◐</span><span>{{ t35("holidays") }}</span></a>
+        <a href="{{url_for('profile')}}"><span class="mf-icon">◎</span><span>{{ t35("profile") }}</span></a>
         {% if is_admin_user(user) %}
-        <a href="{{url_for('admin_db')}}"><span class="mf-icon">▦</span><span>{{ tt("admin_db") }}</span></a>
-        <a href="{{url_for('admin_backups')}}"><span class="mf-icon">⇩</span><span>{{ tt("backups") }}</span></a>
+        <a href="{{url_for('admin_db')}}"><span class="mf-icon">▦</span><span>{{ t35("admin_db") }}</span></a>
+        <a href="{{url_for('admin_backups')}}"><span class="mf-icon">⇩</span><span>{{ t35("backups") }}</span></a>
         <a href="{{url_for('admin_profiling')}}"><span class="mf-icon">↯</span><span>{{ tr_text("Profiling") }}</span></a>
-        <a href="{{url_for('admin_change_password')}}"><span class="mf-icon">◇</span><span>{{ tr_text("Sécurité") }}</span></a>
+        <a href="{{url_for('admin_change_password')}}"><span class="mf-icon">◇</span><span>{{ t35("security") if false else t35("profile") }}</span></a>
         {% endif %}
-        <a href="{{url_for('export_excel')}}"><span class="mf-icon">⇱</span><span>{{ tt("export_excel") }}</span></a>
-        <a href="{{url_for('export_pdf')}}"><span class="mf-icon">¶</span><span>{{ tt("export_pdf") }}</span></a>
+        <a href="{{url_for('export_excel')}}"><span class="mf-icon">⇱</span><span>{{ t35("export_excel") }}</span></a>
+        <a href="{{url_for('export_pdf')}}"><span class="mf-icon">¶</span><span>{{ t35("export_pdf") }}</span></a>
         <a href="{{url_for('about')}}"><span class="mf-icon">i</span><span>{{ tt("about") }}</span></a>
         <a href="{{url_for('copyright_page')}}"><span class="mf-icon">©</span><span>{{ tt("copyright") }}</span></a>
-        <a href="{{url_for('logout')}}" class="logout"><span class="mf-icon">↳</span><span>{{ tt("logout") }}</span></a>
+        <a href="{{url_for('logout')}}" class="logout"><span class="mf-icon">↳</span><span>{{ t35("logout") }}</span></a>
       </nav>
     </aside>
     {% endif %}

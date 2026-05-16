@@ -339,3 +339,10 @@ Version SaaS commercialisable basée sur V31 :
 - Correction `tr_text is undefined`.
 - Ajout global Jinja sécurisé.
 - Page error.html indépendante.
+
+
+## MEDFLOW V35 Full Language
+- Pages publiques remplacées en 100% i18n serveur.
+- Dictionnaire FR/EN/DE/ES/AR renforcé.
+- Fallback navigateur pour textes anciens restants.
+- Login/Register/About/Privacy/Terms/Copyright/Pricing/Home refaits en i18n.

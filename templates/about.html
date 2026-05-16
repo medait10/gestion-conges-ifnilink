@@ -1,20 +1,11 @@
 {% extends "base.html" %}{% block content %}
-<section class="mf-hero instagram-hero">
-  <div class="mf-hero-card">
-    <div class="mf-badge">MEDFLOW</div>
-    <h1>{{ tt("about_title") }}</h1>
-    <p>{{ tt("about_desc") }}</p>
-  </div>
-  <div class="mf-showcase">
-    <div class="mf-window ig-window">
-      <div class="mf-list-item active">{{ tt("leave_management") }}</div>
-      <div class="mf-list-item">{{ tt("privacy_first") }}</div>
-      <div class="mf-list-item">{{ tt("multi_language") }}</div>
-    </div>
-  </div>
-</section>
+<div class="mf-page-head">
+  <span class="mf-badge">MEDFLOW</span>
+  <h1>{{ t35("about_title") }}</h1>
+  <p>{{ t35("about_desc") }}</p>
+</div>
 <div class="panel glass">
-  <h2>{{ tt("our_mission") }}</h2>
-  <p>{{ tt("mission_desc") }}</p>
+  <h2>{{ t35("our_mission") }}</h2>
+  <p>{{ t35("mission_desc") }}</p>
 </div>
 {% endblock %}
