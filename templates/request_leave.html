@@ -1,0 +1,140 @@
+{% extends "base.html" %}{% block content %}
+<div class="hero glass">
+  <div><span class="eyebrow">Portail collaborateur</span><h1>Nouvelle demande de congé</h1><p>Choisis la période avec calendrier. Les week-ends et jours fériés ne sont pas comptés.</p></div>
+</div>
+<div class="panel glass">
+<form method="post" class="form-grid">
+<label>Type de congé
+<select name="leave_type" id="leave_type">
+  {% for k,v in leave_types.items() %}
+  <option value="{{k}}" data-default="{{v.default}}" data-deduct="{{1 if v.deduct else 0}}">{{v.label}}</option>
+  {% endfor %}
+</select>
+</label>
+<label>Date début<input type="date" name="start_date" id="start_date" required onclick="this.showPicker && this.showPicker()"></label>
+<label>Date fin<input type="date" name="end_date" id="end_date" required onclick="this.showPicker && this.showPicker()"></label>
+
+<div class="wide smart-box" id="exception_box">
+  <div>
+    <b>Jours autorisés occasion / CNSS / loi</b>
+    <p>Exemple : naissance fille 5 jours avec 3 jours offerts → 2 jours déduits. Mariage salarié : 2 jours offerts, le reste déduit.</p>
+  </div>
+  <label>Jours non déduits
+    <input type="number" step="0.5" min="0" name="exceptional_paid_days" id="exceptional_paid_days" value="0">
+  </label>
+</div>
+
+<div class="wide calc-preview">
+  <div><span>Jours ouvrables estimés</span><b id="preview_workdays">-</b></div>
+  <div><span>Jours non déduits</span><b id="preview_exceptional">0</b></div>
+  <div><span>À déduire du solde</span><b id="preview_deductible">-</b></div>
+</div>
+<label>Email destinataire<input name="recipient" type="email" placeholder="directeur@ifnilink.ma"></label>
+<label id="medical_note_box" class="secure-medical">Certificat médical sécurisé
+  <input name="medical_note" id="medical_note" placeholder="Référence certificat / médecin / observation">
+  <small>Visible uniquement pour Repos maladie. Ne mets pas d'information médicale sensible inutile.</small>
+</label>
+<label class="wide">Message<textarea name="message">Bonjour, merci de bien vouloir approuver ma demande de congé.</textarea></label>
+<label class="check"><input type="checkbox" name="send_email"> Envoyer email via Gmail API OAuth</label><p class="form-note wide">Si l’envoi email échoue, la demande ne sera pas enregistrée dans l’historique.</p>
+<button>Créer la demande</button>
+</form>
+</div>
+
+
+<div class="panel glass">
+  <div class="panel-head">
+    <h2>Liste des dernières demandes</h2>
+    <span class="chip">Suivi direct</span>
+  </div>
+  <form method="post" action="{{ url_for('sync_calendar_leaves') }}" class="sync-mini">
+    <input name="from_year" value="{{ user.hire_date.year if user else 2023 }}">
+    <input name="to_year" value="{{ user.hire_date.year + 3 if user else 2026 }}">
+    <button>🔄 Synchroniser avec calendrier</button>
+  </form>
+  <div class="requests-list">
+    {% for r in recent_requests %}
+    <div class="request-row">
+      <div>
+        <b>{{ leave_types[r.leave_type].label }}</b>
+        <p>{{ r.start_date.strftime('%d/%m/%Y') }} → {{ r.end_date.strftime('%d/%m/%Y') }} | {{ r.working_days }} j période | {{ r.deductible_days }} j déduits</p>
+      </div>
+      <span class="badge {{ r.status }}">{{ r.status }}</span>
+      {% if r.status in ["pending","approved"] and user.role=="admin" %}
+      <form method="post" action="{{ url_for('cancel_leave', rid=r.id) }}" class="mini-cancel">
+        <input name="comment" placeholder="Motif annulation">
+        <button class="danger-btn">Annuler</button>
+      </form>
+      {% endif %}
+    </div>
+    {% else %}
+    <p class="empty">Aucune demande trouvée.</p>
+    {% endfor %}
+  </div>
+</div>
+
+<script>
+const leaveType = document.getElementById("leave_type");
+const startDate = document.getElementById("start_date");
+const endDate = document.getElementById("end_date");
+const exBox = document.getElementById("exception_box");
+const exInput = document.getElementById("exceptional_paid_days");
+const pWork = document.getElementById("preview_workdays");
+const pEx = document.getElementById("preview_exceptional");
+const pDed = document.getElementById("preview_deductible");
+
+function businessDays(start, end){
+  if(!start || !end) return null;
+  const s = new Date(start + "T00:00:00");
+  const e = new Date(end + "T00:00:00");
+  if(s > e) return null;
+  let n = 0;
+  for(let d = new Date(s); d <= e; d.setDate(d.getDate()+1)){
+    const day = d.getDay();
+    if(day !== 0 && day !== 6) n++;
+  }
+  return n;
+}
+
+function refreshExceptional(){
+  const opt = leaveType.options[leaveType.selectedIndex];
+  const type = leaveType.value;
+  const isOccasion = !["annual","sick"].includes(type);
+  const medicalBox = document.getElementById("medical_note_box");
+  const medicalInput = document.getElementById("medical_note");
+
+  exBox.style.display = isOccasion ? "grid" : "none";
+
+  if(medicalBox){
+    medicalBox.style.display = type === "sick" ? "flex" : "none";
+    if(medicalInput) medicalInput.required = type === "sick";
+  }
+
+  if(isOccasion && (!exInput.dataset.touched || exInput.dataset.lastType !== type)){
+    exInput.value = opt.dataset.default || 0;
+    exInput.dataset.lastType = type;
+  }
+  if(!isOccasion) exInput.value = 0;
+  refreshPreview();
+}
+
+function refreshPreview(){
+  const wd = businessDays(startDate.value, endDate.value);
+  const ex = parseFloat(exInput.value || "0");
+  pWork.textContent = wd === null ? "-" : wd;
+  pEx.textContent = ex;
+  if(wd === null){
+    pDed.textContent = "-";
+  } else {
+    const type = leaveType.value;
+    const deduct = type === "annual" ? wd : (type === "sick" ? 0 : Math.max(0, wd - ex));
+    pDed.textContent = deduct;
+  }
+}
+
+[leaveType,startDate,endDate,exInput].forEach(el => el.addEventListener("input", refreshPreview));
+leaveType.addEventListener("change", refreshExceptional);
+exInput.addEventListener("input", () => exInput.dataset.touched = "1");
+refreshExceptional();
+</script>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}{% block content %}
+<div class="hero glass">
+  <div>
+    <span class="eyebrow">Demandes & Google Calendar</span>
+    <h1>Liste des demandes</h1>
+    <p>Cette page affiche toutes les demandes et peut importer les congés déjà présents dans Google Calendar.</p>
+  </div>
+  <form class="year-picker">
+    <label>Année</label>
+    <select name="year" onchange="this.form.submit()">
+      <option value="all" {% if year=='all' %}selected{% endif %}>Toutes</option>
+      {% for y in years %}<option value="{{y}}" {% if year|string==y|string %}selected{% endif %}>{{y}}</option>{% endfor %}
+    </select>
+  </form>
+</div>
+
+<div class="panel glass">
+  <div class="panel-head">
+    <h2>Synchronisation depuis Google Calendar</h2>
+    <span class="chip">Import congés existants</span>
+  </div>
+  <form method="post" action="{{ url_for('sync_calendar_leaves') }}" class="sync-form advanced-sync">
+    <label>Depuis
+      <input name="from_year" value="{{ year if year!='all' else years[-1] }}">
+    </label>
+    <label>Jusqu'à
+      <input name="to_year" value="{{ year if year!='all' else years[-1] }}">
+    </label>
+    <button>🔄 Synchroniser avec calendrier</button>
+  </form>
+  <p class="form-note">L’import cherche les événements contenant “Congé”. S’ils existent déjà dans la base, ils ne seront pas dupliqués.</p>
+</div>
+
+<div class="panel glass">
+  <div class="panel-head">
+    <h2>Toutes les demandes</h2>
+    <span class="chip">{{ rows|length }} demande(s)</span>
+  </div>
+  <div class="table-scroll">
+    <table class="pro-table responsive-table">
+      <tr>
+        <th>Créée le</th><th>Type</th><th>Période</th><th>Jours</th><th>Non déduits</th><th>Déduits</th><th>Statut</th><th>Google Calendar</th><th>Action</th>
+      </tr>
+      {% for r in rows %}
+      <tr>
+        <td data-label="Créée le">{{ r.created_at.strftime('%d/%m/%Y') }}</td>
+        <td data-label="Type"><b>{{ leave_types[r.leave_type].label }}</b></td>
+        <td data-label="Période">{{ r.start_date.strftime('%d/%m/%Y') }} → {{ r.end_date.strftime('%d/%m/%Y') }}</td>
+        <td data-label="Jours">{{ r.working_days }}</td>
+        <td data-label="Non déduits">{{ r.exceptional_paid_days }}</td>
+        <td data-label="Déduits"><span class="balance">{{ r.deductible_days }}</span></td>
+        <td data-label="Statut"><span class="badge {{ r.status }}">{{ r.status }}</span></td>
+        <td data-label="Google Calendar">{% if r.calendar_event_id %}<span class="badge approved">Synchronisé</span>{% else %}<span class="badge pending">Non</span>{% endif %}</td>
+        <td data-label="Action">
+          {% if r.status in ["pending","approved"] and user.role=="admin" %}
+          <form method="post" action="{{ url_for('cancel_leave', rid=r.id) }}" class="mini-cancel">
+            <input name="comment" placeholder="Motif annulation">
+            <button class="danger-btn">Annuler</button>
+          </form>
+          {% else %}-{% endif %}
+        </td>
+      </tr>
+      {% else %}
+      <tr><td colspan="9">Aucune demande.</td></tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

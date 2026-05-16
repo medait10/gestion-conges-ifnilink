@@ -1,0 +1,30 @@
+{% extends "base.html" %}{% block content %}
+<div class="hero glass">
+  <div>
+    <span class="eyebrow">Calendrier grégorien + Hijri</span>
+    <h1>Calendrier {{year}}</h1>
+    <p>Les jours approuvés affichent X. Les jours fériés Maroc/Hijri sont marqués en orange.</p>
+  </div>
+  <form class="year-picker"><label>Année</label><select name="year" onchange="this.form.submit()">{% for y in years %}<option {% if y==year %}selected{% endif %}>{{y}}</option>{% endfor %}</select></form>
+</div>
+<div class="calendar-wall">
+{% for m in range(1,13) %}
+<section class="month-card glass">
+  <h3>{{months_fr[m-1]}}</h3>
+  <div class="calgrid">
+    {% for wd in ['L','M','M','J','V','S','D'] %}<b>{{wd}}</b>{% endfor %}
+    {% set first=date(year,m,1) %}
+    {% for _ in range(first.weekday()) %}<span class="blank"></span>{% endfor %}
+    {% for d in range(1, calendar.monthrange(year,m)[1]+1) %}
+      {% set dt=date(year,m,d) %}
+      <span title="{{ hijri_date(dt) }}{% if dt in hols %} - {{hols[dt]}}{% endif %}" class="day {% if dt in xdays %}xday{% endif %} {% if dt in hols %}holiday{% endif %}">
+        <em>{{d}}</em>
+        <small>{{ hijri_date(dt).split(' ')[0] }}</small>
+        {% if dt in xdays %}<strong>X</strong>{% endif %}
+      </span>
+    {% endfor %}
+  </div>
+</section>
+{% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}{% block content %}
+<div class="hero glass">
+  <div>
+    <span class="eyebrow">Google Calendar Sync</span>
+    <h1>Calendriers Maroc : Standard & Hijri</h1>
+    <p>Sélectionne le calendrier à synchroniser depuis Google Calendar : jours fériés standards ou événements Hijri.</p>
+  </div>
+  <form class="year-picker">
+    <label>Année</label>
+    <select name="year" onchange="this.form.submit()">
+      {% for y in years %}<option value="{{y}}" {% if y==year %}selected{% endif %}>{{y}}</option>{% endfor %}
+    </select>
+    <label>Vue</label>
+    <select name="calendar_type" onchange="this.form.submit()">
+      <option value="all" {% if calendar_type=="all" %}selected{% endif %}>Tous</option>
+      <option value="standard" {% if calendar_type=="standard" %}selected{% endif %}>Standard</option>
+      <option value="hijri" {% if calendar_type=="hijri" %}selected{% endif %}>Hijri</option>
+    </select>
+  </form>
+</div>
+
+<div class="panel glass">
+  <div class="panel-head">
+    <h2>Synchronisation Google</h2>
+    <span class="chip">Standard / Hijri</span>
+  </div>
+
+  <form method="post" action="{{url_for('sync_holidays')}}" class="sync-form advanced-sync">
+    <label>Depuis
+      <input name="from_year" value="{{year}}">
+    </label>
+    <label>Jusqu'à
+      <input name="to_year" value="{{year}}">
+    </label>
+    <label>Calendrier Google
+      <select name="calendar_type">
+        <option value="standard">Standard Maroc</option>
+        <option value="hijri">Hijri Maroc</option>
+      </select>
+    </label>
+    <button>Synchroniser</button>
+  </form>
+
+  <p class="form-note">
+    Standard utilise <b>GOOGLE_HOLIDAY_CALENDAR_ID</b>. Hijri utilise <b>GOOGLE_HIJRI_CALENDAR_ID</b> dans le fichier <b>.env</b>.
+  </p>
+
+  <table class="pro-table">
+    <tr><th>Date</th><th>Hijri approximatif</th><th>Nom</th><th>Source</th><th>Type</th></tr>
+    {% for h in rows %}
+    <tr>
+      <td>{{h.day.strftime('%d/%m/%Y')}}</td>
+      <td>{{hijri_date(h.day)}}</td>
+      <td><b>{{h.name}}</b></td>
+      <td>{{h.source}}</td>
+      <td>{% if h.hijri %}<span class="badge approved">Hijri</span>{% else %}<span class="badge pending">Standard</span>{% endif %}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5">Aucun jour trouvé pour cette sélection. Lance la synchronisation Google Calendar.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

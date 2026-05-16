@@ -1,0 +1,14 @@
+{% extends "base.html" %}{% block content %}
+<div class="hero glass">
+  <div>
+    <span class="eyebrow">Gestion d'erreur</span>
+    <h1>Une erreur est survenue</h1>
+    <p>Le site a protégé les données et annulé l’opération si nécessaire.</p>
+  </div>
+</div>
+<div class="panel glass error-panel">
+  <h2>Détail</h2>
+  <p>{{message}}</p>
+  <a class="btn-link" href="{{url_for('dashboard')}}">Retour au dashboard</a>
+</div>
+{% endblock %}

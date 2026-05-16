@@ -1,0 +1,70 @@
+{% extends "base.html" %}{% block content %}
+<div class="hero glass">
+  <div>
+    <span class="eyebrow">Gestion congés secteur privé Maroc</span>
+    <h1>Dashboard RH IFNILINK</h1>
+    <p>Suivi annuel, ancienneté, jours fériés Maroc, Hijri, approbation/refus et export.</p>
+  </div>
+  <form class="year-picker">
+    <label>Année</label>
+    <select name="year" onchange="this.form.submit()">
+      {% for y in years %}<option value="{{y}}" {% if y==year %}selected{% endif %}>{{y}}</option>{% endfor %}
+    </select>
+  </form>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi glass"><span>Solde fin {{year}}</span><b>{{ end_balance }}</b><small>jours</small></div>
+  <div class="kpi glass"><span>Congés pris {{year}}</span><b>{{ total_taken }}</b><small>jours ouvrables</small></div>
+  <div class="kpi glass"><span>Demandes en attente</span><b>{{ pending|length }}</b><small>à décider</small></div>
+  <div class="kpi glass"><span>Demandes refusées</span><b>{{ refused }}</b><small>historique global</small></div>
+</div>
+
+<div class="panel glass">
+  <div class="panel-head"><h2>Bilan mensuel {{year}}</h2><span class="chip">18 j/an + ancienneté automatique</span></div>
+  <table class="pro-table">
+    <tr><th>Mois</th><th>Crédit</th><th>Extra</th><th>Pris</th><th>Période</th><th>Solde</th></tr>
+    {% for r in rows %}
+    <tr>
+      <td><b>{{months_fr[r.month-1]}}</b></td><td>{{r.credit}}</td><td>{{r.extra}}</td><td>{{r.taken}}</td><td>{{r.period}}</td><td><span class="balance">{{r.balance}}</span></td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+<div class="two-col">
+  <div class="panel glass">
+    <div class="panel-head"><h2>Demandes à approuver</h2><span class="chip amber">{{pending|length}} attente</span></div>
+    {% for r in pending %}
+    <div class="request-card">
+      <div><b>{{leave_types[r.leave_type].label}}</b><p>{{r.start_date.strftime('%d/%m/%Y')}} → {{r.end_date.strftime('%d/%m/%Y')}} | {{r.working_days}} j période | {{r.deductible_days}} j déduits</p></div>
+      <form method="post" action="{{url_for('approve',rid=r.id)}}" class="inline-actions">
+        <input name="comment" placeholder="Commentaire approbation">
+        <label class="check"><input type="checkbox" name="calendar" checked> Google Calendar</label>
+        <button>Approuver</button>
+      </form>
+      <form method="post" action="{{url_for('refuse',rid=r.id)}}" class="inline-actions">
+        <input name="comment" placeholder="Motif refus">
+        <button class="danger-btn">Refuser</button>
+      </form>
+      <form method="post" action="{{url_for('cancel_leave',rid=r.id)}}" class="inline-actions">
+        <input name="comment" placeholder="Annulation urgence">
+        <button class="danger-btn">Annuler</button>
+      </form>
+    </div>
+    {% else %}<p class="empty">Aucune demande en attente.</p>{% endfor %}
+  </div>
+
+  <div class="panel glass">
+    <div class="panel-head"><h2>Derniers congés approuvés</h2><span class="chip green">Historique</span></div>
+    {% for r in approved %}
+    <div class="timeline">
+      <div class="dot"></div>
+      <div><b>{{leave_types[r.leave_type].label}}</b><p>{{r.start_date.strftime('%d/%m/%Y')}} → {{r.end_date.strftime('%d/%m/%Y')}} — {{r.working_days}} j période / {{r.deductible_days}} j déduits</p>
+      <form method="post" action="{{url_for('cancel_leave',rid=r.id)}}" class="mini-cancel"><input name="comment" placeholder="Motif annulation"><button class="danger-btn">Annuler</button></form>
+      </div>
+    </div>
+    {% else %}<p class="empty">Aucun congé approuvé.</p>{% endfor %}
+  </div>
+</div>
+{% endblock %}

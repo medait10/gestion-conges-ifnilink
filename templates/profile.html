@@ -1,0 +1,2 @@
+{% extends "base.html" %}{% block content %}<h1>Profil</h1><form method="post" class="form-grid">
+<label>Nom complet<input name="full_name" value="{{user.full_name}}"></label><label>Entreprise<input name="company" value="{{user.company}}"></label><label>Poste<input name="job_title" value="{{user.job_title}}"></label><label>Date embauche<input type="date" name="hire_date" value="{{user.hire_date}}"></label><button>Enregistrer</button></form>{% endblock %}
