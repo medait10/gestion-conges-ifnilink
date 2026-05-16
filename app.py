@@ -838,6 +838,7 @@ def t35(key):
 def t35_text(text):
     if not text:
         return text
+
     try:
         lang = get_lang()
     except Exception:
@@ -853,19 +854,6 @@ def t35_text(text):
     except Exception:
         pass
 
-    return text
-    try:
-        lang = get_lang()
-    except Exception:
-        lang = "fr"
-    if lang == "fr":
-            pass
-        return text
-    # reverse search by FR text then map to target
-    for k, v in V35_I18N["fr"].items():
-        if str(v).strip() == str(text).strip():
-                pass
-            return V35_I18N.get(lang, {}).get(k, text)
     return text
 
 def month_name_i18n_v35(m):
