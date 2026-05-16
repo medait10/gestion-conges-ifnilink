@@ -75,7 +75,8 @@
         {% if is_admin_user(user) %}
         <a href="{{url_for('admin_db')}}"><span class="mf-icon">▦</span><span>{{ tt("admin_db") }}</span></a>
         <a href="{{url_for('admin_backups')}}"><span class="mf-icon">⇩</span><span>{{ tt("backups") }}</span></a>
-        <a href="{{url_for('admin_change_password')}}"><span class="mf-icon">◇</span><span>Security</span></a>
+        <a href="{{url_for('admin_profiling')}}"><span class="mf-icon">↯</span><span>{{ tr_text("Profiling") }}</span></a>
+        <a href="{{url_for('admin_change_password')}}"><span class="mf-icon">◇</span><span>{{ tr_text("Sécurité") }}</span></a>
         {% endif %}
         <a href="{{url_for('export_excel')}}"><span class="mf-icon">⇱</span><span>{{ tt("export_excel") }}</span></a>
         <a href="{{url_for('export_pdf')}}"><span class="mf-icon">¶</span><span>{{ tt("export_pdf") }}</span></a>

@@ -1,27 +1,36 @@
 
-const MEDFLOW_EXTRA = {"en": {"Congé annuel payé": "Paid annual leave", "Naissance fils/fille": "Birth of child", "Décès parent / ascendant": "Death of parent / ascendant", "Décès conjoint / enfant": "Death of spouse / child", "Décès frère/sœur/beau-parent": "Death of sibling / parent-in-law", "Mariage du salarié": "Employee marriage", "Mariage d'un enfant": "Child marriage", "Circoncision": "Circumcision", "Opération conjoint/enfant à charge": "Spouse/dependent child operation", "Repos maladie": "Sick leave", "Bonjour, merci de bien vouloir approuver ma demande de congé.": "Hello, please approve my leave request.", "directeur@ifnilink.ma": "manager@example.com"}, "de": {"Congé annuel payé": "Bezahlter Jahresurlaub", "Naissance fils/fille": "Geburt eines Kindes", "Décès parent / ascendant": "Tod Elternteil / Vorfahr", "Décès conjoint / enfant": "Tod Ehepartner / Kind", "Décès frère/sœur/beau-parent": "Tod Geschwister / Schwiegereltern", "Mariage du salarié": "Heirat des Mitarbeiters", "Mariage d'un enfant": "Heirat eines Kindes", "Circoncision": "Beschneidung", "Opération conjoint/enfant à charge": "Operation Ehepartner/Kind", "Repos maladie": "Krankschreibung", "Bonjour, merci de bien vouloir approuver ma demande de congé.": "Hallo, bitte genehmigen Sie meinen Urlaubsantrag.", "directeur@ifnilink.ma": "manager@example.com"}, "es": {"Congé annuel payé": "Vacaciones anuales pagadas", "Naissance fils/fille": "Nacimiento de hijo/a", "Décès parent / ascendant": "Fallecimiento padre/madre/ascendiente", "Décès conjoint / enfant": "Fallecimiento cónyuge / hijo", "Décès frère/sœur/beau-parent": "Fallecimiento hermano/a / suegro/a", "Mariage du salarié": "Matrimonio del empleado", "Mariage d'un enfant": "Matrimonio de un hijo", "Circoncision": "Circuncisión", "Opération conjoint/enfant à charge": "Operación cónyuge/hijo a cargo", "Repos maladie": "Baja médica", "Bonjour, merci de bien vouloir approuver ma demande de congé.": "Hola, por favor apruebe mi solicitud de permiso.", "directeur@ifnilink.ma": "manager@example.com"}, "ar": {"Congé annuel payé": "عطلة سنوية مدفوعة", "Naissance fils/fille": "ازدياد ابن/ابنة", "Décès parent / ascendant": "وفاة أحد الوالدين / الأصول", "Décès conjoint / enfant": "وفاة الزوج/الزوجة أو الابن", "Décès frère/sœur/beau-parent": "وفاة أخ/أخت أو أحد الأصهار", "Mariage du salarié": "زواج الموظف", "Mariage d'un enfant": "زواج ابن/ابنة", "Circoncision": "الختان", "Opération conjoint/enfant à charge": "عملية للزوج/الطفل المكفول", "Repos maladie": "راحة مرضية", "Bonjour, merci de bien vouloir approuver ma demande de congé.": "مرحبا، المرجو الموافقة على طلب العطلة الخاص بي.", "directeur@ifnilink.ma": "manager@example.com"}};
+const V33_TEXT_MAP = {"en": {"Gestion congés secteur privé Maroc": "Morocco private sector leave management", "Suivi annuel, ancienneté, jours fériés Maroc, Hijri, approbation/refus et export.": "Annual tracking, seniority, Morocco holidays, Hijri, approval/rejection and export.", "Bilan mensuel": "Monthly summary", "Mini panneau Admin DB": "Mini Admin DB panel", "Centre d’aide": "Help center", "Nouvelle demande de congé": "New leave request", "Choisis la période avec calendrier. Les week-ends et jours fériés ne sont pas comptés.": "Choose the period using the calendar. Weekends and holidays are not counted.", "Toutes les demandes": "All requests", "Synchronisation depuis Google Calendar": "Sync from Google Calendar", "Calendriers Maroc : Standard & Hijri": "Morocco calendars: Standard & Hijri", "Profil": "Profile", "État Google": "Google status", "Connecter Google": "Connect Google", "Enregistrer": "Save", "Backups base de données": "Database backups", "Historique des demandes": "Request history", "Liste des demandes": "Request list", "Annuler": "Cancel", "Motif annulation": "Cancellation reason", "Synchronisé depuis le bilan fourni": "Synced from provided summary", "Congé historique approuvé": "Historical approved leave", "Congé annuel payé": "Paid annual leave", "Demandes refusées": "Rejected requests", "Demandes en attente": "Pending requests", "Congés pris": "Taken leaves", "Solde fin": "End balance", "Année": "Year", "Tous": "All", "Depuis": "From", "Jusqu’à": "To", "Type": "Type", "Source": "Source", "Nom": "Name", "Date": "Date", "Statut": "Status", "Action": "Action", "Période": "Period", "Jours": "Days", "Créée le": "Created at", "Commentaire": "Comment", "Décision": "Decision", "Maladie / Réf": "Sick / Ref", "Non déduits": "Non-deducted", "Déduits": "Deducted"}, "de": {"Gestion congés secteur privé Maroc": "Urlaubsverwaltung Privatsektor Marokko", "Suivi annuel, ancienneté, jours fériés Maroc, Hijri, approbation/refus et export.": "Jährliche Nachverfolgung, Dienstalter, Feiertage Marokko, Hijri, Genehmigung/Ablehnung und Export.", "Bilan mensuel": "Monatsübersicht", "Mini panneau Admin DB": "Mini Admin-DB-Panel", "Centre d’aide": "Hilfezentrum", "Nouvelle demande de congé": "Neuer Urlaubsantrag", "Choisis la période avec calendrier. Les week-ends et jours fériés ne sont pas comptés.": "Wählen Sie den Zeitraum im Kalender. Wochenenden und Feiertage werden nicht gezählt.", "Toutes les demandes": "Alle Anträge", "Synchronisation depuis Google Calendar": "Synchronisierung aus Google Calendar", "Calendriers Maroc : Standard & Hijri": "Kalender Marokko: Standard & Hijri", "Profil": "Profil", "État Google": "Google-Status", "Connecter Google": "Google verbinden", "Enregistrer": "Speichern", "Backups base de données": "Datenbank-Backups", "Historique des demandes": "Antragshistorie", "Liste des demandes": "Antragsliste", "Annuler": "Stornieren", "Motif annulation": "Stornierungsgrund", "Synchronisé depuis le bilan fourni": "Aus bereitgestellter Übersicht synchronisiert", "Congé historique approuvé": "Historisch genehmigter Urlaub", "Congé annuel payé": "Bezahlter Jahresurlaub", "Demandes refusées": "Abgelehnte Anträge", "Demandes en attente": "Ausstehende Anträge", "Congés pris": "Genommene Urlaube", "Solde fin": "Endsaldo", "Année": "Jahr", "Tous": "Alle", "Depuis": "Von", "Jusqu’à": "Bis", "Type": "Typ", "Source": "Quelle", "Nom": "Name", "Date": "Datum", "Statut": "Status", "Action": "Aktion", "Période": "Zeitraum", "Jours": "Tage", "Créée le": "Erstellt am", "Commentaire": "Kommentar", "Décision": "Entscheidung", "Maladie / Réf": "Krankheit / Ref", "Non déduits": "Nicht abgezogen", "Déduits": "Abgezogen"}, "ar": {"Gestion congés secteur privé Maroc": "تدبير العطل للقطاع الخاص بالمغرب", "Suivi annuel, ancienneté, jours fériés Maroc, Hijri, approbation/refus et export.": "تتبع سنوي، الأقدمية، العطل الرسمية بالمغرب، الهجري، الموافقة/الرفض والتصدير.", "Bilan mensuel": "الحصيلة الشهرية", "Mini panneau Admin DB": "لوحة إدارة قاعدة البيانات", "Centre d’aide": "مركز المساعدة", "Nouvelle demande de congé": "طلب عطلة جديد", "Choisis la période avec calendrier. Les week-ends et jours fériés ne sont pas comptés.": "اختر الفترة عبر التقويم. لا يتم احتساب نهاية الأسبوع والعطل الرسمية.", "Toutes les demandes": "كل الطلبات", "Synchronisation depuis Google Calendar": "مزامنة من تقويم Google", "Calendriers Maroc : Standard & Hijri": "تقويمات المغرب: عادي وهجري", "Profil": "الملف الشخصي", "État Google": "حالة Google", "Connecter Google": "ربط Google", "Enregistrer": "حفظ", "Backups base de données": "نسخ قاعدة البيانات", "Historique des demandes": "سجل الطلبات", "Liste des demandes": "قائمة الطلبات", "Annuler": "إلغاء", "Motif annulation": "سبب الإلغاء", "Synchronisé depuis le bilan fourni": "تمت المزامنة من الحصيلة المقدمة", "Congé historique approuvé": "عطلة تاريخية موافق عليها", "Congé annuel payé": "عطلة سنوية مدفوعة", "Demandes refusées": "طلبات مرفوضة", "Demandes en attente": "طلبات قيد الانتظار", "Congés pris": "عطل مأخوذة", "Solde fin": "الرصيد النهائي", "Année": "السنة", "Tous": "الكل", "Depuis": "من", "Jusqu’à": "إلى", "Type": "النوع", "Source": "المصدر", "Nom": "الاسم", "Date": "التاريخ", "Statut": "الحالة", "Action": "إجراء", "Période": "الفترة", "Jours": "الأيام", "Créée le": "تاريخ الإنشاء", "Commentaire": "تعليق", "Décision": "القرار", "Maladie / Réf": "مرض / مرجع", "Non déduits": "غير مخصومة", "Déduits": "مخصومة"}, "es": {"Gestion congés secteur privé Maroc": "Gestión de permisos sector privado Marruecos", "Bilan mensuel": "Resumen mensual", "Mini panneau Admin DB": "Panel Admin DB", "Centre d’aide": "Centro de ayuda", "Nouvelle demande de congé": "Nueva solicitud de permiso", "Toutes les demandes": "Todas las solicitudes", "Profil": "Perfil", "État Google": "Estado Google", "Connecter Google": "Conectar Google", "Enregistrer": "Guardar", "Annuler": "Cancelar", "Congé annuel payé": "Vacaciones anuales pagadas", "Demandes refusées": "Solicitudes rechazadas", "Demandes en attente": "Solicitudes pendientes", "Congés pris": "Permisos tomados", "Solde fin": "Saldo final"}};
 
-function medflowTranslateOptions(lang){
+function v33TranslateAll(lang){
   if(lang === "fr") return;
-  const dict = MEDFLOW_EXTRA[lang] || {};
-  document.querySelectorAll("option").forEach(o=>{
-    const t=o.textContent.trim();
-    if(dict[t]) o.textContent=dict[t];
-  });
-}
+  const dict = V33_TEXT_MAP[lang] || {};
+  const keys = Object.keys(dict).sort((a,b)=>b.length-a.length);
 
-function medflowTranslateInputs(lang){
-  if(lang === "fr") return;
-  const dict = MEDFLOW_EXTRA[lang] || {};
-  document.querySelectorAll("input, textarea").forEach(el=>{
-    if(el.placeholder && dict[el.placeholder]) el.placeholder = dict[el.placeholder];
-    if(el.value && dict[el.value]) el.value = dict[el.value];
-  });
-}
+  function replaceText(text){
+    let out = text;
+    for(const k of keys){
+      if(out.includes(k)) out = out.split(k).join(dict[k]);
+    }
+    return out;
+  }
 
-function applyAutoTranslations(lang){
-  medflowTranslateOptions(lang);
-  medflowTranslateInputs(lang);
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode(node){
+      const p = node.parentElement;
+      if(!p || ["SCRIPT","STYLE","TEXTAREA"].includes(p.tagName)) return NodeFilter.FILTER_REJECT;
+      return node.nodeValue.trim().length > 1 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }
+  });
+  let n;
+  while(n = walker.nextNode()) n.nodeValue = replaceText(n.nodeValue);
+
+  document.querySelectorAll("input,textarea,button,option,select,a,th,td,label,span,p,h1,h2,h3,b,small").forEach(el=>{
+    ["placeholder","title","aria-label","value"].forEach(attr=>{
+      const v = el.getAttribute && el.getAttribute(attr);
+      if(v) el.setAttribute(attr, replaceText(v));
+    });
+  });
   if(lang === "ar") document.documentElement.dir = "rtl";
 }
-window.addEventListener("DOMContentLoaded",()=>applyAutoTranslations(window.MB_LANG||"fr"));
+
+window.addEventListener("DOMContentLoaded",()=>v33TranslateAll(window.MB_LANG || "fr"));

@@ -1,0 +1,51 @@
+{% extends "base.html" %}{% block content %}
+<div class="hero glass">
+  <div>
+    <span class="eyebrow">{{ tr_text("Administration sécurisée") }}</span>
+    <h1>{{ tr_text("Profiling") }} MEDFLOW</h1>
+    <p>{{ tr_text("Performances") }} : routes lentes, temps moyen, maximum et dernières requêtes.</p>
+  </div>
+</div>
+
+<div class="kpi-grid">
+  <div class="kpi"><h2>Total routes</h2><strong>{{ stats|length }}</strong></div>
+  <div class="kpi"><h2>Requests log</h2><strong>{{ requests|length }}</strong></div>
+  <div class="kpi"><h2>Slowest avg</h2><strong>{{ stats[0].avg if stats else 0 }} ms</strong></div>
+</div>
+
+<div class="panel glass">
+  <div class="panel-head"><h2>Route performance</h2><span class="chip">avg/max ms</span></div>
+  <div class="table-scroll">
+    <table class="pro-table">
+      <tr><th>Endpoint</th><th>Count</th><th>Avg ms</th><th>Max ms</th><th>Total ms</th></tr>
+      {% for s in stats %}
+      <tr>
+        <td>{{ s.endpoint }}</td>
+        <td>{{ s.count }}</td>
+        <td>{{ s.avg }}</td>
+        <td>{{ s.max }}</td>
+        <td>{{ s.total }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+<div class="panel glass">
+  <div class="panel-head"><h2>Latest requests</h2><span class="chip">last 500</span></div>
+  <div class="table-scroll">
+    <table class="pro-table">
+      <tr><th>Time</th><th>Method</th><th>Path</th><th>Status</th><th>ms</th></tr>
+      {% for r in requests %}
+      <tr>
+        <td>{{ r.time }}</td>
+        <td>{{ r.method }}</td>
+        <td>{{ r.path }}</td>
+        <td>{{ r.status }}</td>
+        <td>{{ r.ms }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+{% endblock %}

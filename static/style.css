@@ -1308,3 +1308,26 @@ body.light{
   .social-layout{padding:10px!important}
   .mf-page-head,.hero,.panel{border-radius:22px!important}
 }
+
+
+/* MEDFLOW V33 Profiling + final i18n polish */
+.profiling-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 12px;
+  border-radius:999px;
+  background:linear-gradient(135deg,rgba(64,93,230,.18),rgba(225,48,108,.16));
+  border:1px solid rgba(225,48,108,.20);
+  font-weight:900;
+}
+.pro-table td,.pro-table th{
+  white-space:normal!important;
+  word-break:break-word!important;
+}
+.pro-table{
+  font-size:13px;
+}
+@media(max-width:900px){
+  .pro-table{min-width:920px}
+}

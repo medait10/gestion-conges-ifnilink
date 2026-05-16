@@ -326,3 +326,10 @@ Version SaaS commercialisable basée sur V31 :
 - Calendrier Maroc Standard & Hijri
 - Dark/Light mode
 - Scrollbars et animations premium
+
+## MEDFLOW V33 Full i18n + Profiling
+- Ajout page admin `/admin/profiling`.
+- Mesure temps réponse par endpoint.
+- Liste dernières requêtes.
+- Traduction renforcée des textes FR restants côté serveur et navigateur.
+- Ajout helper `tr_text()`.

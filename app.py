@@ -1,5 +1,7 @@
 
-import os, base64, json, calendar, shutil, glob, secrets, hashlib
+import os
+import time
+from collections import defaultdict, deque, base64, json, calendar, shutil, glob, secrets, hashlib
 from datetime import date, datetime, timedelta
 from email.mime.text import MIMEText
 from functools import wraps
@@ -518,6 +520,230 @@ def patch_v31_i18n():
         pass
 
 patch_v31_i18n()
+
+
+# -------------------------
+# V33 Full i18n hardcoded text map + profiling
+# -------------------------
+I18N_TEXT_MAP = {
+    "fr": {},
+    "en": {
+        "Gestion congés secteur privé Maroc": "Morocco private sector leave management",
+        "Suivi annuel, ancienneté, jours fériés Maroc, Hijri, approbation/refus et export.": "Annual tracking, seniority, Morocco holidays, Hijri, approval/rejection and export.",
+        "Bilan mensuel": "Monthly summary",
+        "Mini panneau Admin DB": "Mini Admin DB panel",
+        "Voir, modifier ou supprimer les données SQLite depuis Render. Accès réservé admin. Champs sensibles masqués.": "View, edit or delete SQLite data from Render. Admin access only. Sensitive fields hidden.",
+        "Administration sécurisée": "Secure administration",
+        "Centre d’aide": "Help center",
+        "Tout ce qu’il faut savoir pour utiliser l’application simplement et en sécurité.": "Everything you need to use the app simply and securely.",
+        "Connexion": "Login",
+        "Crée ton compte ou connecte-toi avec Google. Pour envoyer des emails, connecte Google depuis le profil.": "Create your account or sign in with Google. To send emails, connect Google from your profile.",
+        "Demande congé": "Leave request",
+        "Choisis le type, la période et le destinataire. Les week-ends et jours fériés ne sont pas comptés.": "Choose the type, period and recipient. Weekends and holidays are not counted.",
+        "Occasions": "Occasions",
+        "Pour naissance, mariage ou décès, renseigne les jours autorisés non déduits. Le reste est calculé automatiquement.": "For birth, marriage or death, enter authorized non-deducted days. The rest is calculated automatically.",
+        "Maladie": "Sickness",
+        "Pour repos maladie, renseigne une référence/certificat. Évite de saisir des données médicales sensibles inutiles.": "For sick leave, enter a reference/certificate. Avoid entering unnecessary sensitive medical data.",
+        "Google Calendar": "Google Calendar",
+        "Un congé approuvé peut être synchronisé dans Google Calendar. En cas d’annulation, l’événement est supprimé.": "An approved leave can be synced to Google Calendar. If cancelled, the event is removed.",
+        "Exports": "Exports",
+        "Tu peux télécharger les bilans en Excel et PDF depuis le menu.": "You can download summaries in Excel and PDF from the menu.",
+        "Abonnement": "Subscription",
+        "Les utilisateurs non-admin doivent avoir un abonnement actif pour accéder aux fonctions principales.": "Non-admin users need an active subscription to access main features.",
+        "Sécurité": "Security",
+        "Utilise un mot de passe fort, garde ton compte Google sécurisé et ne partage jamais tes accès.": "Use a strong password, keep your Google account secure and never share your access.",
+        "Données séparées": "Separated data",
+        "Les données de Mohamed AIT ELMALEM appartiennent au compte owner. Chaque nouvel utilisateur commence à zéro et ajoute ses propres congés.": "The owner's data belongs to the owner account. Each new user starts from zero and adds their own leaves.",
+        "Nouvelle demande de congé": "New leave request",
+        "Portail collaborateur": "Employee portal",
+        "Choisis la période avec calendrier. Les week-ends et jours fériés ne sont pas comptés.": "Choose the period using the calendar. Weekends and holidays are not counted.",
+        "Créer la demande": "Create request",
+        "Dernières demandes": "Latest requests",
+        "Synchroniser avec calendrier": "Sync with calendar",
+        "Toutes les demandes": "All requests",
+        "Synchronisation depuis Google Calendar": "Sync from Google Calendar",
+        "Cette page affiche toutes les demandes et peut importer les congés déjà présents dans Google Calendar.": "This page shows all requests and can import leaves already present in Google Calendar.",
+        "Import congés existants": "Import existing leaves",
+        "Synchroniser avec calendrier": "Sync with calendar",
+        "Depuis": "From",
+        "Jusqu’à": "To",
+        "Calendriers Maroc : Standard & Hijri": "Morocco calendars: Standard & Hijri",
+        "Sélectionne le calendrier à synchroniser depuis Google Calendar : jours fériés standards ou événements Hijri.": "Select the calendar to sync from Google Calendar: standard holidays or Hijri events.",
+        "Profil": "Profile",
+        "État Google": "Google status",
+        "Google non connecté. Connecte-toi avec Google pour envoyer les emails depuis ton adresse.": "Google not connected. Connect with Google to send emails from your address.",
+        "Connecter Google": "Connect Google",
+        "Enregistrer": "Save",
+        "Backups base de données": "Database backups",
+        "Protection des données": "Data protection",
+        "Crée, télécharge et restaure des sauvegardes SQLite. Accès réservé admin.": "Create, download and restore SQLite backups. Admin only.",
+        "Stratégie recommandée": "Recommended strategy",
+        "Créer un backup maintenant": "Create backup now",
+        "Fichiers backup": "Backup files",
+        "Uploader un backup": "Upload backup",
+        "Restore sécurisé": "Secure restore",
+        "Seuls les fichiers SQLite sont autorisés.": "Only SQLite files are allowed.",
+        "Historique des demandes": "Request history",
+        "Traçabilité complète": "Full traceability",
+        "Les congés déjà pris sont chargés ici comme demandes approuvées, avec période, jours pris, statut et commentaire.": "Previously taken leaves are loaded here as approved requests with period, days, status and comment.",
+        "Liste des demandes": "Request list",
+        "Demandes & Google Calendar": "Requests & Google Calendar",
+        "Annuler": "Cancel",
+        "Motif annulation": "Cancellation reason",
+        "Synchronisé depuis le bilan fourni": "Synced from provided summary",
+        "Congé historique approuvé": "Historical approved leave",
+        "Congé annuel payé": "Paid annual leave",
+        "Mini panneau Admin DB": "Mini Admin DB panel",
+        "Profiling": "Profiling",
+        "Performances": "Performance"
+    },
+    "de": {
+        "Gestion congés secteur privé Maroc": "Urlaubsverwaltung Privatsektor Marokko",
+        "Suivi annuel, ancienneté, jours fériés Maroc, Hijri, approbation/refus et export.": "Jährliche Nachverfolgung, Dienstalter, Feiertage Marokko, Hijri, Genehmigung/Ablehnung und Export.",
+        "Bilan mensuel": "Monatsübersicht",
+        "Mini panneau Admin DB": "Mini Admin-DB-Panel",
+        "Voir, modifier ou supprimer les données SQLite depuis Render. Accès réservé admin. Champs sensibles masqués.": "SQLite-Daten von Render anzeigen, bearbeiten oder löschen. Nur Admin. Sensible Felder sind verborgen.",
+        "Administration sécurisée": "Sichere Administration",
+        "Centre d’aide": "Hilfezentrum",
+        "Tout ce qu’il faut savoir pour utiliser l’application simplement et en sécurité.": "Alles, was Sie brauchen, um die App einfach und sicher zu nutzen.",
+        "Connexion": "Anmeldung",
+        "Crée ton compte ou connecte-toi avec Google. Pour envoyer des emails, connecte Google depuis le profil.": "Erstellen Sie ein Konto oder melden Sie sich mit Google an. Zum Senden von E-Mails verbinden Sie Google im Profil.",
+        "Demande congé": "Urlaubsantrag",
+        "Choisis le type, la période et le destinataire. Les week-ends et jours fériés ne sont pas comptés.": "Wählen Sie Typ, Zeitraum und Empfänger. Wochenenden und Feiertage werden nicht gezählt.",
+        "Occasions": "Anlässe",
+        "Pour naissance, mariage ou décès, renseigne les jours autorisés non déduits. Le reste est calculé automatiquement.": "Für Geburt, Hochzeit oder Todesfall geben Sie autorisierte nicht abgezogene Tage ein. Der Rest wird automatisch berechnet.",
+        "Maladie": "Krankheit",
+        "Pour repos maladie, renseigne une référence/certificat. Évite de saisir des données médicales sensibles inutiles.": "Für Krankheitsurlaub geben Sie eine Referenz/ein Attest ein. Vermeiden Sie unnötige sensible medizinische Daten.",
+        "Un congé approuvé peut être synchronisé dans Google Calendar. En cas d’annulation, l’événement est supprimé.": "Genehmigter Urlaub kann mit Google Calendar synchronisiert werden. Bei Stornierung wird das Ereignis gelöscht.",
+        "Tu peux télécharger les bilans en Excel et PDF depuis le menu.": "Sie können Berichte im Menü als Excel und PDF herunterladen.",
+        "Les utilisateurs non-admin doivent avoir un abonnement actif pour accéder aux fonctions principales.": "Nicht-Admin-Benutzer benötigen ein aktives Abonnement für die Hauptfunktionen.",
+        "Sécurité": "Sicherheit",
+        "Utilise un mot de passe fort, garde ton compte Google sécurisé et ne partage jamais tes accès.": "Verwenden Sie ein starkes Passwort, sichern Sie Ihr Google-Konto und teilen Sie niemals Ihre Zugänge.",
+        "Données séparées": "Getrennte Daten",
+        "Les données de Mohamed AIT ELMALEM appartiennent au compte owner. Chaque nouvel utilisateur commence à zéro et ajoute ses propres congés.": "Die Owner-Daten gehören zum Owner-Konto. Jeder neue Benutzer beginnt bei null und fügt eigene Urlaube hinzu.",
+        "Nouvelle demande de congé": "Neuer Urlaubsantrag",
+        "Portail collaborateur": "Mitarbeiterportal",
+        "Choisis la période avec calendrier. Les week-ends et jours fériés ne sont pas comptés.": "Wählen Sie den Zeitraum im Kalender. Wochenenden und Feiertage werden nicht gezählt.",
+        "Créer la demande": "Antrag erstellen",
+        "Dernières demandes": "Letzte Anträge",
+        "Synchroniser avec calendrier": "Mit Kalender synchronisieren",
+        "Toutes les demandes": "Alle Anträge",
+        "Synchronisation depuis Google Calendar": "Synchronisierung aus Google Calendar",
+        "Cette page affiche toutes les demandes et peut importer les congés déjà présents dans Google Calendar.": "Diese Seite zeigt alle Anträge und kann bereits vorhandene Urlaube aus Google Calendar importieren.",
+        "Import congés existants": "Bestehende Urlaube importieren",
+        "Depuis": "Von",
+        "Jusqu’à": "Bis",
+        "Calendriers Maroc : Standard & Hijri": "Kalender Marokko: Standard & Hijri",
+        "Sélectionne le calendrier à synchroniser depuis Google Calendar : jours fériés standards ou événements Hijri.": "Wählen Sie den Kalender zur Synchronisierung aus Google Calendar: Standard-Feiertage oder Hijri-Ereignisse.",
+        "Profil": "Profil",
+        "État Google": "Google-Status",
+        "Google non connecté. Connecte-toi avec Google pour envoyer les emails depuis ton adresse.": "Google nicht verbunden. Verbinden Sie Google, um E-Mails von Ihrer Adresse zu senden.",
+        "Connecter Google": "Google verbinden",
+        "Enregistrer": "Speichern",
+        "Backups base de données": "Datenbank-Backups",
+        "Protection des données": "Datenschutz",
+        "Crée, télécharge et restaure des sauvegardes SQLite. Accès réservé admin.": "SQLite-Backups erstellen, herunterladen und wiederherstellen. Nur Admin.",
+        "Stratégie recommandée": "Empfohlene Strategie",
+        "Créer un backup maintenant": "Backup jetzt erstellen",
+        "Fichiers backup": "Backup-Dateien",
+        "Uploader un backup": "Backup hochladen",
+        "Restore sécurisé": "Sichere Wiederherstellung",
+        "Seuls les fichiers SQLite sont autorisés.": "Nur SQLite-Dateien sind erlaubt.",
+        "Historique des demandes": "Antragshistorie",
+        "Traçabilité complète": "Vollständige Nachverfolgbarkeit",
+        "Les congés déjà pris sont chargés ici comme demandes approuvées, avec période, jours pris, statut et commentaire.": "Bereits genommene Urlaube werden hier als genehmigte Anträge mit Zeitraum, Tagen, Status und Kommentar geladen.",
+        "Liste des demandes": "Antragsliste",
+        "Demandes & Google Calendar": "Anträge & Google Calendar",
+        "Annuler": "Stornieren",
+        "Motif annulation": "Stornierungsgrund",
+        "Synchronisé depuis le bilan fourni": "Aus bereitgestellter Übersicht synchronisiert",
+        "Congé historique approuvé": "Historisch genehmigter Urlaub",
+        "Congé annuel payé": "Bezahlter Jahresurlaub",
+        "Profiling": "Profiling",
+        "Performances": "Performance"
+    },
+    "es": {},
+    "ar": {
+        "Gestion congés secteur privé Maroc": "تدبير العطل للقطاع الخاص بالمغرب",
+        "Suivi annuel, ancienneté, jours fériés Maroc, Hijri, approbation/refus et export.": "تتبع سنوي، الأقدمية، العطل الرسمية بالمغرب، الهجري، الموافقة/الرفض والتصدير.",
+        "Bilan mensuel": "الحصيلة الشهرية",
+        "Mini panneau Admin DB": "لوحة إدارة قاعدة البيانات",
+        "Voir, modifier ou supprimer les données SQLite depuis Render. Accès réservé admin. Champs sensibles masqués.": "عرض أو تعديل أو حذف بيانات SQLite من Render. الوصول للمدير فقط. الحقول الحساسة مخفية.",
+        "Administration sécurisée": "إدارة آمنة",
+        "Centre d’aide": "مركز المساعدة",
+        "Tout ce qu’il faut savoir pour utiliser l’application simplement et en sécurité.": "كل ما تحتاجه لاستخدام التطبيق بسهولة وأمان.",
+        "Connexion": "تسجيل الدخول",
+        "Crée ton compte ou connecte-toi avec Google. Pour envoyer des emails, connecte Google depuis le profil.": "أنشئ حسابك أو سجل الدخول عبر Google. لإرسال الرسائل اربط Google من الملف الشخصي.",
+        "Demande congé": "طلب عطلة",
+        "Choisis le type, la période et le destinataire. Les week-ends et jours fériés ne sont pas comptés.": "اختر النوع والفترة والمستلم. لا يتم احتساب عطلة نهاية الأسبوع والعطل الرسمية.",
+        "Occasions": "المناسبات",
+        "Pour naissance, mariage ou décès, renseigne les jours autorisés non déduits. Le reste est calculé automatiquement.": "للولادة أو الزواج أو الوفاة، أدخل الأيام المرخصة غير المخصومة. يتم حساب الباقي تلقائياً.",
+        "Maladie": "المرض",
+        "Pour repos maladie, renseigne une référence/certificat. Évite de saisir des données médicales sensibles inutiles.": "للراحة المرضية، أدخل مرجعاً/شهادة. تجنب إدخال بيانات طبية حساسة غير ضرورية.",
+        "Google Calendar": "تقويم Google",
+        "Un congé approuvé peut être synchronisé dans Google Calendar. En cas d’annulation, l’événement est supprimé.": "يمكن مزامنة العطلة الموافق عليها مع تقويم Google. عند الإلغاء يتم حذف الحدث.",
+        "Exports": "التصدير",
+        "Tu peux télécharger les bilans en Excel et PDF depuis le menu.": "يمكنك تنزيل التقارير Excel و PDF من القائمة.",
+        "Abonnement": "الاشتراك",
+        "Les utilisateurs non-admin doivent avoir un abonnement actif pour accéder aux fonctions principales.": "يحتاج المستخدمون غير المديرين إلى اشتراك نشط للوصول للوظائف الرئيسية.",
+        "Sécurité": "الأمان",
+        "Utilise un mot de passe fort, garde ton compte Google sécurisé et ne partage jamais tes accès.": "استخدم كلمة مرور قوية، حافظ على أمان حساب Google ولا تشارك بيانات الدخول.",
+        "Données séparées": "بيانات منفصلة",
+        "Les données de Mohamed AIT ELMALEM appartiennent au compte owner. Chaque nouvel utilisateur commence à zéro et ajoute ses propres congés.": "بيانات المالك تخص حساب المالك فقط. كل مستخدم جديد يبدأ من الصفر ويضيف عطله الخاصة.",
+        "Nouvelle demande de congé": "طلب عطلة جديد",
+        "Portail collaborateur": "بوابة الموظف",
+        "Choisis la période avec calendrier. Les week-ends et jours fériés ne sont pas comptés.": "اختر الفترة عبر التقويم. لا يتم احتساب نهاية الأسبوع والعطل الرسمية.",
+        "Créer la demande": "إنشاء الطلب",
+        "Dernières demandes": "آخر الطلبات",
+        "Synchroniser avec calendrier": "مزامنة مع التقويم",
+        "Toutes les demandes": "كل الطلبات",
+        "Synchronisation depuis Google Calendar": "مزامنة من تقويم Google",
+        "Cette page affiche toutes les demandes et peut importer les congés déjà présents dans Google Calendar.": "تعرض هذه الصفحة كل الطلبات ويمكنها استيراد العطل الموجودة في تقويم Google.",
+        "Import congés existants": "استيراد عطل موجودة",
+        "Depuis": "من",
+        "Jusqu’à": "إلى",
+        "Calendriers Maroc : Standard & Hijri": "تقويمات المغرب: عادي وهجري",
+        "Sélectionne le calendrier à synchroniser depuis Google Calendar : jours fériés standards ou événements Hijri.": "اختر التقويم للمزامنة من Google Calendar: العطل الرسمية أو الأحداث الهجرية.",
+        "Profil": "الملف الشخصي",
+        "État Google": "حالة Google",
+        "Google non connecté. Connecte-toi avec Google pour envoyer les emails depuis ton adresse.": "Google غير متصل. اربط Google لإرسال الرسائل من بريدك.",
+        "Connecter Google": "ربط Google",
+        "Enregistrer": "حفظ",
+        "Backups base de données": "نسخ قاعدة البيانات",
+        "Protection des données": "حماية البيانات",
+        "Crée, télécharge et restaure des sauvegardes SQLite. Accès réservé admin.": "إنشاء وتنزيل واستعادة نسخ SQLite. للمدير فقط.",
+        "Stratégie recommandée": "الاستراتيجية المقترحة",
+        "Créer un backup maintenant": "إنشاء نسخة الآن",
+        "Fichiers backup": "ملفات النسخ الاحتياطي",
+        "Uploader un backup": "رفع نسخة احتياطية",
+        "Restore sécurisé": "استعادة آمنة",
+        "Seuls les fichiers SQLite sont autorisés.": "يسمح فقط بملفات SQLite.",
+        "Historique des demandes": "سجل الطلبات",
+        "Traçabilité complète": "تتبع كامل",
+        "Les congés déjà pris sont chargés ici comme demandes approuvées, avec période, jours pris, statut et commentaire.": "العطل السابقة تُعرض هنا كطلبات موافق عليها مع الفترة والأيام والحالة والتعليق.",
+        "Liste des demandes": "قائمة الطلبات",
+        "Demandes & Google Calendar": "الطلبات و Google Calendar",
+        "Annuler": "إلغاء",
+        "Motif annulation": "سبب الإلغاء",
+        "Synchronisé depuis le bilan fourni": "تمت المزامنة من الحصيلة المقدمة",
+        "Congé historique approuvé": "عطلة تاريخية موافق عليها",
+        "Congé annuel payé": "عطلة سنوية مدفوعة",
+        "Profiling": "تحليل الأداء",
+        "Performances": "الأداء"
+    }
+}
+
+
+def tr_text(text):
+    try:
+        lang = get_lang()
+    except Exception:
+        lang = "fr"
+    if not text:
+        return text
+    if lang == "fr":
+        return text
+    return I18N_TEXT_MAP.get(lang, {}).get(str(text).strip(), text)
 
 def current_user():
     uid = session.get("uid")
@@ -1706,6 +1932,54 @@ def about():
 def copyright_page():
     return render_template("copyright.html")
 
+
+
+# -------------------------
+# Admin Profiling
+# -------------------------
+PROFILE_REQUESTS = deque(maxlen=500)
+PROFILE_STATS = defaultdict(lambda: {"count": 0, "total": 0.0, "max": 0.0})
+
+@app.before_request
+def medflow_profile_start():
+    request._mf_start_time = time.perf_counter()
+
+@app.after_request
+def medflow_profile_end(response):
+    try:
+        elapsed = (time.perf_counter() - getattr(request, "_mf_start_time", time.perf_counter())) * 1000
+        endpoint = request.endpoint or request.path
+        PROFILE_STATS[endpoint]["count"] += 1
+        PROFILE_STATS[endpoint]["total"] += elapsed
+        PROFILE_STATS[endpoint]["max"] = max(PROFILE_STATS[endpoint]["max"], elapsed)
+        PROFILE_REQUESTS.appendleft({
+            "path": request.path,
+            "endpoint": endpoint,
+            "method": request.method,
+            "status": response.status_code,
+            "ms": round(elapsed, 2),
+            "time": datetime.now().strftime("%H:%M:%S")
+        })
+    except Exception:
+        pass
+    return response
+
+@app.route("/admin/profiling")
+@login_required
+@admin_required
+def admin_profiling():
+    stats = []
+    for endpoint, s in PROFILE_STATS.items():
+        avg = s["total"] / s["count"] if s["count"] else 0
+        stats.append({
+            "endpoint": endpoint,
+            "count": s["count"],
+            "avg": round(avg, 2),
+            "max": round(s["max"], 2),
+            "total": round(s["total"], 2)
+        })
+    stats = sorted(stats, key=lambda x: x["avg"], reverse=True)
+    return render_template("admin_profiling.html", stats=stats, requests=list(PROFILE_REQUESTS))
 
 @app.errorhandler(403)
 def forbidden(e):
