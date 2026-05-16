@@ -254,6 +254,119 @@ def set_language(lang):
 
 
 
+
+FULL_I18N = {
+    "fr": {
+        "app_name":"MEDFLOW","workspace":"Workspace","owner":"Owner","admin":"Admin","active":"Actif","inactive":"Inactif","trial":"Essai",
+        "home":"Accueil","dashboard":"Dashboard","guide":"Guide utilisateur","subscription":"Abonnement","leave_request":"Demande congé","history":"Historique",
+        "requests_list":"Liste des demandes","calendar":"Calendrier","holidays":"Jours fériés","profile":"Profil","admin_db":"Admin DB","backups":"Backups",
+        "export_excel":"Export Excel","export_pdf":"Export PDF","logout":"Déconnexion","mode":"Mode","language":"Langue","year":"Année","view":"Vue",
+        "month":"Mois","credit":"Crédit","extra":"Extra","taken":"Pris","period":"Période","balance":"Solde","status":"Statut","actions":"Actions",
+        "created_at":"Créée le","type":"Type","days":"Jours","non_deducted":"Non déduits","deducted":"Déduits","google_calendar":"Google Calendar",
+        "approved":"Approuvé","pending":"En attente","refused":"Refusé","cancelled":"Annulé","synchronized":"Synchronisé","not_sync":"Non",
+        "new_leave_request":"Nouvelle demande de congé","start_date":"Date début","end_date":"Date fin","recipient_email":"Email destinataire",
+        "message":"Message","send_email":"Envoyer email via Gmail API OAuth","save":"Enregistrer","approve":"Approuver","refuse":"Refuser","cancel":"Annuler",
+        "annual":"Congé annuel","sick":"Repos maladie","birth":"Naissance","marriage_self":"Mariage salarié","marriage_child":"Mariage enfant",
+        "death_family":"Décès famille","operation_family":"Opération conjoint/enfant","medical_certificate":"Certificat médical sécurisé",
+        "calendar_standard":"Standard","calendar_hijri":"Hijri","all":"Tous","sync_calendar":"Synchroniser avec calendrier","sync_google":"Synchronisation Google",
+        "pricing_title":"Abonnement MEDFLOW","secure_payment":"Paiement sécurisé","trial_7":"7 jours d’essai","monthly":"Mensuel","annual_plan":"Annuel",
+        "subscribe_monthly":"S’abonner mensuellement","subscribe_annually":"S’abonner annuellement","use_trial":"Utiliser l’essai","manage_billing":"Gérer facturation",
+        "about":"À propos","copyright":"Droits d’auteur","privacy":"Confidentialité","terms":"Conditions","no_data":"Aucune donnée",
+        "january":"Janvier","february":"Février","march":"Mars","april":"Avril","may":"Mai","june":"Juin","july":"Juillet","august":"Août","september":"Septembre","october":"Octobre","november":"Novembre","december":"Décembre",
+        "monday":"L","tuesday":"M","wednesday":"M","thursday":"J","friday":"V","saturday":"S","sunday":"D"
+    },
+    "en": {
+        "app_name":"MEDFLOW","workspace":"Workspace","owner":"Owner","admin":"Admin","active":"Active","inactive":"Inactive","trial":"Trial",
+        "home":"Home","dashboard":"Dashboard","guide":"User guide","subscription":"Subscription","leave_request":"Leave request","history":"History",
+        "requests_list":"Requests list","calendar":"Calendar","holidays":"Holidays","profile":"Profile","admin_db":"Admin DB","backups":"Backups",
+        "export_excel":"Excel export","export_pdf":"PDF export","logout":"Logout","mode":"Mode","language":"Language","year":"Year","view":"View",
+        "month":"Month","credit":"Credit","extra":"Extra","taken":"Taken","period":"Period","balance":"Balance","status":"Status","actions":"Actions",
+        "created_at":"Created at","type":"Type","days":"Days","non_deducted":"Non-deducted","deducted":"Deducted","google_calendar":"Google Calendar",
+        "approved":"Approved","pending":"Pending","refused":"Rejected","cancelled":"Cancelled","synchronized":"Synced","not_sync":"No",
+        "new_leave_request":"New leave request","start_date":"Start date","end_date":"End date","recipient_email":"Recipient email",
+        "message":"Message","send_email":"Send email via Gmail API OAuth","save":"Save","approve":"Approve","refuse":"Reject","cancel":"Cancel",
+        "annual":"Annual leave","sick":"Sick leave","birth":"Birth","marriage_self":"Employee marriage","marriage_child":"Child marriage",
+        "death_family":"Family death","operation_family":"Spouse/child operation","medical_certificate":"Secure medical certificate",
+        "calendar_standard":"Standard","calendar_hijri":"Hijri","all":"All","sync_calendar":"Sync with calendar","sync_google":"Google sync",
+        "pricing_title":"MEDFLOW subscription","secure_payment":"Secure payment","trial_7":"7-day trial","monthly":"Monthly","annual_plan":"Annual",
+        "subscribe_monthly":"Subscribe monthly","subscribe_annually":"Subscribe annually","use_trial":"Use trial","manage_billing":"Manage billing",
+        "about":"About","copyright":"Copyright","privacy":"Privacy","terms":"Terms","no_data":"No data",
+        "january":"January","february":"February","march":"March","april":"April","may":"May","june":"June","july":"July","august":"August","september":"September","october":"October","november":"November","december":"December",
+        "monday":"M","tuesday":"T","wednesday":"W","thursday":"T","friday":"F","saturday":"S","sunday":"S"
+    },
+    "de": {
+        "app_name":"MEDFLOW","workspace":"Arbeitsbereich","owner":"Owner","admin":"Admin","active":"Aktiv","inactive":"Inaktiv","trial":"Test",
+        "home":"Startseite","dashboard":"Dashboard","guide":"Benutzerhandbuch","subscription":"Abonnement","leave_request":"Urlaubsantrag","history":"Verlauf",
+        "requests_list":"Antragsliste","calendar":"Kalender","holidays":"Feiertage","profile":"Profil","admin_db":"Admin DB","backups":"Backups",
+        "export_excel":"Excel Export","export_pdf":"PDF Export","logout":"Abmelden","mode":"Modus","language":"Sprache","year":"Jahr","view":"Ansicht",
+        "month":"Monat","credit":"Guthaben","extra":"Extra","taken":"Genommen","period":"Zeitraum","balance":"Saldo","status":"Status","actions":"Aktionen",
+        "created_at":"Erstellt am","type":"Typ","days":"Tage","non_deducted":"Nicht abgezogen","deducted":"Abgezogen","google_calendar":"Google Kalender",
+        "approved":"Genehmigt","pending":"Ausstehend","refused":"Abgelehnt","cancelled":"Storniert","synchronized":"Synchronisiert","not_sync":"Nein",
+        "new_leave_request":"Neuer Urlaubsantrag","start_date":"Startdatum","end_date":"Enddatum","recipient_email":"Empfänger-E-Mail",
+        "message":"Nachricht","send_email":"E-Mail über Gmail API OAuth senden","save":"Speichern","approve":"Genehmigen","refuse":"Ablehnen","cancel":"Stornieren",
+        "annual":"Jahresurlaub","sick":"Krankschreibung","birth":"Geburt","marriage_self":"Heirat Mitarbeiter","marriage_child":"Heirat Kind",
+        "death_family":"Todesfall Familie","operation_family":"Operation Ehepartner/Kind","medical_certificate":"Sicheres ärztliches Attest",
+        "calendar_standard":"Standard","calendar_hijri":"Hijri","all":"Alle","sync_calendar":"Mit Kalender synchronisieren","sync_google":"Google-Synchronisierung",
+        "pricing_title":"MEDFLOW Abonnement","secure_payment":"Sichere Zahlung","trial_7":"7 Tage Testphase","monthly":"Monatlich","annual_plan":"Jährlich",
+        "subscribe_monthly":"Monatlich abonnieren","subscribe_annually":"Jährlich abonnieren","use_trial":"Testphase nutzen","manage_billing":"Abrechnung verwalten",
+        "about":"Über uns","copyright":"Urheberrecht","privacy":"Datenschutz","terms":"Bedingungen","no_data":"Keine Daten",
+        "january":"Januar","february":"Februar","march":"März","april":"April","may":"Mai","june":"Juni","july":"Juli","august":"August","september":"September","october":"Oktober","november":"November","december":"Dezember",
+        "monday":"Mo","tuesday":"Di","wednesday":"Mi","thursday":"Do","friday":"Fr","saturday":"Sa","sunday":"So"
+    },
+    "es": {
+        "app_name":"MEDFLOW","workspace":"Espacio","owner":"Owner","admin":"Admin","active":"Activo","inactive":"Inactivo","trial":"Prueba",
+        "home":"Inicio","dashboard":"Panel","guide":"Guía de usuario","subscription":"Suscripción","leave_request":"Solicitud de permiso","history":"Historial",
+        "requests_list":"Lista de solicitudes","calendar":"Calendario","holidays":"Festivos","profile":"Perfil","admin_db":"Admin DB","backups":"Copias",
+        "export_excel":"Exportar Excel","export_pdf":"Exportar PDF","logout":"Cerrar sesión","mode":"Modo","language":"Idioma","year":"Año","view":"Vista",
+        "month":"Mes","credit":"Crédito","extra":"Extra","taken":"Tomado","period":"Periodo","balance":"Saldo","status":"Estado","actions":"Acciones",
+        "created_at":"Creado el","type":"Tipo","days":"Días","non_deducted":"No deducidos","deducted":"Deducidos","google_calendar":"Google Calendar",
+        "approved":"Aprobado","pending":"Pendiente","refused":"Rechazado","cancelled":"Cancelado","synchronized":"Sincronizado","not_sync":"No",
+        "new_leave_request":"Nueva solicitud de permiso","start_date":"Fecha inicio","end_date":"Fecha fin","recipient_email":"Email destinatario",
+        "message":"Mensaje","send_email":"Enviar email vía Gmail API OAuth","save":"Guardar","approve":"Aprobar","refuse":"Rechazar","cancel":"Cancelar",
+        "annual":"Permiso anual","sick":"Baja médica","birth":"Nacimiento","marriage_self":"Matrimonio empleado","marriage_child":"Matrimonio hijo",
+        "death_family":"Fallecimiento familiar","operation_family":"Operación cónyuge/hijo","medical_certificate":"Certificado médico seguro",
+        "calendar_standard":"Estándar","calendar_hijri":"Hijri","all":"Todos","sync_calendar":"Sincronizar con calendario","sync_google":"Sincronización Google",
+        "pricing_title":"Suscripción MEDFLOW","secure_payment":"Pago seguro","trial_7":"Prueba de 7 días","monthly":"Mensual","annual_plan":"Anual",
+        "subscribe_monthly":"Suscribirse mensual","subscribe_annually":"Suscribirse anual","use_trial":"Usar prueba","manage_billing":"Gestionar facturación",
+        "about":"Sobre nosotros","copyright":"Derechos de autor","privacy":"Privacidad","terms":"Términos","no_data":"Sin datos",
+        "january":"Enero","february":"Febrero","march":"Marzo","april":"Abril","may":"Mayo","june":"Junio","july":"Julio","august":"Agosto","september":"Septiembre","october":"Octubre","november":"Noviembre","december":"Diciembre",
+        "monday":"L","tuesday":"M","wednesday":"X","thursday":"J","friday":"V","saturday":"S","sunday":"D"
+    },
+    "ar": {
+        "app_name":"MEDFLOW","workspace":"مساحة العمل","owner":"المالك","admin":"المدير","active":"نشط","inactive":"غير نشط","trial":"تجربة",
+        "home":"الرئيسية","dashboard":"لوحة التحكم","guide":"دليل المستخدم","subscription":"الاشتراك","leave_request":"طلب عطلة","history":"السجل",
+        "requests_list":"قائمة الطلبات","calendar":"التقويم","holidays":"العطل الرسمية","profile":"الملف الشخصي","admin_db":"إدارة قاعدة البيانات","backups":"النسخ الاحتياطي",
+        "export_excel":"تصدير Excel","export_pdf":"تصدير PDF","logout":"تسجيل الخروج","mode":"الوضع","language":"اللغة","year":"السنة","view":"العرض",
+        "month":"الشهر","credit":"الرصيد","extra":"إضافي","taken":"المأخوذ","period":"الفترة","balance":"الرصيد المتبقي","status":"الحالة","actions":"الإجراءات",
+        "created_at":"تاريخ الإنشاء","type":"النوع","days":"الأيام","non_deducted":"غير مخصومة","deducted":"مخصومة","google_calendar":"تقويم Google",
+        "approved":"موافق عليه","pending":"قيد الانتظار","refused":"مرفوض","cancelled":"ملغى","synchronized":"متزامن","not_sync":"لا",
+        "new_leave_request":"طلب عطلة جديد","start_date":"تاريخ البداية","end_date":"تاريخ النهاية","recipient_email":"بريد المستلم",
+        "message":"الرسالة","send_email":"إرسال عبر Gmail API OAuth","save":"حفظ","approve":"موافقة","refuse":"رفض","cancel":"إلغاء",
+        "annual":"عطلة سنوية","sick":"راحة مرضية","birth":"ازدياد","marriage_self":"زواج الموظف","marriage_child":"زواج الابن/الابنة",
+        "death_family":"وفاة في العائلة","operation_family":"عملية للزوج/الطفل","medical_certificate":"شهادة طبية آمنة",
+        "calendar_standard":"عادي","calendar_hijri":"هجري","all":"الكل","sync_calendar":"مزامنة مع التقويم","sync_google":"مزامنة Google",
+        "pricing_title":"اشتراك MEDFLOW","secure_payment":"دفع آمن","trial_7":"تجربة 7 أيام","monthly":"شهري","annual_plan":"سنوي",
+        "subscribe_monthly":"اشترك شهرياً","subscribe_annually":"اشترك سنوياً","use_trial":"استخدم التجربة","manage_billing":"إدارة الفوترة",
+        "about":"من نحن","copyright":"حقوق النشر","privacy":"الخصوصية","terms":"الشروط","no_data":"لا توجد بيانات",
+        "january":"يناير","february":"فبراير","march":"مارس","april":"أبريل","may":"ماي","june":"يونيو","july":"يوليوز","august":"غشت","september":"شتنبر","october":"أكتوبر","november":"نونبر","december":"دجنبر",
+        "monday":"ن","tuesday":"ث","wednesday":"ر","thursday":"خ","friday":"ج","saturday":"س","sunday":"ح"
+    }
+}
+
+def tt(key):
+    try:
+        lang = get_lang()
+    except Exception:
+        lang = "fr"
+    return FULL_I18N.get(lang, FULL_I18N["fr"]).get(key, key)
+
+def month_name_i18n(m):
+    keys = ["january","february","march","april","may","june","july","august","september","october","november","december"]
+    return tt(keys[int(m)-1])
+
+def status_i18n(s):
+    return tt(str(s or "").lower())
+
 def safe_t(key):
     try:
         return t(key)
@@ -1484,6 +1597,14 @@ def handle_error(e):
 # Initialisation globale Jinja pour éviter UndefinedError sur pages d'erreur
 try:
     app.jinja_env.globals["t"] = safe_t
+except Exception:
+    pass
+
+
+try:
+    app.jinja_env.globals["tt"] = tt
+    app.jinja_env.globals["month_name_i18n"] = month_name_i18n
+    app.jinja_env.globals["status_i18n"] = status_i18n
 except Exception:
     pass
 

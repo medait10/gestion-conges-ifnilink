@@ -286,3 +286,10 @@ FLASK_ENV=production
 - Palette couleurs moderne : Blue / Indigo / Cyan.
 - UI inspirée des standards SaaS premium : Stripe, Linear, Notion.
 - Responsive optimisé conservé.
+
+## MEDFLOW V29
+- Suppression du panneau droit.
+- Traduction serveur globale via tt().
+- Menus, tables, champs, statuts, mois et calendrier traduits selon langue choisie.
+- JavaScript de traduction partielle désactivé pour éviter mélange de langues.
+- Layout corrigé sans déformation.

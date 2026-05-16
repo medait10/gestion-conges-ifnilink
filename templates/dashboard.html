@@ -2,7 +2,7 @@
 <div class="hero glass">
   <div>
     <span class="eyebrow">Gestion congés secteur privé Maroc</span>
-    <h1>Dashboard RH MEDFLOW</h1>
+    <h1>{{ tt('dashboard') }} MEDFLOW</h1>
     <p>Suivi annuel, ancienneté, jours fériés Maroc, Hijri, approbation/refus et export.</p>
   </div>
   <form class="year-picker">
@@ -33,10 +33,10 @@
 <div class="panel glass">
   <div class="panel-head"><h2>Bilan mensuel {{year}}</h2><span class="chip">18 j/an + ancienneté automatique</span></div>
   <table class="pro-table">
-    <tr><th>Mois</th><th>Crédit</th><th>Extra</th><th>Pris</th><th>Période</th><th>Solde</th></tr>
+    <tr><th>{{ tt("month") }}</th><th>{{ tt("credit") }}</th><th>{{ tt("extra") }}</th><th>{{ tt("taken") }}</th><th>{{ tt("period") }}</th><th>{{ tt("balance") }}</th></tr>
     {% for r in rows %}
     <tr>
-      <td><b>{{months_fr[r.month-1]}}</b></td><td>{{r.credit}}</td><td>{{r.extra}}</td><td>{{r.taken}}</td><td>{{r.period}}</td><td><span class="balance">{{r.balance}}</span></td>
+      <td><b>{{ month_name_i18n(r.month) }}</b></td><td>{{r.credit}}</td><td>{{r.extra}}</td><td>{{r.taken}}</td><td>{{r.period}}</td><td><span class="balance">{{r.balance}}</span></td>
     </tr>
     {% endfor %}
   </table>

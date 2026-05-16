@@ -11,8 +11,8 @@
   {% endfor %}
 </select>
 </label>
-<label>Date début<input type="date" name="start_date" id="start_date" required onclick="this.showPicker && this.showPicker()"></label>
-<label>Date fin<input type="date" name="end_date" id="end_date" required onclick="this.showPicker && this.showPicker()"></label>
+<label>{{ tt("start_date") }}<input type="date" name="start_date" id="start_date" required onclick="this.showPicker && this.showPicker()"></label>
+<label>{{ tt("end_date") }}<input type="date" name="end_date" id="end_date" required onclick="this.showPicker && this.showPicker()"></label>
 
 <div class="wide smart-box" id="exception_box">
   <div>
@@ -29,14 +29,14 @@
   <div><span>Jours non déduits</span><b id="preview_exceptional">0</b></div>
   <div><span>À déduire du solde</span><b id="preview_deductible">-</b></div>
 </div>
-<label>Email destinataire<input name="recipient" type="email" placeholder="directeur@ifnilink.ma"></label>
+<label>{{ tt("recipient_email") }}<input name="recipient" type="email" placeholder="directeur@ifnilink.ma"></label>
 <label id="medical_note_box" class="secure-medical">Certificat médical sécurisé
   <input name="medical_note" id="medical_note" placeholder="Référence certificat / médecin / observation">
   <small>Visible uniquement pour Repos maladie. Ne mets pas d'information médicale sensible inutile.</small>
 </label>
-<label class="wide">Message<textarea name="message">Bonjour, merci de bien vouloir approuver ma demande de congé.</textarea></label>
-<label class="check"><input type="checkbox" name="send_email"> Envoyer email via Gmail API OAuth</label><p class="form-note wide">Si l’envoi email échoue, la demande ne sera pas enregistrée dans l’historique.</p>
-<button>Créer la demande</button>
+<label class="wide">{{ tt("message") }}<textarea name="message">Bonjour, merci de bien vouloir approuver ma demande de congé.</textarea></label>
+<label class="check"><input type="checkbox" name="send_email"> {{ tt("send_email") }}</label><p class="form-note wide">Si l’envoi email échoue, la demande ne sera pas enregistrée dans l’historique.</p>
+<button>{{ tt("save") }}</button>
 </form>
 </div>
 

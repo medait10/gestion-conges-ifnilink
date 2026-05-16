@@ -29,7 +29,7 @@
 
     <div class="top-actions">
       <div class="language-switch">
-        <span>{{ t("language") }}</span>
+        <span>{{ tt("language") }}</span>
         <select onchange="if(this.value) window.location.href=this.value">
           {% for code, label in languages.items() %}
           <option value="{{ url_for('set_language', lang=code) }}" {% if current_lang==code %}selected{% endif %}>{{ code.upper() }}</option>
@@ -38,10 +38,10 @@
       </div>
       {% if user %}
       <div class="sub-status {% if has_active_subscription(user) %}active{% else %}inactive{% endif %}">
-        {% if is_admin_user(user) %}Owner{% elif user.subscription_status=="trial" and has_active_subscription(user) %}Trial {{ trial_days_left(user) }}d{% elif has_active_subscription(user) %}Active{% else %}Inactive{% endif %}
+        {% if is_admin_user(user) %}{{ tt("owner") }}{% elif user.subscription_status=="trial" and has_active_subscription(user) %}{{ tt("trial") }} {{ trial_days_left(user) }}d{% elif has_active_subscription(user) %}{{ tt("active") }}{% else %}{{ tt("inactive") }}{% endif %}
       </div>
       <form action="{{ url_for('toggle_theme') }}" method="get" class="theme-switch">
-        <span>{{ t("mode") }}</span>
+        <span>{{ tt("mode") }}</span>
         <select onchange="this.form.submit()">
           <option value="dark" {% if theme=="dark" %}selected{% endif %}>Dark</option>
           <option value="light" {% if theme=="light" %}selected{% endif %}>Light</option>
@@ -57,31 +57,31 @@
       <div class="rail-card">
         <div class="anonymous-avatar">MB</div>
         <div>
-          <b>Workspace</b>
+          <b>{{ tt("workspace") }}</b>
           <small>{{ APP_VERSION }}</small>
         </div>
       </div>
       <nav class="rail-menu">
-        <a href="{{url_for('public_home')}}">🌐 <span>{{ t("public_home") }}</span></a>
-        <a href="{{url_for('dashboard')}}">🏠 <span>{{ t("dashboard") }}</span></a>
-        <a href="{{url_for('guide')}}">📘 <span>{{ t("guide") }}</span></a>
-        <a href="{{url_for('pricing')}}">💳 <span>{{ t("subscription") }}</span></a>
-        <a href="{{url_for('request_leave')}}">➕ <span>{{ t("leave_request") }}</span></a>
-        <a href="{{url_for('history')}}">🕘 <span>{{ t("history") }}</span></a>
-        <a href="{{url_for('requests_list')}}">📋 <span>{{ t("leave_request") }}</span></a>
-        <a href="{{url_for('calendar_view')}}">📅 <span>{{ t("calendar") }}</span></a>
-        <a href="{{url_for('holidays')}}">🌙 <span>{{ t("holidays") }}</span></a>
-        <a href="{{url_for('profile')}}">👤 <span>{{ t("profile") }}</span></a>
+        <a href="{{url_for('public_home')}}">🌐 <span>{{ tt("home") }}</span></a>
+        <a href="{{url_for('dashboard')}}">🏠 <span>{{ tt("dashboard") }}</span></a>
+        <a href="{{url_for('guide')}}">📘 <span>{{ tt("guide") }}</span></a>
+        <a href="{{url_for('pricing')}}">💳 <span>{{ tt("subscription") }}</span></a>
+        <a href="{{url_for('request_leave')}}">➕ <span>{{ tt("leave_request") }}</span></a>
+        <a href="{{url_for('history')}}">🕘 <span>{{ tt("history") }}</span></a>
+        <a href="{{url_for('requests_list')}}">📋 <span>{{ tt("leave_request") }}</span></a>
+        <a href="{{url_for('calendar_view')}}">📅 <span>{{ tt("calendar") }}</span></a>
+        <a href="{{url_for('holidays')}}">🌙 <span>{{ tt("holidays") }}</span></a>
+        <a href="{{url_for('profile')}}">👤 <span>{{ tt("profile") }}</span></a>
         {% if is_admin_user(user) %}
-        <a href="{{url_for('admin_db')}}">🗄️ <span>{{ t("admin_db") }}</span></a>
-        <a href="{{url_for('admin_backups')}}">💾 <span>{{ t("backups") }}</span></a>
+        <a href="{{url_for('admin_db')}}">🗄️ <span>{{ tt("admin_db") }}</span></a>
+        <a href="{{url_for('admin_backups')}}">💾 <span>{{ tt("backups") }}</span></a>
         <a href="{{url_for('admin_change_password')}}">🔐 <span>Security</span></a>
         {% endif %}
-        <a href="{{url_for('export_excel')}}">📗 <span>{{ t("export_excel") }}</span></a>
-        <a href="{{url_for('export_pdf')}}">📄 <span>{{ t("export_pdf") }}</span></a>
-        <a href="{{url_for('about')}}">ℹ️ <span>About</span></a>
-        <a href="{{url_for('copyright_page')}}">© <span>Copyright</span></a>
-        <a href="{{url_for('logout')}}" class="logout">🚪 <span>{{ t("logout") }}</span></a>
+        <a href="{{url_for('export_excel')}}">📗 <span>{{ tt("export_excel") }}</span></a>
+        <a href="{{url_for('export_pdf')}}">📄 <span>{{ tt("export_pdf") }}</span></a>
+        <a href="{{url_for('about')}}">ℹ️ <span>{{ tt("about") }}</span></a>
+        <a href="{{url_for('copyright_page')}}">© <span>{{ tt("copyright") }}</span></a>
+        <a href="{{url_for('logout')}}" class="logout">🚪 <span>{{ tt("logout") }}</span></a>
       </nav>
     </aside>
     {% endif %}
@@ -92,26 +92,13 @@
       {% endwith %}
       {% block content %}{% endblock %}
       <footer class="footer-legal">
-        <a href="{{ url_for('about') }}">About</a>
-        <a href="{{ url_for('privacy') }}">Privacy</a>
-        <a href="{{ url_for('terms') }}">Terms</a>
-        <a href="{{ url_for('copyright_page') }}">Copyright</a>
+        <a href="{{ url_for('about') }}">{{ tt("about") }}</a>
+        <a href="{{ url_for('privacy') }}">{{ tt("privacy") }}</a>
+        <a href="{{ url_for('terms') }}">{{ tt("terms") }}</a>
+        <a href="{{ url_for('copyright_page') }}">{{ tt("copyright") }}</a>
         <span>© MEDFLOW {{ APP_VERSION }}</span>
       </footer>
     </main>
-
-    {% if user %}
-    <aside class="right-rail">
-      <div class="mini-widget glass">
-        <b>MEDFLOW</b>
-        <p data-i18n-auto>Secure leave management platform for teams and individuals.</p>
-      </div>
-      <div class="mini-widget glass">
-        <b>{{ t("secure_payment") }}</b>
-        <p data-i18n-auto>Payments are processed by Stripe Checkout. Card data is not stored here.</p>
-      </div>
-    </aside>
-    {% endif %}
   </div>
 </div>
 

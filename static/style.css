@@ -968,3 +968,37 @@ body{
     font-size:24px!important;
   }
 }
+
+
+/* V29 Full I18N + No Right Panel */
+.right-rail{display:none!important}
+.social-layout{
+  grid-template-columns:280px minmax(0,1fr)!important;
+  max-width:1480px!important;
+}
+.social-content{
+  max-width:1180px!important;
+  margin:0 auto!important;
+}
+.mf-pricing{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+}
+.mf-price-card{
+  min-height:420px!important;
+}
+.mf-price{
+  font-size:56px!important;
+  line-height:1.05!important;
+}
+html[dir="rtl"] .social-layout{direction:rtl}
+html[dir="rtl"] .left-rail{right:0;left:auto}
+@media(max-width:1200px){
+  .social-layout{grid-template-columns:240px minmax(0,1fr)!important}
+  .social-content{max-width:100%!important}
+}
+@media(max-width:860px){
+  .social-layout{display:block!important}
+  .mf-pricing{grid-template-columns:1fr!important}
+  .mf-price-card{min-height:auto!important}
+  .mf-price{font-size:44px!important}
+}

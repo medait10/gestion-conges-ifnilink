@@ -2,7 +2,7 @@
 <div class="hero glass">
   <div>
     <span class="eyebrow">Traçabilité complète</span>
-    <h1>Historique des demandes</h1>
+    <h1>{{ tt("history") }}</h1>
     <p>Les congés déjà pris sont chargés ici comme demandes approuvées, avec période, jours pris, statut et commentaire.</p>
   </div>
   <form class="year-picker">
@@ -15,7 +15,7 @@
 </div>
 <div class="panel glass">
 <table class="pro-table">
-<tr><th>Créée le</th><th>Type</th><th>Période</th><th>Jours période</th><th>Non déduits</th><th>Déduits solde</th><th>Statut</th><th>Maladie / Réf.</th><th>Décision</th><th>Commentaire</th><th>Action</th></tr>
+<tr><th>{{ tt("created_at") }}</th><th>{{ tt("type") }}</th><th>{{ tt("period") }}</th><th>{{ tt("days") }}</th><th>{{ tt("non_deducted") }}</th><th>{{ tt("deducted") }}</th><th>{{ tt("status") }}</th><th>Maladie / Réf.</th><th>Décision</th><th>Commentaire</th><th>Action</th></tr>
 {% for r in rows %}
 <tr>
   <td>{{r.created_at.strftime('%d/%m/%Y')}}</td>
@@ -24,7 +24,7 @@
   <td><span class="balance">{{r.working_days}}</span></td>
   <td>{{r.exceptional_paid_days}}</td>
   <td><span class="balance">{{r.deductible_days}}</span></td>
-  <td><span class="badge {{r.status}}">{{r.status}}</span></td>
+  <td><span class="badge {{ status_i18n(r.status) }}">{{ status_i18n(r.status) }}</span></td>
   <td>{{r.medical_note or '-'}}</td>
   <td>{{r.decided_at.strftime('%d/%m/%Y') if r.decided_at else '-'}}</td>
   <td>{{r.decision_comment or ''}}</td>
